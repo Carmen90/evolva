@@ -6,6 +6,7 @@ import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.genes.GenBinario;
 import es.ucm.fdi.genes.GenEntero;
+import es.ucm.fdi.utils.Busquedas;
 import es.ucm.fdi.utils.MyRandom;
 
 /*IMPLEMENTACION DEL CRUCE POR CICLOS*/
@@ -38,25 +39,11 @@ public class CruzadorCX implements Cruzador {
 			int[] codificacionPadre1I = genPadre1I.getGen();
 			int[] codificacionPadre2I = genPadre2I.getGen();
 
-			int longGenI = padre1.getLongitudGenes()[i];
-			int puntoCruceI = MyRandom.aleatorioEntero(0,longGenI);
-			
 			//creamos la codificacion del gen i de cada hijo
-			int[] codificacionHijo1I = new int[longGenI];
-			int[] codificacionHijo2I = new int[longGenI];
-
-			// primera parte del intercambio: 1 a 1 y 2 a 2
-
-			for (int j = 0; j < puntoCruceI; j++){
-				codificacionHijo1I[j] = codificacionPadre1I[j];
-				codificacionHijo2I[j] = codificacionPadre2I[j];
-			}
-
-			// segunda parte: 1 a 2 y 2 a 1
-			for (int j = puntoCruceI; j < longGenI; j++){
-				codificacionHijo1I[j] = codificacionPadre2I[j];
-				codificacionHijo2I[j] = codificacionPadre1I[j];
-			}
+			/****************Cruce por Ciclos****************/
+			int[] codificacionHijo1I = cruceCiclos(codificacionPadre1I, codificacionPadre2I);
+			int[] codificacionHijo2I = cruceCiclos(codificacionPadre2I, codificacionPadre1I);
+			/****************FIN Cruce por Ciclos****************/
 			
 			genHijo1I.setGen(codificacionHijo1I);
 			genHijo2I.setGen(codificacionHijo2I);
@@ -76,5 +63,45 @@ public class CruzadorCX implements Cruzador {
 		hijos[0] = hijo1;
 		hijos[1] = hijo2;
 		return hijos;
+	}
+	
+	private int[] cruceCiclos(int[] codificacionPadreOrigen, int[]codificacionPadreAuxiliar){
+		int longGenI = codificacionPadreOrigen.length;
+		int[] codificacionHijo = new int[longGenI];
+		
+		//array de booleanos que indica si un elemento ya ha sido visitado
+		boolean[] ciclos = new boolean[longGenI];
+		for (int j = 0; j< ciclos.length; j++)ciclos[j]=false;
+		
+		//inicialmente el salto estara en el primer elemento
+		int salto = 0;
+		
+		//repetimos tantas veces como posiciones en el gen o un ciclo completo
+		int j = 0;
+		//si el elemento del padre 1 en el salto no fue visitado
+		while (!ciclos[codificacionPadreOrigen[salto]] && j< longGenI){
+			
+			//el hijo 1 en la posicion del salto se configura con el padre1 en el salto
+			codificacionHijo[salto] = codificacionPadreOrigen[salto];
+			//marcamos el elemento como ya visitado
+			ciclos[codificacionPadreOrigen[salto]] = true;
+			
+			//obtenemos el elemento analogo a la posicion del salto en el padre 2
+			int elementoAnalogoPadre2 = codificacionPadreAuxiliar[salto];
+			//obtenemos del padre2 la nueva direccion de salto
+			salto = Busquedas.buscar(elementoAnalogoPadre2, codificacionPadreOrigen);
+			j++;
+		}
+		//los numeros que no se hallan puesto, se cogen del padre 2 en el orden en el que este los tiene
+		//para ello, recorremos el array "ciclos" buscando posiciones a false
+		//despues buscamos el indice en el que se encuentra k en el padre 2, y metemos en ese indice
+		//del hijo 1 el indice de "ciclos" en el que nos encontremos...
+		for (int k = 0; k< ciclos.length; k++){
+			if (!ciclos[k]){
+				int indiceKEnPadre2 = Busquedas.buscar(k, codificacionPadreAuxiliar);
+				codificacionHijo[indiceKEnPadre2] = k;
+			}
+		}
+		return codificacionHijo;
 	}
 }
