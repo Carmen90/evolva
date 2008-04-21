@@ -6,14 +6,16 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.genes.GenEntero;
+import es.ucm.fdi.utils.Busquedas;
+import es.ucm.fdi.utils.Ciudades;
 
 public class CruzadorERX implements Cruzador {
 	
 	//tabla de adyacencias entre ciudades correspondientes a dos progenitores
-	private ArrayList<Integer>[] adyacencias;
+	private ArrayList<ArrayList<Integer>> adyacencias;
 
 	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2, Evaluador evaluador) {
-		//crear cromosoma, crear genes, setear genes, inicializar cromosoma
+		//crear cromosoma, crear genes, setear genes
 
 		int numeroGenes = padre1.getNumeroGenes();
 		//creamos los cromosomas hijos
@@ -62,6 +64,51 @@ public class CruzadorERX implements Cruzador {
 		hijos[0] = hijo1;
 		hijos[1] = hijo2;
 		return hijos;
+	}
+	
+	private void generarTablaAdyacencias (Cromosoma padre1, Cromosoma padre2){
+		int longitudCromosoma = padre1.calcularLongitudCromosoma();
+		this.adyacencias = new ArrayList<ArrayList<Integer>>(longitudCromosoma);
+		for (int i = 0; i< longitudCromosoma; i++){
+			this.adyacencias.add(new ArrayList<Integer>());
+		}
+		
+		//para cada ciudad:
+		for (int ciudad = 0; ciudad < Ciudades.NUM_CIUDADES; ciudad++){
+			ArrayList<Integer> adyacentesCiudadI = this.adyacencias.get(ciudad);
+			int[] genesPadre1 = ((GenEntero)padre1.getGenes()[0]).getGen();
+			int[] genesPadre2 = ((GenEntero)padre2.getGenes()[0]).getGen();
+			
+			//obtenemos los indices en los que se encuentra la ciudad, tanto en el padre1 como en el padre 2
+			int indiceEnPadre1 = Busquedas.buscar(ciudad, genesPadre1);
+			int indiceEnPadre2 = Busquedas.buscar(ciudad, genesPadre2);
+			
+			//añadimos las ciudades vecinas de la "ciudad" en el padre 1
+			if (indiceEnPadre1 != Ciudades.NUM_CIUDADES - 1)
+				adyacentesCiudadI.add(genesPadre1[indiceEnPadre1+1]);
+			else adyacentesCiudadI.add(genesPadre1[0]);
+			
+			if (indiceEnPadre1 != 0)
+				adyacentesCiudadI.add(genesPadre1[indiceEnPadre1-1]);
+			else adyacentesCiudadI.add(genesPadre1[Ciudades.NUM_CIUDADES - 1]);
+			//TODO
+			
+			
+		}
+	}
+	
+	private int buscar (int elemento,ArrayList<Integer> array){
+		int indice = -1;
+		int i = 0;
+		boolean encontrado = false;
+		while (!encontrado && i< array.size()){
+			if (elemento == array.get(i).intValue()){
+				encontrado = true;
+				indice = i;
+			}
+			i++;
+		}
+		return indice;
 	}
 
 }

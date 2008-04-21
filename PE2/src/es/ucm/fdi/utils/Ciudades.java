@@ -1,6 +1,7 @@
 package es.ucm.fdi.utils;
 
-public class TablaDistancias {
+public class Ciudades {
+	public static final int NUM_CIUDADES = 28;
 	public static final int MADRID = 25;
 
 	public static final int[][] DISTANCIAS = 

@@ -1,7 +1,7 @@
 package es.ucm.fdi.cromosomas;
 
 import es.ucm.fdi.genes.GenEntero;
-import es.ucm.fdi.utils.TablaDistancias;
+import es.ucm.fdi.utils.Ciudades;
 
 public class CromosomaEnteroViajante extends Cromosoma{
 
