@@ -1,6 +1,5 @@
 package es.ucm.fdi.cromosomas;
 
-import es.ucm.fdi.genes.GenBinario;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.TablaDistancias;
 
