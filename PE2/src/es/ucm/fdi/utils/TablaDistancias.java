@@ -1,6 +1,7 @@
 package es.ucm.fdi.utils;
 
 public class TablaDistancias {
+	public static final int MADRID = 25;
 
 	public static final int[][] DISTANCIAS = 
 		{{ 0,  171,  369,  366,  525,  540,  646,  488,  504,  617,  256,  207,  354,  860,  142,  640,  363,  309,  506,  495,  264,  584,  515,  578,  762,  251,  473,  150},  

@@ -4,6 +4,7 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.MyRandom;
+import es.ucm.fdi.utils.TablaDistancias;
 
 public class EvaluadorViajante implements Evaluador{
 
@@ -13,8 +14,24 @@ public class EvaluadorViajante implements Evaluador{
 	}
 
 	public double evaluaAptitud(Cromosoma individuo) {
-		//la aptitud sera la suma de las distancias entre las ciudades => fenotipo del gen
-		return individuo.getFenotipo()[0];
+		double aptitud = 0.0;
+		
+		GenEntero gen = (GenEntero) individuo.getGenes()[0];
+		aptitud = calcularDistancias(gen);
+		return aptitud;
+		
+	}
+
+	private double calcularDistancias(GenEntero gen) {
+		int[] genes = gen.getGen();
+		//iniciamos la cuenta con la distancia entre la última ciudad y la primera
+		double acumulada = TablaDistancias.DISTANCIAS[genes[genes.length-1]][genes[0]];
+		for (int i = 0; i< genes.length-1; i++){
+			int origen = genes[i];
+			int destino = genes[i+1];
+			acumulada += TablaDistancias.DISTANCIAS[origen][destino];
+		}
+		return acumulada;
 	}
 
 	public Cromosoma generarCromosomaAleatorio(double tolerancia) {
@@ -33,7 +50,12 @@ public class EvaluadorViajante implements Evaluador{
 			generados[i] = false;
 		}
 		
-		int j = 0;
+		//inicializamos la primera ciudad, ya que siempre empezaremos por Madrid
+		generados[TablaDistancias.MADRID] = true;
+		datosGen[0] = TablaDistancias.MADRID;
+		//para las restantes:
+		int j = 1;
+		//int j = 0;
 		while (j < longitudGen){
 			//hay 28 ciudades numeradas de 0 a 27
 			int aleatorio = MyRandom.aleatorioEntero(0,28);

@@ -3,6 +3,7 @@ package es.ucm.fdi.utils;
 public class Busquedas {
 
 	//devuelve el indice de la primera ocurrencia, o -1 si no lo ha encontrado
+	//TODO generalizar para buscar entre dos indices
 	public static int buscar (int elemento, int[] array){
 		int indice = -1;
 		int i = 0;

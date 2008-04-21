@@ -6,7 +6,7 @@ import es.ucm.fdi.algoritmos.cruzadores.Cruzador;
 import es.ucm.fdi.algoritmos.mutadores.Mutador;
 import es.ucm.fdi.algoritmos.seleccionadores.Seleccionador;
 import es.ucm.fdi.cromosomas.Cromosoma;
-import es.ucm.fdi.cromosomas.CromosomaBinario;
+import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
 
 public class AGeneticoViajante extends AGenetico{
@@ -117,7 +117,7 @@ public class AGeneticoViajante extends AGenetico{
 
 	public void almacenarElite(double porcentajeElite) {
 		this.numeroElite = (int)(this.tamañoPoblacion * porcentajeElite);
-		this.elite = new CromosomaBinario[numeroElite];
+		this.elite = new CromosomaEnteroViajante[numeroElite];
 
 		//ordenamos la poblacion:
 		ordenarPoblacion();

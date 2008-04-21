@@ -64,26 +64,13 @@ public class CromosomaEnteroViajante extends Cromosoma{
 	}
 
 	public void fenotipo() {
-		double[] valor = new double[numeroGenes];
-		
-		for(int i = 0; i<this.numeroGenes;i++){
-			GenEntero gen = (GenEntero) this.genes[i];
-			valor[i] = calcularDistancias(gen);
+		GenEntero gen = (GenEntero) this.genes[0];
+		double[] valor = new double[gen.getGen().length];
+		for(int i = 0; i<gen.getGen().length;i++){
+			valor[i] = gen.getGen()[i];
 		}
 		this.fenotipo = valor;
 		
-	}
-
-	private double calcularDistancias(GenEntero gen) {
-		int[] genes = gen.getGen();
-		//iniciamos la cuenta con la distancia entre la última ciudad y la primera
-		double acumulada = TablaDistancias.DISTANCIAS[genes[genes.length-1]][genes[0]];
-		for (int i = 0; i< genes.length-1; i++){
-			int origen = genes[i];
-			int destino = genes[i+1];
-			acumulada += TablaDistancias.DISTANCIAS[origen][destino];
-		}
-		return acumulada;
 	}
 
 	public int calcularLongitudCromosoma() {

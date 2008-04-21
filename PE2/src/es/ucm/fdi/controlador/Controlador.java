@@ -1,6 +1,6 @@
 package es.ucm.fdi.controlador;
 
-import es.ucm.fdi.algoritmos.AGeneticoSimpleImpl;
+import es.ucm.fdi.algoritmos.AGeneticoViajante;
 import es.ucm.fdi.evaluadores.*;
 import es.ucm.fdi.gui.Grafica2D;
 
@@ -41,17 +41,9 @@ public class Controlador {
 		double porcentajeElite = 0.1;
 		boolean elitismo = eli;
 		
-		AGeneticoSimpleImpl AG = new AGeneticoSimpleImpl(tamañoPoblacion,numMaxGeneraciones,
-								probabilidadCruce,probabilidadMutacion,tolerancia);
-		Evaluador f = null;
-		switch(funcion){
-		case 0:{ f = new EvaluadorF1(); break;} 
-		case 1:{ f = new EvaluadorF2();  break;}
-		case 2:{ f = new EvaluadorF3();  break;}
-		case 3:{ f = new EvaluadorF4();  break;}
-		case 4:{ f = new EvaluadorF5(numGenes);  break;}
-		default: f = new EvaluadorF1();
-		}
+		AGeneticoViajante AG = new AGeneticoViajante(tamañoPoblacion,numMaxGeneraciones,
+								probabilidadCruce,probabilidadMutacion,tolerancia,0,0,0);
+		Evaluador f = new EvaluadorViajante();
 		
 		AG.inicializar(f); //crea población inicial de cromosomas
 		AG.evaluarPoblacion();//evalúa los individuos y coge el mejor
