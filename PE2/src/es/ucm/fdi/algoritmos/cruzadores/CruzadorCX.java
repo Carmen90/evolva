@@ -5,7 +5,6 @@ import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.Busquedas;
-import es.ucm.fdi.utils.MyRandom;
 
 /*IMPLEMENTACION DEL CRUCE POR CICLOS*/
 public class CruzadorCX implements Cruzador {
@@ -50,12 +49,9 @@ public class CruzadorCX implements Cruzador {
 			genesHijo2[i] = genHijo2I;
 		}
 		//se compactan los hijos con la misma configuracion de genes que los padres.
-		hijo1.setGenes(genesHijo1);
-		hijo2.setGenes(genesHijo2);
-
-		// se evalúan
-		hijo1.inicializarCromosoma(evaluador);
-		hijo2.inicializarCromosoma(evaluador);
+		//los cromosomas se evaluan en la funcion que setea los genes
+		hijo1.setGenes(genesHijo1, evaluador);
+		hijo2.setGenes(genesHijo2, evaluador);
 
 		Cromosoma[] hijos = new Cromosoma[2];
 		hijos[0] = hijo1;

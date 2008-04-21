@@ -70,11 +70,8 @@ public class EvaluadorViajante implements Evaluador{
 		GenEntero[] genes = new GenEntero[cromosoma.getNumeroGenes()];
 		genes[0] = gen;
 		
-		//setear genes
-		cromosoma.setGenes(genes);
-		
-		//inicializar cromosoma
-		cromosoma.inicializarCromosoma(this);
+		//setear genes (al setear los genes automaticamente se inicializa el cromosoma)
+		cromosoma.setGenes(genes, this);
 		
 		return cromosoma;
 	}

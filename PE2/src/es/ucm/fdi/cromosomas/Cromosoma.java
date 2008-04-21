@@ -21,6 +21,14 @@ public abstract class Cromosoma {
 	protected double puntuacion;
 	protected double puntuacionAcumulada;
 	
+	/**************************************METODOS ABSTRACTOS*************************************/
+	public abstract void fenotipo();
+	public abstract Cromosoma copiarCromosoma();
+	public abstract int calcularLongitudCromosoma();
+	public abstract String toString();
+	/************************************FIN METODOS ABSTRACTOS***********************************/
+	
+	
 	public Cromosoma(int numeroGenes) {
 		this.numeroGenes = numeroGenes;
 		this.aptitud = 0;
@@ -28,15 +36,10 @@ public abstract class Cromosoma {
 		this.puntuacionAcumulada = 0;
 	}
 	
-	public abstract void fenotipo();
-	public abstract Cromosoma copiarCromosoma();
-	public abstract int calcularLongitudCromosoma();
-	public abstract String toString();
-	
 	//funcion a la que se llamara una vez generados aleatoriamente los genes del cromosoma por las funciones.
 	//seteara los atributos que dependen de los genes en cada cromosoma en particular
 	//como precondicion, se deben haber generado y seteado los genes!!!
-	public void inicializarCromosoma(Evaluador f) {
+	private void inicializarCromosoma(Evaluador f) {
 		
 		//comprobacion de la precondicion
 		if (this.genes != null && this.genes.length != 0){
@@ -56,8 +59,11 @@ public abstract class Cromosoma {
 		}
 	}
 	//por lo tanto, la creacion de los cromosomas seguira el siguiente flujo:
-	//crear cromosoma, crear genes, setear genes, inicializar cromosoma
+	//crear cromosoma, crear genes, setear genes(inicializa el cromosoma)
 
+	
+	/******************************GETTERS Y SETTERS***********************************/
+	
 	public double getAptitud() {
 		return aptitud;
 	}
@@ -73,9 +79,13 @@ public abstract class Cromosoma {
 	public Gen[] getGenes() {
 		return genes;
 	}
-	public void setGenes(Gen[] genes) {
+	
+	/* NO SE PUEDE SETEAR LOS GENES SIN INICIALIZAR DESPUES*/
+	public void setGenes(Gen[] genes, Evaluador evaluador) {
 		this.genes = genes;
+		inicializarCromosoma(evaluador);
 	}
+	
 	public double getPuntuacion() {
 		return puntuacion;
 	}
