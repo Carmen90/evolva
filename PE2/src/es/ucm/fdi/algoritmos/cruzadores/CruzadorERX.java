@@ -47,7 +47,7 @@ public class CruzadorERX implements Cruzador {
 			int[] codificacionHijo2I = new int[longGenI];
 			
 			/****************Cruce por Recombinacion de Rutas****************/
-			
+			generarTablaAdyacencias(codificacionPadre1I, codificacionPadre2I);
 			/****************FIN Cruce por Recombinacion de Rutas****************/
 			
 			genHijo1I.setGen(codificacionHijo1I);
@@ -66,19 +66,16 @@ public class CruzadorERX implements Cruzador {
 		return hijos;
 	}
 	
-	private void generarTablaAdyacencias (Cromosoma padre1, Cromosoma padre2){
-		int longitudCromosoma = padre1.calcularLongitudCromosoma();
-		this.adyacencias = new ArrayList<ArrayList<Integer>>(longitudCromosoma);
-		for (int i = 0; i< longitudCromosoma; i++){
+	private void generarTablaAdyacencias (int[] genesPadre1, int[] genesPadre2){
+		this.adyacencias = new ArrayList<ArrayList<Integer>>(Ciudades.NUM_CIUDADES);
+		for (int i = 0; i< Ciudades.NUM_CIUDADES; i++){
 			this.adyacencias.add(new ArrayList<Integer>());
 		}
 		
 		//para cada ciudad:
 		for (int ciudad = 0; ciudad < Ciudades.NUM_CIUDADES; ciudad++){
 			ArrayList<Integer> adyacentesCiudadI = this.adyacencias.get(ciudad);
-			int[] genesPadre1 = ((GenEntero)padre1.getGenes()[0]).getGen();
-			int[] genesPadre2 = ((GenEntero)padre2.getGenes()[0]).getGen();
-			
+						
 			//obtenemos los indices en los que se encuentra la ciudad, tanto en el padre1 como en el padre 2
 			int indiceEnPadre1 = Busquedas.buscar(ciudad, genesPadre1);
 			int indiceEnPadre2 = Busquedas.buscar(ciudad, genesPadre2);
@@ -91,24 +88,32 @@ public class CruzadorERX implements Cruzador {
 			if (indiceEnPadre1 != 0)
 				adyacentesCiudadI.add(genesPadre1[indiceEnPadre1-1]);
 			else adyacentesCiudadI.add(genesPadre1[Ciudades.NUM_CIUDADES - 1]);
-			//TODO
 			
+			//añadimos las ciudades vecinas de la "ciudad" en el padre 2
+			if (indiceEnPadre2 != Ciudades.NUM_CIUDADES - 1){
+				int ciudadVecinaDer = genesPadre2[indiceEnPadre2 +1];
+				if (Busquedas.buscar(ciudadVecinaDer, adyacentesCiudadI) == -1)
+					adyacentesCiudadI.add(ciudadVecinaDer);
+			}else{
+				int ciudadVecinaDer = genesPadre2[0];
+				if (Busquedas.buscar(ciudadVecinaDer, adyacentesCiudadI) == -1)
+					adyacentesCiudadI.add(genesPadre2[0]);
+			}
+			
+			if (indiceEnPadre1 != 0){
+				int ciudadVecinaIzq = genesPadre2[indiceEnPadre2 - 1];
+				if (Busquedas.buscar(ciudadVecinaIzq, adyacentesCiudadI) == -1)
+					adyacentesCiudadI.add(genesPadre2[indiceEnPadre2-1]);
+			}
+			else{
+				int ciudadVecinaIzq = genesPadre2[Ciudades.NUM_CIUDADES - 1];
+				if (Busquedas.buscar(ciudadVecinaIzq, adyacentesCiudadI) == -1)
+					adyacentesCiudadI.add(genesPadre2[Ciudades.NUM_CIUDADES - 1]);
+			}
 			
 		}
 	}
 	
-	private int buscar (int elemento,ArrayList<Integer> array){
-		int indice = -1;
-		int i = 0;
-		boolean encontrado = false;
-		while (!encontrado && i< array.size()){
-			if (elemento == array.get(i).intValue()){
-				encontrado = true;
-				indice = i;
-			}
-			i++;
-		}
-		return indice;
-	}
+	
 
 }

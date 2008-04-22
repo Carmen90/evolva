@@ -21,7 +21,7 @@ public class PruebasCruce {
 		CromosomaEnteroViajante cromosoma2 =(CromosomaEnteroViajante) e.generarCromosomaAleatorio(0);
 		
 		/**************************** CRUCE *********************************/
-		Cruzador cruzador = new CruzadorCX();
+		Cruzador cruzador = new CruzadorERX();
 		Cromosoma[] hijos = cruzador.cruce(cromosoma, cromosoma2,e);
 		
 		
