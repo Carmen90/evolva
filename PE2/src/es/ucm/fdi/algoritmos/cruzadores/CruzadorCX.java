@@ -5,6 +5,7 @@ import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.Busquedas;
+import es.ucm.fdi.utils.Ciudades;
 
 /*IMPLEMENTACION DEL CRUCE POR CICLOS*/
 public class CruzadorCX implements Cruzador {
@@ -67,11 +68,15 @@ public class CruzadorCX implements Cruzador {
 		boolean[] ciclos = new boolean[longGenI];
 		for (int j = 0; j< ciclos.length; j++)ciclos[j]=false;
 		
-		//inicialmente el salto estara en el primer elemento
-		int salto = 0;
+		//marcamos el primer elemento (MADRID) como ya visitado, y empezamos el cruce por la ciudad en posicion 1 (segunda ciudad)
+		ciclos[Ciudades.MADRID] = true;
+		codificacionHijo[0] = Ciudades.MADRID;
+		
+		//inicialmente el salto estara en el segundo elemento
+		int salto = 1;
 		
 		//repetimos tantas veces como posiciones en el gen o un ciclo completo
-		int j = 0;
+		int j = 1;
 		//si el elemento del padre 1 en el salto no fue visitado
 		while (!ciclos[codificacionPadreOrigen[salto]] && j< longGenI){
 			
