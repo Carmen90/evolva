@@ -25,11 +25,11 @@ public class CruzadorCX implements Cruzador {
 		
 		//para cada gen de cada cromosoma padre, calculamos un punto de cruce y los cruzamos por separado.
 		for (int i = 0; i < padre1.getNumeroGenes(); i++){
-			//obtenemos el genBinario de los padres 1 y 2
+			//obtenemos el genEntero de los padres 1 y 2
 			GenEntero genPadre1I = (GenEntero) padre1.getGenes()[i];
 			GenEntero genPadre2I = (GenEntero) padre2.getGenes()[i];
 			
-			//creamos el genBinario hijo1 e hijo2
+			//creamos el genEntero hijo1 e hijo2
 			GenEntero genHijo1I = new GenEntero(genPadre1I.getLongitud());
 			GenEntero genHijo2I = new GenEntero(genPadre1I.getLongitud());
 			

@@ -40,8 +40,6 @@ public class CruzadorERX implements Cruzador {
 			int[] codificacionPadre1I = genPadre1I.getGen();
 			int[] codificacionPadre2I = genPadre2I.getGen();
 
-			int longGenI = padre1.getLongitudGenes()[i];
-
 			/****************Cruce por Recombinacion de Rutas****************/
 			//ArrayList<ArrayList<Integer>> adyacencias1 = generarTablaAdyacencias(codificacionPadre1I, codificacionPadre2I);
 			//creamos la codificacion del gen i de cada hijo

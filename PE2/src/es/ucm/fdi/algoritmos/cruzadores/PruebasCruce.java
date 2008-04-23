@@ -4,8 +4,6 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.evaluadores.EvaluadorViajante;
-import es.ucm.fdi.genes.GenEntero;
-import es.ucm.fdi.utils.MyRandom;
 
 public class PruebasCruce {
 
