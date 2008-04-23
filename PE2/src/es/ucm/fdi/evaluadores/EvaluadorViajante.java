@@ -34,7 +34,7 @@ public class EvaluadorViajante implements Evaluador{
 		return acumulada;
 	}
 
-	public Cromosoma generarCromosomaAleatorio(double tolerancia) {
+	public Cromosoma generarCromosomaAleatorio() {
 		//crear cromosoma
 		CromosomaEnteroViajante cromosoma = new CromosomaEnteroViajante(1);
 		
@@ -66,6 +66,25 @@ public class EvaluadorViajante implements Evaluador{
 			}
 		}
 		gen.setGen(datosGen);
+		
+		GenEntero[] genes = new GenEntero[cromosoma.getNumeroGenes()];
+		genes[0] = gen;
+		
+		//setear genes (al setear los genes automaticamente se inicializa el cromosoma)
+		cromosoma.setGenes(genes, this);
+		
+		return cromosoma;
+	}
+	
+	public CromosomaEnteroViajante generarCromosomaFijo(int[] padreFijo) {
+		//crear cromosoma
+		CromosomaEnteroViajante cromosoma = new CromosomaEnteroViajante(1);
+		
+		//crear genes
+		int longitudGen = cromosoma.calcularLongitudGen();
+		GenEntero gen = new GenEntero(longitudGen);
+		
+		gen.setGen(padreFijo);
 		
 		GenEntero[] genes = new GenEntero[cromosoma.getNumeroGenes()];
 		genes[0] = gen;

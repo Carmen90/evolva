@@ -11,7 +11,7 @@ public class PruebasSeleccion {
 		Evaluador evaluador = new EvaluadorViajante();
 		for (int j = 0; j< 5;j++){
 			//generamos e inicializamos cada individuo de la poblacion
-			poblacion[j] = evaluador.generarCromosomaAleatorio(0);		
+			poblacion[j] = evaluador.generarCromosomaAleatorio();		
 		}
 		
 		SeleccionTorneo torneo = new SeleccionTorneo();

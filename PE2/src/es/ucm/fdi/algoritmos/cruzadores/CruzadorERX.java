@@ -116,11 +116,17 @@ public class CruzadorERX implements Cruzador {
 
 	private int[] cruceRecombinacion (int[] padreOrigen, int[] padreAuxiliar){
 		int[] codificacionHijo = new int[Ciudades.NUM_CIUDADES];
-		ArrayList<ArrayList<Integer>> adyacencias = generarTablaAdyacencias(padreOrigen, padreAuxiliar);
-
+		
 		int numeroCiudadesIntegradas = 0;
 		int numeroEstancamientos = 0;
+		
 		do{
+			//regeneramos la tabla de adyacencias.
+			ArrayList<ArrayList<Integer>> adyacencias = generarTablaAdyacencias(padreOrigen, padreAuxiliar);
+			//inicializamos la codificacion del Hijo (NO HARIA FALTA Y AUMENTA COMPLEJIDAD AL ALGORITMO)
+			/*for (int i = 0; i<Ciudades.NUM_CIUDADES;i++){
+				codificacionHijo[i] = 0;
+			}*/
 			//la ciudad 0 siempre tiene que ser madrid
 			codificacionHijo[0] = padreOrigen[0];
 			//como hemos añadido la ciudad en la posicion 0, esta se elimina de los adyacentes de todas las ciudades
@@ -145,28 +151,26 @@ public class CruzadorERX implements Cruzador {
 				if (candidatos.size() == 0){ //si no hay candidatos entonces nos hemos bloqueado...
 					estancamiento = true;
 					numeroEstancamientos++;
-					System.err.println("ERX se ha estancado en la ciudad "+ciudadOrigen);
-					System.err.println("El padre 1 era: ");
+					System.out.println("ERX se ha estancado en la ciudad "+ciudadOrigen);
+					System.out.println("El padre 1 era: ");
 					String cadena = "[ ";
 					for (int n = 0; n<padreOrigen.length; n++){
 						cadena += (padreOrigen[n]+" ");
 					}
 					cadena += "]";
-					System.err.println(cadena);
-					System.err.println("El padre 2 era: ");
+					System.out.println(cadena);
+					System.out.println("El padre 2 era: ");
 					cadena = "[ ";
 					for (int n = 0; n<padreAuxiliar.length; n++){
 						cadena +=  (padreAuxiliar[n]+" ");
 					}
 					cadena += "]";
-					System.err.println(cadena);
+					System.out.println(cadena);
 				//sino podemos proseguir
 				}else{
 					//miramos que candidato contiene menos ciudades adyacentes
 					//iniciamos como menor al primer candidato
 					int ciudadConMenosVecinos = candidatos.get(0);
-					//suponemos para empezar que todos los candidatos tienen el mismo numero de vecinos
-					boolean todosTienenMismoNumeroVecinos = true;
 					//para candidato a partir del segundo...
 					for (int j = 1; j< candidatos.size();j++){
 						//cogemos el numero de vecinos del candidato i
@@ -179,20 +183,32 @@ public class CruzadorERX implements Cruzador {
 						//los candidatos tienen el mismo numero de vecinos
 						if (numeroVecinosCandidato < numeroVecinosMenor){
 							ciudadConMenosVecinos = candidatos.get(j);
-							todosTienenMismoNumeroVecinos = false;
-						//si el candidato i tiene mas vecinos NO lo actualizamos, solo podemos decir que no todos 
-						//los candidatos tienen el mismo numero de vecinos
-						}else if (numeroVecinosCandidato > numeroVecinosMenor){
-							todosTienenMismoNumeroVecinos = false;
 						}
-						//en caso de que tengan el mismo numero de vecinos no hacemos nada.
 					}
-					//si todas tenian el mismo numero de vecinos, elegimos un candidato al azar...
-					if (todosTienenMismoNumeroVecinos){
-						int indiceCandidato = MyRandom.aleatorioEntero(0, candidatos.size());
-						ciudadConMenosVecinos = candidatos.get(indiceCandidato);
+					//en este punto ya sabemos cual es el minimo,
+					//pero no sabemos si hay varios minimos, con lo cual lo buscamos:
+					ArrayList<Integer> minimos = new ArrayList<Integer>();
+					//cogemos el numero de vecinos del menor
+					ArrayList<Integer> vecinosDelMenor = adyacencias.get(ciudadConMenosVecinos);
+					int numeroVecinosMenor = vecinosDelMenor.size();
+					
+					for (int j = 0; j< candidatos.size();j++){
+						
+						//cogemos el numero de vecinos del candidato i
+						ArrayList<Integer> vecinosDelCandidatoI = adyacencias.get(candidatos.get(j));
+						int numeroVecinosCandidato = vecinosDelCandidatoI.size();
+						
+						if (numeroVecinosMenor == numeroVecinosCandidato)
+							minimos.add(candidatos.get(j));
+					}
+					//si el tamaño de los minimos es distinto de 1, quiere decir que hay mas de un minimo, 
+					//con lo cual el random lo hacemos solo entre los minimos.
+					if (minimos.size() != 1){
+						int indiceCandidato = MyRandom.aleatorioEntero(0, minimos.size());
+						ciudadConMenosVecinos = minimos.get(indiceCandidato);
 					}
 					codificacionHijo[i] = ciudadConMenosVecinos;
+					System.out.println("Ciudad elegida en la iteracion "+i+" = "+ ciudadConMenosVecinos);
 					numeroCiudadesIntegradas++;
 					i++;
 				}
