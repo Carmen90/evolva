@@ -52,26 +52,39 @@ public class CruzadorCodOrdinal implements Cruzador{
 				dinamicaH1.add(j);
 				dinamicaH2.add(j);
 			}
-			//creamos las codificacions ordinales de los hijos
-			ArrayList<Integer> codOrdinalH1 = new ArrayList<Integer>();
-			ArrayList<Integer> codOrdinalH2 = new ArrayList<Integer>();
+			//creamos las codificacions ordinales de los padres
+			ArrayList<Integer> codOrdinalP1 = new ArrayList<Integer>();
+			ArrayList<Integer> codOrdinalP2 = new ArrayList<Integer>();
 			//para cada ciudad, obtenemos su posicion en la lista dinamica, eliminandola
 			//tras esa accion de la lista dinamica.
 			for (int j = 0; j < Ciudades.NUM_CIUDADES; j++){
 				//buscamos la ordenacion de la ciudad del padre1 en la posicion j
 				int ordenH1 = Busquedas.buscar(codificacionPadre1I[j], dinamicaH1);
 				//añadimos la ordenacion a la codificacion
-				codOrdinalH1.add(ordenH1);
+				codOrdinalP1.add(ordenH1);
 				//eliminamos el elemento en la posicion del orden de la lista dinamica
 				dinamicaH1.remove(ordenH1);
 				//lo mismo para el hijo 2
 				int ordenH2 = Busquedas.buscar(codificacionPadre2I[j], dinamicaH2);
-				codOrdinalH2.add(ordenH2);
+				codOrdinalP2.add(ordenH2);
 				dinamicaH2.remove(ordenH2);
-			}
-			//ya tenemos la codificacion de las listas, ahora las cruzamos en un punto al azar
+			}	
+			//ya tenemos la codificacion de las listas de los padres, ahora las cruzamos en un punto al azar
+			//creamos las codificacions ordinales de los hijos
+			ArrayList<Integer> codOrdinalH1 = new ArrayList<Integer>();
+			ArrayList<Integer> codOrdinalH2 = new ArrayList<Integer>();
+		
 			int puntoCruceI = MyRandom.aleatorioEntero(0,Ciudades.NUM_CIUDADES);
-			
+			for (int j = 0; j < puntoCruceI; j++){
+				codOrdinalH1.add(codOrdinalP1.get(j));
+				codOrdinalH2.add(codOrdinalP2.get(j));
+			}
+			// segunda parte: 1 a 2 y 2 a 1
+			for (int j = puntoCruceI; j < Ciudades.NUM_CIUDADES; j++){
+				codOrdinalH1.add(codOrdinalP2.get(j));
+				codOrdinalH2.add(codOrdinalP1.get(j));
+			}
+			//ahora decodificamos las codificaciones ordinales para generar los hijos finalmente...
 			
 			/****************FIN Cruce por Codificacion Ordinal****************/
 

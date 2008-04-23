@@ -39,6 +39,8 @@ public class AGeneticoViajante extends AGenetico{
 	protected Mutador mutador;
 	protected Seleccionador seleccionador;
 	
+	private double probabilidadMutacion;
+	
 	public AGeneticoViajante() {
 		super();
 	}
@@ -49,6 +51,7 @@ public class AGeneticoViajante extends AGenetico{
 		setCruzador(tipoCruce);
 		setMutador(tipoMutacion);
 		setSeleccionador(tipoSeleccion);
+		this.probabilidadMutacion = probabilidadMutacion;
 	}
 
 	public void evaluarPoblacion() {
@@ -112,7 +115,7 @@ public class AGeneticoViajante extends AGenetico{
 	}
 
 	public void mutacion() {
-		if (this.mutador!=null) this.poblacion = mutador.mutacion(poblacion);
+		if (this.mutador!=null) this.poblacion = mutador.mutacion(poblacion, probabilidadMutacion);
 	}
 
 	public void almacenarElite(double porcentajeElite) {
