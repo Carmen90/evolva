@@ -40,35 +40,14 @@ public class CruzadorCodOrdinal implements Cruzador{
 			
 			//creamos la codificacion de los hijos
 			int longitudGen = genPadre1I.getLongitud();
-			int[] codificacionHijo1I = new int[longitudGen];
-			int[] codificacionHijo2I = new int[longitudGen];
+			int[] codificacionHijo1I;
+			int[] codificacionHijo2I;
 
 			/****************Cruce por Codificacion Ordinal****************/
-			//generamos dos listas dinámicas, una para cada hijo:
-			ArrayList<Integer> dinamicaH1 = new ArrayList<Integer>();
-			ArrayList<Integer> dinamicaH2 = new ArrayList<Integer>();
-			//inicializamos las listas dinamicas
-			for (int j = 0; j < Ciudades.NUM_CIUDADES; j++){
-				dinamicaH1.add(j);
-				dinamicaH2.add(j);
-			}
 			//creamos las codificacions ordinales de los padres
-			ArrayList<Integer> codOrdinalP1 = new ArrayList<Integer>();
-			ArrayList<Integer> codOrdinalP2 = new ArrayList<Integer>();
-			//para cada ciudad, obtenemos su posicion en la lista dinamica, eliminandola
-			//tras esa accion de la lista dinamica.
-			for (int j = 0; j < Ciudades.NUM_CIUDADES; j++){
-				//buscamos la ordenacion de la ciudad del padre1 en la posicion j
-				int ordenH1 = Busquedas.buscar(codificacionPadre1I[j], dinamicaH1);
-				//añadimos la ordenacion a la codificacion
-				codOrdinalP1.add(ordenH1);
-				//eliminamos el elemento en la posicion del orden de la lista dinamica
-				dinamicaH1.remove(ordenH1);
-				//lo mismo para el hijo 2
-				int ordenH2 = Busquedas.buscar(codificacionPadre2I[j], dinamicaH2);
-				codOrdinalP2.add(ordenH2);
-				dinamicaH2.remove(ordenH2);
-			}	
+			ArrayList<Integer> codOrdinalP1 = this.codificar(codificacionPadre1I);
+			ArrayList<Integer> codOrdinalP2 = this.codificar(codificacionPadre2I);
+				
 			//ya tenemos la codificacion de las listas de los padres, ahora las cruzamos en un punto al azar
 			//creamos las codificacions ordinales de los hijos
 			ArrayList<Integer> codOrdinalH1 = new ArrayList<Integer>();
@@ -85,7 +64,8 @@ public class CruzadorCodOrdinal implements Cruzador{
 				codOrdinalH2.add(codOrdinalP1.get(j));
 			}
 			//ahora decodificamos las codificaciones ordinales para generar los hijos finalmente...
-			
+			codificacionHijo1I = deCodificar(codOrdinalH1);
+			codificacionHijo2I = deCodificar(codOrdinalH2);
 			/****************FIN Cruce por Codificacion Ordinal****************/
 
 			genHijo1I.setGen(codificacionHijo1I);
@@ -102,6 +82,44 @@ public class CruzadorCodOrdinal implements Cruzador{
 		hijos[0] = hijo1;
 		hijos[1] = hijo2;
 		return hijos;
+	}
+	
+	private ArrayList<Integer> codificar (int[] array){
+		//Creamos la lista dinamica
+		ArrayList<Integer> dinamica = new ArrayList<Integer>();
+		//inicializamos las listas dinamicas
+		for (int j = 0; j < Ciudades.NUM_CIUDADES; j++){
+			dinamica.add(j);
+		}
+		//creamos el arrayList que contendra la codificacion ordinal
+		ArrayList<Integer> codOrdinal = new ArrayList<Integer>();
+		for (int j = 0; j < Ciudades.NUM_CIUDADES; j++){
+			//buscamos la ordenacion de la ciudad del array en la posicion j
+			int ordenH1 = Busquedas.buscar(array[j], dinamica);
+			//añadimos la ordenacion a la codificacion
+			codOrdinal.add(ordenH1);
+			//eliminamos el elemento en la posicion del orden de la lista dinamica
+			dinamica.remove(ordenH1);
+		}
+		return codOrdinal;
+	}
+	
+	private int[] deCodificar (ArrayList<Integer> codificacion){
+		//Creamos la lista dinamica
+		ArrayList<Integer> dinamica = new ArrayList<Integer>();
+		//inicializamos las listas dinamicas
+		for (int j = 0; j < Ciudades.NUM_CIUDADES; j++){
+			dinamica.add(j);
+		}
+		//creamos el array que contendra la decodificacion
+		int[] decodificacion = new int[codificacion.size()];
+		for (int j = 0; j < Ciudades.NUM_CIUDADES; j++){
+			//miramos que hay en la posicion indicada por codificacion[j] de la lista dinamica
+			int queHay = dinamica.get(codificacion.get(j));
+			decodificacion[j] = queHay;
+			dinamica.remove(codificacion.get(j).intValue());
+		}
+		return decodificacion;
 	}
 
 }
