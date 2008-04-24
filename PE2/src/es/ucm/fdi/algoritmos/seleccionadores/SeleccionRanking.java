@@ -8,7 +8,7 @@ import es.ucm.fdi.evaluadores.Evaluador;
 public class SeleccionRanking implements Seleccionador {
 
 	public static final double BETA = 1.5;
-	@Override
+	
 	public Cromosoma[] seleccion(Cromosoma[] poblacionInicial, Evaluador e) {
 		return performRankSelection(poblacionInicial, e);
 	}
@@ -73,17 +73,18 @@ public class SeleccionRanking implements Seleccionador {
 			//individuo que vamos a insertar
 			Cromosoma individuoI = poblacion[i];
 
-			//buscamos donde insertar el nuevo elemento
-			int j = 0;
+			//buscamos donde insertar el nuevo elemento, teniendo en cuenta que se trata de una ordenacion
+			//de menor a mayor, luego buscamos el indice en orden inverso
+			int j = ordenado.size() - 1;
 			boolean indiceEncontrado = false;
-			while (!indiceEncontrado && j < ordenado.size()){
+			while (!indiceEncontrado && j >= 0){
 				Cromosoma individuoOrdenadoJ = ordenado.get(j);
 				indiceEncontrado = evaluador.esMejorAptitud(individuoI.getAptitud(), individuoOrdenadoJ.getAptitud());
-				j++;
+				j--;
 			}
 			//si hemos encontrado un indice apto para la insercion
 			if (indiceEncontrado){
-				ordenado.insertElementAt(individuoI, --j);
+				ordenado.insertElementAt(individuoI, j+2);
 			}else ordenado.add(individuoI);
 		}
 		

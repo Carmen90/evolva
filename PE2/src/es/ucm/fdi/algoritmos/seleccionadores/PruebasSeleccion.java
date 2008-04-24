@@ -14,7 +14,7 @@ public class PruebasSeleccion {
 			poblacion[j] = evaluador.generarCromosomaAleatorio();		
 		}
 		
-		SeleccionTorneo torneo = new SeleccionTorneo();
+		Seleccionador torneo = new SeleccionRanking();
 		Cromosoma[] pobAux = torneo.seleccion(poblacion, evaluador);
 
 	}
