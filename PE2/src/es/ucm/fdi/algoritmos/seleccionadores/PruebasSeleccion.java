@@ -15,7 +15,7 @@ public class PruebasSeleccion {
 		}
 		
 		SeleccionTorneo torneo = new SeleccionTorneo();
-		Cromosoma[] pobAux = torneo.seleccion(poblacion);
+		Cromosoma[] pobAux = torneo.seleccion(poblacion, evaluador);
 
 	}
 

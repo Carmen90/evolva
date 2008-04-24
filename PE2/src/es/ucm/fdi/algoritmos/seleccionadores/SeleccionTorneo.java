@@ -1,11 +1,12 @@
 package es.ucm.fdi.algoritmos.seleccionadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
+import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.utils.MyRandom;
 
 public class SeleccionTorneo implements Seleccionador {
 
-	public Cromosoma[] seleccion(Cromosoma[] poblacionInicial) {
+	public Cromosoma[] seleccion(Cromosoma[] poblacionInicial, Evaluador e) {
 		Cromosoma[] poblacionAux = new Cromosoma[poblacionInicial.length];
 		Cromosoma[] elegidos = new Cromosoma[3];
 		Cromosoma campeon = null;

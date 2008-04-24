@@ -35,9 +35,10 @@ public class AGeneticoViajante extends AGenetico{
 	public static final int MUTACION_INTERCAMBIO = 1;
 	public static final int MUTACION_INVERSION = 2;
 		
-	protected Cruzador cruzador;
-	protected Mutador mutador;
-	protected Seleccionador seleccionador;
+	private Cruzador cruzador;
+	private Mutador mutador;
+	private Seleccionador seleccionador;
+	private Evaluador evaluador;
 	
 	private double probabilidadMutacion;
 	
@@ -65,7 +66,7 @@ public class AGeneticoViajante extends AGenetico{
 	}
 
 	public void seleccion() {
-		if (this.seleccionador != null) this.poblacionSeleccionada = seleccionador.seleccion(poblacion);
+		if (this.seleccionador != null) this.poblacionSeleccionada = seleccionador.seleccion(poblacion, this.evaluador);
 	}
 	
 	public void reproduccion() {
