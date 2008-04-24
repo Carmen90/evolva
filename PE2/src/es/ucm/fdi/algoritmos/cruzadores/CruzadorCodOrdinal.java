@@ -39,7 +39,6 @@ public class CruzadorCodOrdinal implements Cruzador{
 			int[] codificacionPadre2I = genPadre2I.getGen();
 			
 			//creamos la codificacion de los hijos
-			int longitudGen = genPadre1I.getLongitud();
 			int[] codificacionHijo1I;
 			int[] codificacionHijo2I;
 
