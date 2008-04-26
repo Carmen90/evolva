@@ -21,10 +21,9 @@ public class MutadorInversion implements Mutador {
 			for(int j=0;j<numGenes;j++){
 								
 				int longitudGen = ((GenEntero)genesIndividuo[j]).getLongitud();
-				int[] codificacionGenIndividuo = new int[longitudGen];
-				
+								
 				//Guardamos la codificacion de los genes del padre en un array de enteros
-				codificacionGenIndividuo = ((GenEntero)genesIndividuo[j]).getGen();
+				int[] codificacionGenIndividuo = ((GenEntero)genesIndividuo[j]).getGen();
 				
 				//Calculamos una probabilidad para ver si se hace o no la mutacion
 				double prob = Math.random();
