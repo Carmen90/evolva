@@ -85,7 +85,7 @@ public class SeleccionRanking implements Seleccionador {
 			//si hemos encontrado un indice apto para la insercion
 			if (indiceEncontrado){
 				ordenado.insertElementAt(individuoI, j+2);
-			}else ordenado.add(individuoI);
+			}else ordenado.insertElementAt(individuoI,0);
 		}
 		
 		//una vez ordenados en el vector, seteamos la poblacion.

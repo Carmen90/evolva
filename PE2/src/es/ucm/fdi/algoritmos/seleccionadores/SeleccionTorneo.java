@@ -28,7 +28,7 @@ public class SeleccionTorneo implements Seleccionador {
 					campeon = elegidos[i];
 			}
 			//Añadimos el campeon a la nueva poblacion
-			poblacionAux[indice] = campeon;
+			poblacionAux[indice] = campeon.copiarCromosoma();
 			indice++;
 		}
 		return poblacionAux;
