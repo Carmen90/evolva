@@ -24,8 +24,14 @@ import es.ucm.fdi.controlador.Controlador;
 public class Gui extends JFrame{
 	
 	private static final long serialVersionUID = 5251944077014401211L;
+	private static final int tamañoPoblacion = 0;
+	private static final int numGeneraciones = 1;
+	private static final int probCruce = 2;
+	private static final int probMutacion = 3;
+	private static final int elitismo = 4;
 
 	private Controlador controlador;
+	private int parametroActivo;
 	
 	//PANELES
 	private JPanel panelPrincipal;
@@ -83,6 +89,8 @@ public class Gui extends JFrame{
 	
 	public Gui(){
 		
+		parametroActivo = tamañoPoblacion;
+		
 		panelPrincipal = new JPanel(new GridLayout(1,2));
 		panelBasico = new JPanel(new GridLayout(7,2));
 		panelMejoras = new JPanel(new BorderLayout());
@@ -125,8 +133,8 @@ public class Gui extends JFrame{
 		
 		comboCruce.addItem("PMX");
 		comboCruce.addItem("OX");
-		comboCruce.addItem("OX con posiciones prioritarias");
-		comboCruce.addItem("OX con orden prioritario");
+		comboCruce.addItem("OX posiciones prioritarias");
+		comboCruce.addItem("OX orden prioritario");
 		comboCruce.addItem("Ciclos (CX)");
 		comboCruce.addItem("Recombinación de rutas (ERX)");
 		comboCruce.addItem("Codificación ordinal");
@@ -175,7 +183,7 @@ public class Gui extends JFrame{
 		textoProbCruce.addKeyListener(teclado);
 		textoProbMutacion.addKeyListener(teclado);
 		textoElitismo.addKeyListener(teclado);
-		
+
 		panelBasico.add(labelTamPoblacion);
 		panelBasico.add(textoTamPoblacion);
 		
@@ -196,7 +204,7 @@ public class Gui extends JFrame{
 		
 		panelBasico.add(labelProbMutacion);
 		panelBasico.add(textoProbMutacion);
-			
+
 		panelElitismo.add(checkElitismo);
 		panelElitismo.add(textoElitismo);
 				
@@ -255,6 +263,9 @@ public class Gui extends JFrame{
 		OyenteEjecucionMultiple oyenteCheckEjecucionMultiple = new OyenteEjecucionMultiple();
 		checkEjecucionMultiple.addActionListener(oyenteCheckEjecucionMultiple);
 		
+		OyenteVariacionParametros oyenteComboVariacionParametros = new OyenteVariacionParametros();
+		comboVariacionParametro.addActionListener(oyenteComboVariacionParametros);
+		
 		this.setContentPane(panelPrincipal);
 		this.setSize(700, 270);
 		this.setVisible(true);
@@ -285,21 +296,84 @@ public class Gui extends JFrame{
 
 		public void actionPerformed(ActionEvent e) {
 			JCheckBox ejecucionMultiple = (JCheckBox)e.getSource();
-			if(ejecucionMultiple.isSelected()){
+			if(ejecucionMultiple.isSelected()){   //Activamos los controles de ejecucion multiple
 				comboVariacionParametro.setEnabled(true);
 				textoInicial.setEnabled(true);
 				textoFinal.setEnabled(true);
 				textoIncremento.setEnabled(true);
+				desactivarCajaTexto(parametroActivo);
 			}
 			else{
+				//Los controles de ejecucion multiple quedan descativados
 				comboVariacionParametro.setEnabled(false);
 				textoInicial.setEnabled(false);
 				textoFinal.setEnabled(false);
 				textoIncremento.setEnabled(false);
+				
+				//Perimitimos modificar los parametros basicos del algoritmo
+				textoTamPoblacion.setEnabled(true);
+				textoNumGeneraciones.setEnabled(true);
+				textoProbCruce.setEnabled(true);
+				textoProbMutacion.setEnabled(true);
+				textoElitismo.setEnabled(true);
+				
 			}
 			
 		}
 		
+	}
+	
+	class OyenteVariacionParametros implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			parametroActivo = comboVariacionParametro.getSelectedIndex();
+			desactivarCajaTexto(parametroActivo);
+			
+		}
+		
+	}
+	
+	//Se encarga de desactivar la caja de texto pasada por parametro y de activar las demas
+	private void desactivarCajaTexto(int paramActivo){
+		switch(paramActivo){
+		case tamañoPoblacion: {
+			textoTamPoblacion.setEnabled(false);
+			textoNumGeneraciones.setEnabled(true);
+			textoProbCruce.setEnabled(true);
+			textoProbMutacion.setEnabled(true);
+			textoElitismo.setEnabled(true);
+		}break;
+		case numGeneraciones: {
+			textoTamPoblacion.setEnabled(true);
+			textoNumGeneraciones.setEnabled(false);
+			textoProbCruce.setEnabled(true);
+			textoProbMutacion.setEnabled(true);
+			textoElitismo.setEnabled(true);
+		}break;
+		case probCruce: {
+			textoTamPoblacion.setEnabled(true);
+			textoNumGeneraciones.setEnabled(true);
+			textoProbCruce.setEnabled(false);
+			textoProbMutacion.setEnabled(true);
+			textoElitismo.setEnabled(true);
+		}break;
+		case probMutacion: {
+			textoTamPoblacion.setEnabled(true);
+			textoNumGeneraciones.setEnabled(true);
+			textoProbCruce.setEnabled(true);
+			textoProbMutacion.setEnabled(false);
+			textoElitismo.setEnabled(true);
+		}break;
+		case elitismo: {
+			textoTamPoblacion.setEnabled(true);
+			textoNumGeneraciones.setEnabled(true);
+			textoProbCruce.setEnabled(true);
+			textoProbMutacion.setEnabled(true);
+			textoElitismo.setEnabled(false);
+			if(!checkElitismo.isSelected())
+				checkElitismo.setSelected(true);
+		}break;
+		}
 	}
 	
 	class OyenteTecla implements KeyListener{
