@@ -1,11 +1,14 @@
 package es.ucm.fdi.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -14,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import es.ucm.fdi.controlador.Controlador;
 
@@ -23,129 +27,238 @@ public class Gui extends JFrame{
 
 	private Controlador controlador;
 	
+	//PANELES
 	private JPanel panelPrincipal;
+	private JPanel panelBasico;
 	private JPanel panelElitismo;
+	private JPanel panelMejoras;
+	private JPanel panelControlDiversidad;
+	private JPanel panelVariacionParametros;
+	private JPanel panelInicial;
+	private JPanel panelFinal;
+	private JPanel panelInicialFinal;
+	private JPanel panelIncremento;
+	private JPanel panelEjecucionMultiple;
+	private JPanel panelDiversidadEjecucionMultiple;
+	private JPanel panelContenedorBasico;
 	
-	private JLabel labelFuncion;
-	private JLabel labelNumGenes;
+	//ETIQUETAS
 	private JLabel labelNumGeneraciones;
 	private JLabel labelTamPoblacion;
 	private JLabel labelProbCruce;
 	private JLabel labelProbMutacion;
-	private JLabel labelTolerancia;
+	private JLabel labelSeleccion;
+	private JLabel labelCruce;
+	private JLabel labelMutacion;
+	private JLabel labelVariacionParametro;
+	private JLabel labelInicial;
+	private JLabel labelFinal;
+	private JLabel labelIncremento;
 	
-	private JComboBox comboFunciones;
-	private JComboBox comboNumGenes;
+	//COMBOS
+	private JComboBox comboSeleccion;
+	private JComboBox comboCruce;
+	private JComboBox comboMutacion;
+	private JComboBox comboVariacionParametro;
+	
+	//CHECKBOX
 	private JCheckBox checkElitismo;
+	private JCheckBox checkPresionSelectiva;
+	private JCheckBox checkContractividad;
+	private JCheckBox checkEjecucionMultiple;
 	
+	//CAMPOS DE TEXTO
 	private JTextField textoNumGeneraciones;
 	private JTextField textoTamPoblacion;
 	private JTextField textoProbCruce;
 	private JTextField textoProbMutacion;
-	private JTextField textoTolerancia;
 	private JTextField textoElitismo;
+	private JTextField textoInicial;
+	private JTextField textoFinal;
+	private JTextField textoIncremento;
 	
+	//BOTONES
 	private JButton botonEmpezar;
+	private JButton botonEjecucionMultiple;
 	
 	public Gui(){
 		
-		panelPrincipal = new JPanel(new GridLayout(8,2));
+		panelPrincipal = new JPanel(new GridLayout(1,2));
+		panelBasico = new JPanel(new GridLayout(7,2));
+		panelMejoras = new JPanel(new BorderLayout());
+		panelControlDiversidad = new JPanel(new GridLayout(3,1));
+		panelVariacionParametros = new JPanel(new GridLayout(1,2));
+		panelInicial = new JPanel(new GridLayout(1,2));
+		panelFinal = new JPanel(new GridLayout(1,2));
+		panelInicialFinal = new JPanel(new GridLayout(1,2));
+		panelIncremento = new JPanel(new GridLayout(1,2));
+		panelEjecucionMultiple = new JPanel(new GridLayout(4,1));
+		panelDiversidadEjecucionMultiple = new JPanel(new GridLayout(2,1));
+		panelContenedorBasico = new JPanel(new BorderLayout());
+		
 		panelElitismo = new JPanel(new GridLayout(1,2));
 		
-		labelFuncion = new JLabel("Función");
-		labelNumGenes = new JLabel("Número genes");
+		//Creamos las etiquetas
 		labelNumGeneraciones = new JLabel("Número generaciones");
 		labelTamPoblacion = new JLabel("Tamaño población");
 		labelProbCruce = new JLabel("Probabilidad cruce");
 		labelProbMutacion = new JLabel("Probabilidad mutación");
-		labelTolerancia = new JLabel("Tolerancia/Precisión");
-		botonEmpezar = new JButton("Ejecutar algoritmo");
+		labelSeleccion = new JLabel("Método de selección");
+		labelCruce = new JLabel("Método de cruce");
+		labelMutacion = new JLabel("Método de mutación");
+		labelVariacionParametro = new JLabel("Parámetro a variar");
+		labelInicial = new JLabel("Inicial");
+		labelFinal = new JLabel("Final  ",JLabel.RIGHT);
+		labelIncremento = new JLabel("Incremento");
 		
+		//Creamos los combobox
+		comboSeleccion = new JComboBox();
+		comboCruce = new JComboBox();
+		comboMutacion = new JComboBox();
+		comboVariacionParametro = new JComboBox();
+		comboVariacionParametro.setEnabled(false);
+		
+		//Añadimos las opciones a cada combobox		
+		comboSeleccion.addItem("Ruleta");
+		comboSeleccion.addItem("Torneo");
+		comboSeleccion.addItem("Ranking");
+		
+		comboCruce.addItem("PMX");
+		comboCruce.addItem("OX");
+		comboCruce.addItem("OX con posiciones prioritarias");
+		comboCruce.addItem("OX con orden prioritario");
+		comboCruce.addItem("Ciclos (CX)");
+		comboCruce.addItem("Recombinación de rutas (ERX)");
+		comboCruce.addItem("Codificación ordinal");
+		
+		comboMutacion.addItem("Inserción");
+		comboMutacion.addItem("Intercambio");
+		comboMutacion.addItem("Inversión");
+		
+		comboVariacionParametro.addItem("Tamaño población");
+		comboVariacionParametro.addItem("Número generaciones");
+		comboVariacionParametro.addItem("Probabilidad cruce");
+		comboVariacionParametro.addItem("Probabilidad mutación");
+		comboVariacionParametro.addItem("Elitismo");
+				
+		//Creamos los botones
+		botonEmpezar = new JButton("Ejecutar");
+		botonEjecucionMultiple = new JButton("Ejecución múltiple");
+		
+		//Para ejecutar el algoritmo en cuanto se presione intro
 		OyenteTecla teclado = new OyenteTecla();
 		
-		comboFunciones = new JComboBox();
-		comboFunciones.addKeyListener(teclado);
-		
-		comboNumGenes = new JComboBox();
-		comboNumGenes.addKeyListener(teclado);
-		
+		//Creamos los checkbox
 		checkElitismo = new JCheckBox("Elitismo");
 		checkElitismo.setSelected(false);
 		
-		comboFunciones.addItem("Función 1");
-		comboFunciones.addItem("Función 2");
-		comboFunciones.addItem("Función 3");
-		comboFunciones.addItem("Función 4");
-		comboFunciones.addItem("Función 5");
+		checkPresionSelectiva = new JCheckBox("Presión selectiva Ranking");
+		checkContractividad = new JCheckBox("Contractividad");
+		checkEjecucionMultiple = new JCheckBox("Habilitar Ejecución múltiple");
 		
-		comboNumGenes.addItem(1);
-		comboNumGenes.addItem(2);
-		comboNumGenes.addItem(3);
-		comboNumGenes.addItem(4);
-		comboNumGenes.addItem(5);
-		comboNumGenes.addItem(6);
-		comboNumGenes.addItem(7);
-		comboNumGenes.addItem(8);
-		comboNumGenes.addItem(9);
-		comboNumGenes.addItem(10);
-		
-		comboNumGenes.setEnabled(false);
-		
+		//Creamos las cajas de texto
 		textoNumGeneraciones = new JTextField(String.valueOf(Controlador.GENERACIONES_DEFECTO));
 		textoTamPoblacion = new JTextField(String.valueOf(Controlador.POBLACION_DEFECTO));
 		textoProbCruce = new JTextField(String.valueOf(Controlador.CRUCE_DEFECTO));
 		textoProbMutacion = new JTextField(String.valueOf(Controlador.MUTACION_DEFECTO));
-		textoTolerancia = new JTextField(String.valueOf(Controlador.TOLERANCIA_DEFECTO));
 		textoElitismo = new JTextField(String.valueOf(Controlador.ELITISMO_DEFECTO));
 		textoElitismo.setEnabled(false);
+		textoInicial = new JTextField();
+		textoInicial.setEnabled(false);
+		textoFinal = new JTextField();
+		textoFinal.setEnabled(false);
+		textoIncremento = new JTextField();
+		textoIncremento.setEnabled(false);
 		
 		textoNumGeneraciones.addKeyListener(teclado);
 		textoTamPoblacion.addKeyListener(teclado);
 		textoProbCruce.addKeyListener(teclado);
 		textoProbMutacion.addKeyListener(teclado);
-		textoTolerancia.addKeyListener(teclado);
 		textoElitismo.addKeyListener(teclado);
 		
-		panelPrincipal.add(labelFuncion);
-		panelPrincipal.add(comboFunciones);
+		panelBasico.add(labelTamPoblacion);
+		panelBasico.add(textoTamPoblacion);
 		
-		panelPrincipal.add(labelNumGenes);
-		panelPrincipal.add(comboNumGenes);
+		panelBasico.add(labelNumGeneraciones);
+		panelBasico.add(textoNumGeneraciones);
 		
-		panelPrincipal.add(labelNumGeneraciones);
-		panelPrincipal.add(textoNumGeneraciones);
+		panelBasico.add(labelSeleccion);
+		panelBasico.add(comboSeleccion);
 		
-		panelPrincipal.add(labelTamPoblacion);
-		panelPrincipal.add(textoTamPoblacion);
+		panelBasico.add(labelCruce);
+		panelBasico.add(comboCruce);
 		
-		panelPrincipal.add(labelProbCruce);
-		panelPrincipal.add(textoProbCruce);
+		panelBasico.add(labelProbCruce);
+		panelBasico.add(textoProbCruce);
 		
-		panelPrincipal.add(labelProbMutacion);
-		panelPrincipal.add(textoProbMutacion);
+		panelBasico.add(labelMutacion);
+		panelBasico.add(comboMutacion);
 		
-		panelPrincipal.add(labelTolerancia);
-		panelPrincipal.add(textoTolerancia);
-		
-		
+		panelBasico.add(labelProbMutacion);
+		panelBasico.add(textoProbMutacion);
+			
 		panelElitismo.add(checkElitismo);
 		panelElitismo.add(textoElitismo);
-		panelPrincipal.add(panelElitismo);
-		panelPrincipal.add(botonEmpezar);
+				
+		//bordes
+		Border lineBorder, titleBorder, emptyBorder, compoundBorder;
+		emptyBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
+		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
+		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Control de diversidad");
+		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
+		panelControlDiversidad.setBorder(compoundBorder);
+		panelControlDiversidad.add(panelElitismo);
+		panelControlDiversidad.add(checkPresionSelectiva);
+		panelControlDiversidad.add(checkContractividad);
+		
+		panelVariacionParametros.add(labelVariacionParametro);
+		panelVariacionParametros.add(comboVariacionParametro);
+		
+		panelInicial.add(labelInicial);
+		panelInicial.add(textoInicial);
+		
+		panelFinal.add(labelFinal);
+		panelFinal.add(textoFinal);
+		
+		panelInicialFinal.add(panelInicial);
+		panelInicialFinal.add(panelFinal);
+		
+		panelIncremento.add(labelIncremento);
+		panelIncremento.add(textoIncremento);
+		
+		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Ejecución múltiple");
+		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
+		panelEjecucionMultiple.setBorder(compoundBorder);
+		panelEjecucionMultiple.add(checkEjecucionMultiple);
+		panelEjecucionMultiple.add(panelVariacionParametros);
+		panelEjecucionMultiple.add(panelInicialFinal);
+		panelEjecucionMultiple.add(panelIncremento);
+		
+		panelDiversidadEjecucionMultiple.add(panelControlDiversidad);
+		panelDiversidadEjecucionMultiple.add(panelEjecucionMultiple);
+		
+		panelMejoras.add(panelDiversidadEjecucionMultiple,BorderLayout.CENTER);
+		panelMejoras.add(botonEjecucionMultiple,BorderLayout.SOUTH);
+		
+		panelContenedorBasico.add(panelBasico,BorderLayout.CENTER);
+		panelContenedorBasico.add(botonEmpezar,BorderLayout.SOUTH);
+		
+		panelPrincipal.add(panelContenedorBasico);
+		panelPrincipal.add(panelMejoras);
 		
 		OyenteEjecutar oyenteBoton = new OyenteEjecutar();
 		botonEmpezar.addActionListener(oyenteBoton);
 		
-		OyenteComboFuncion oyenteFuncion = new OyenteComboFuncion();
-		comboFunciones.addActionListener(oyenteFuncion);
-		
 		OyenteElitismo oyenteCheckElitismo = new OyenteElitismo();
 		checkElitismo.addActionListener(oyenteCheckElitismo);
 		
+		OyenteEjecucionMultiple oyenteCheckEjecucionMultiple = new OyenteEjecucionMultiple();
+		checkEjecucionMultiple.addActionListener(oyenteCheckEjecucionMultiple);
+		
 		this.setContentPane(panelPrincipal);
-		this.setSize(400, 250);
+		this.setSize(700, 270);
 		this.setVisible(true);
-		this.setTitle("Algoritmo genético simple");
+		this.setTitle("Problema del viajante");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -157,33 +270,34 @@ public class Gui extends JFrame{
 		}	
 	}
 	
-	class OyenteComboFuncion implements ActionListener{
-
-		public void actionPerformed(ActionEvent e) {
-			
-			comboNumGenes.setEnabled(false);
-			
-			switch (comboFunciones.getSelectedIndex()){
-			case 0: {comboNumGenes.setSelectedIndex(0);
-					break;}
-			case 1: {comboNumGenes.setSelectedIndex(1);
-					break;}
-			case 2: {comboNumGenes.setSelectedIndex(0);
-					break;}
-			case 3: {comboNumGenes.setSelectedIndex(1);
-					break;}
-			default:
-				comboNumGenes.setEnabled(true);
-			}
-		}
-	}
-	
+		
 	class OyenteElitismo implements ActionListener{
 
 		public void actionPerformed(ActionEvent arg0) {
 			JCheckBox elitismo = (JCheckBox)arg0.getSource();
 			if(elitismo.isSelected()) textoElitismo.setEnabled(true);
 			else textoElitismo.setEnabled(false);
+		}
+		
+	}
+	
+	class OyenteEjecucionMultiple implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			JCheckBox ejecucionMultiple = (JCheckBox)e.getSource();
+			if(ejecucionMultiple.isSelected()){
+				comboVariacionParametro.setEnabled(true);
+				textoInicial.setEnabled(true);
+				textoFinal.setEnabled(true);
+				textoIncremento.setEnabled(true);
+			}
+			else{
+				comboVariacionParametro.setEnabled(false);
+				textoInicial.setEnabled(false);
+				textoFinal.setEnabled(false);
+				textoIncremento.setEnabled(false);
+			}
+			
 		}
 		
 	}
@@ -206,15 +320,12 @@ public class Gui extends JFrame{
 	
 	private void ejecutarAlgoritmo(){
 		try{
-			int funcion = comboFunciones.getSelectedIndex();
-			int numGenes = (Integer)comboNumGenes.getSelectedItem();
 			int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
 			int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
 			double probCruce = Double.parseDouble(textoProbCruce.getText());
 			double probMutacion = Double.parseDouble(textoProbMutacion.getText());
-			double tolerancia = Double.parseDouble(textoTolerancia.getText());
 			boolean elitismo = checkElitismo.isSelected();
-			controlador.recogerDatosGUI(funcion, numGenes, numGeneraciones, tamPoblacion, probCruce, probMutacion, tolerancia, elitismo);
+			controlador.recogerDatosGUI(0, 0, numGeneraciones, tamPoblacion, probCruce, probMutacion, 0, elitismo);
 		}catch(NumberFormatException exception){
 			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
 		}
