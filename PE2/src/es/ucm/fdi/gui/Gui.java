@@ -14,6 +14,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -87,6 +90,12 @@ public class Gui extends JFrame{
 	private JButton botonEmpezar;
 	private JButton botonEjecucionMultiple;
 	
+	//BARRA DE MENU
+	private JMenuBar barraMenu;
+	private JMenu menu;
+	private JMenuItem itemValoresDefecto;
+	private JMenuItem itemSalir;
+	
 	public Gui(){
 		
 		parametroActivo = tamañoPoblacion;
@@ -154,8 +163,9 @@ public class Gui extends JFrame{
 		botonEjecucionMultiple = new JButton("Ejecución múltiple");
 		botonEjecucionMultiple.setEnabled(false);
 		
-		//Para ejecutar el algoritmo en cuanto se presione intro
-		OyenteTecla teclado = new OyenteTecla();
+		//Para ejecutar el algoritmo correspondiente en cuanto se presione intro
+		OyenteTeclaEjecucionBasica tecladoBasico = new OyenteTeclaEjecucionBasica();
+		OyenteTeclaEjecucionMultiple tecladoMultiple = new OyenteTeclaEjecucionMultiple();
 		
 		//Creamos los checkbox
 		checkElitismo = new JCheckBox("Elitismo");
@@ -172,18 +182,36 @@ public class Gui extends JFrame{
 		textoProbMutacion = new JTextField(String.valueOf(Controlador.MUTACION_DEFECTO));
 		textoElitismo = new JTextField(String.valueOf(Controlador.ELITISMO_DEFECTO));
 		textoElitismo.setEnabled(false);
-		textoInicial = new JTextField();
+		textoInicial = new JTextField(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[0]));
 		textoInicial.setEnabled(false);
-		textoFinal = new JTextField();
+		textoFinal = new JTextField(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[1]));
 		textoFinal.setEnabled(false);
-		textoIncremento = new JTextField();
+		textoIncremento = new JTextField(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[2]));
 		textoIncremento.setEnabled(false);
 		
-		textoNumGeneraciones.addKeyListener(teclado);
-		textoTamPoblacion.addKeyListener(teclado);
-		textoProbCruce.addKeyListener(teclado);
-		textoProbMutacion.addKeyListener(teclado);
-		textoElitismo.addKeyListener(teclado);
+		//Creamos la barra de menus
+		barraMenu = new JMenuBar();
+		menu = new JMenu();
+		itemValoresDefecto = new JMenuItem("Valores por defecto");
+		OyenteValoresPorDefecto valoresDefecto = new OyenteValoresPorDefecto();
+		itemValoresDefecto.addActionListener(valoresDefecto);
+		itemSalir = new JMenuItem("Salir");
+		OyenteSalir salida = new OyenteSalir();
+		itemSalir.addActionListener(salida);
+		
+
+		
+		//Añadimos el oyente de la tecla a los elementos para la ejcucion del agoritmo basico
+		textoNumGeneraciones.addKeyListener(tecladoBasico);
+		textoTamPoblacion.addKeyListener(tecladoBasico);
+		textoProbCruce.addKeyListener(tecladoBasico);
+		textoProbMutacion.addKeyListener(tecladoBasico);
+		textoElitismo.addKeyListener(tecladoBasico);
+		
+		//Añadimos el oyente de la tecla a los elementos para la ejcucion multiple
+		textoInicial.addKeyListener(tecladoMultiple);
+		textoFinal.addKeyListener(tecladoMultiple);
+		textoIncremento.addKeyListener(tecladoMultiple);
 
 		panelBasico.add(labelTamPoblacion);
 		panelBasico.add(textoTamPoblacion);
@@ -255,6 +283,11 @@ public class Gui extends JFrame{
 		panelPrincipal.add(panelContenedorBasico);
 		panelPrincipal.add(panelMejoras);
 		
+		menu.setText("Archivo");
+		menu.add(itemValoresDefecto);
+		menu.add(itemSalir);
+		barraMenu.add(menu);
+		
 		OyenteEjecutar oyenteBoton = new OyenteEjecutar();
 		botonEmpezar.addActionListener(oyenteBoton);
 		
@@ -268,7 +301,14 @@ public class Gui extends JFrame{
 		comboVariacionParametro.addActionListener(oyenteComboVariacionParametros);
 		
 		this.setContentPane(panelPrincipal);
-		this.setSize(700, 270);
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu();
+		menu.setText("Archivo");
+		menu.add(new JMenuItem("Valores por defecto"));
+		menu.add(new JMenuItem("Salir"));
+		menuBar.add(menu);
+		this.setJMenuBar(barraMenu);
+		this.setSize(730, 300);
 		this.setVisible(true);
 		this.setTitle("Problema del viajante");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -333,9 +373,43 @@ public class Gui extends JFrame{
 			parametroActivo = comboVariacionParametro.getSelectedIndex();
 			desactivarCajaTexto(parametroActivo);
 			
+			//Cargamos los valores por defecto correspondientes
+			cargarValores(parametroActivo);			
 		}
 		
 	}
+
+	public void cargarValores(int parametroActivo) {
+		switch(parametroActivo){
+		case tamañoPoblacion:{
+			textoInicial.setText(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[0]));
+			textoFinal.setText(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[1]));
+			textoIncremento.setText(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[2]));
+		}break;
+		case numGeneraciones:{
+			textoInicial.setText(String.valueOf(Controlador.GENERACIONES_MULTIPLE_DEFECTO[0]));
+			textoFinal.setText(String.valueOf(Controlador.GENERACIONES_MULTIPLE_DEFECTO[1]));
+			textoIncremento.setText(String.valueOf(Controlador.GENERACIONES_MULTIPLE_DEFECTO[2]));
+		}break;
+		case probCruce:{
+			textoInicial.setText(String.valueOf(Controlador.CRUCE_MULTIPLE_DEFECTO[0]));
+			textoFinal.setText(String.valueOf(Controlador.CRUCE_MULTIPLE_DEFECTO[1]));
+			textoIncremento.setText(String.valueOf(Controlador.CRUCE_MULTIPLE_DEFECTO[2]));
+		}break;
+		case probMutacion:{
+			textoInicial.setText(String.valueOf(Controlador.MUTACION_MULTIPLE_DEFECTO[0]));
+			textoFinal.setText(String.valueOf(Controlador.MUTACION_MULTIPLE_DEFECTO[1]));
+			textoIncremento.setText(String.valueOf(Controlador.MUTACION_MULTIPLE_DEFECTO[2]));
+		}break;
+		case elitismo:{
+			textoInicial.setText(String.valueOf(Controlador.ELITISMO_MULTIPLE_DEFECTO[0]));
+			textoFinal.setText(String.valueOf(Controlador.ELITISMO_MULTIPLE_DEFECTO[1]));
+			textoIncremento.setText(String.valueOf(Controlador.ELITISMO_MULTIPLE_DEFECTO[2]));
+		}
+		}
+		
+	}
+
 	
 	//Se encarga de desactivar la caja de texto pasada por parametro y de activar las demas
 	private void desactivarCajaTexto(int paramActivo){
@@ -397,11 +471,20 @@ public class Gui extends JFrame{
 		}
 	}
 	
-	class OyenteTecla implements KeyListener{
+	
+	class OyenteTeclaEjecucionBasica implements KeyListener{
 
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == 10){
-				ejecutarAlgoritmo();
+				
+				if(!checkEjecucionMultiple.isSelected()){
+					System.out.println("Ejecucion basica");
+					//TODO ejecutarAlgoritmo();
+				}
+				else{
+					System.out.println("Ejecucion multiple");
+					//TODO Ejecucion multiple
+				}
 			}
 		}
 
@@ -409,6 +492,50 @@ public class Gui extends JFrame{
 		}
 
 		public void keyTyped(KeyEvent e) {
+		}
+		
+	}
+	
+	class OyenteTeclaEjecucionMultiple implements KeyListener{
+
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == 10){
+				//TODO Algoritmo con ejecucion multiple
+				System.out.println("Ejecucion multiple");
+			}
+		}
+
+		public void keyReleased(KeyEvent e) {}
+
+		public void keyTyped(KeyEvent e) {}
+		
+	}
+	
+	class OyenteValoresPorDefecto implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			textoTamPoblacion.setText(String.valueOf(Controlador.POBLACION_DEFECTO));
+			textoNumGeneraciones.setText(String.valueOf(Controlador.GENERACIONES_DEFECTO));
+			textoProbCruce.setText(String.valueOf(Controlador.CRUCE_DEFECTO));
+			textoProbMutacion.setText(String.valueOf(Controlador.MUTACION_DEFECTO));
+			textoElitismo.setText(String.valueOf(Controlador.ELITISMO_DEFECTO));
+			cargarValores(parametroActivo);
+		}
+		
+	}
+	
+	class OyenteSalir implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			if( JOptionPane.showConfirmDialog(null,
+					"¿Seguro que desea salir?",
+					"Salir de la aplicación",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE
+			) == JOptionPane.YES_OPTION){
+				System.exit(0);
+			}
+			
 		}
 		
 	}
