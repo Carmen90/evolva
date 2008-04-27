@@ -152,6 +152,7 @@ public class Gui extends JFrame{
 		//Creamos los botones
 		botonEmpezar = new JButton("Ejecutar");
 		botonEjecucionMultiple = new JButton("Ejecución múltiple");
+		botonEjecucionMultiple.setEnabled(false);
 		
 		//Para ejecutar el algoritmo en cuanto se presione intro
 		OyenteTecla teclado = new OyenteTecla();
@@ -302,6 +303,7 @@ public class Gui extends JFrame{
 				textoFinal.setEnabled(true);
 				textoIncremento.setEnabled(true);
 				desactivarCajaTexto(parametroActivo);
+				botonEjecucionMultiple.setEnabled(true);
 			}
 			else{
 				//Los controles de ejecucion multiple quedan descativados
@@ -318,7 +320,7 @@ public class Gui extends JFrame{
 				if(checkElitismo.isSelected())
 					textoElitismo.setEnabled(true);
 				checkElitismo.setEnabled(true);
-				
+				botonEjecucionMultiple.setEnabled(false);
 			}
 			
 		}
