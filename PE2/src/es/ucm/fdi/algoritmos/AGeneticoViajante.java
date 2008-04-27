@@ -2,9 +2,9 @@ package es.ucm.fdi.algoritmos;
 
 import java.util.Vector;
 
-import es.ucm.fdi.algoritmos.cruzadores.Cruzador;
-import es.ucm.fdi.algoritmos.mutadores.Mutador;
-import es.ucm.fdi.algoritmos.seleccionadores.Seleccionador;
+import es.ucm.fdi.algoritmos.cruzadores.*;
+import es.ucm.fdi.algoritmos.mutadores.*;
+import es.ucm.fdi.algoritmos.seleccionadores.*;
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
@@ -19,7 +19,8 @@ public class AGeneticoViajante extends AGenetico{
 	public static final int CRUCE_ERX = 2;
 	public static final int CRUCE_ORDINAL = 3;
 	public static final int CRUCE_OX = 4;
-	//TODO incluir variantes CRUCE_OX
+	public static final int CRUCE_OXOrdenPrioritario = 5;
+	public static final int CRUCE_OXPosicionesPrioritarias = 6;
 	
 	/*
 	 * Tipos de Selección
@@ -55,13 +56,91 @@ public class AGeneticoViajante extends AGenetico{
 		this.probabilidadMutacion = probabilidadMutacion;
 	}
 
+	//TODO INCLUIR MEJORAS DE DESPLAZAMIENTO Y ESCALADO DE APTITUD
 	public void evaluarPoblacion() {
-		// TODO Auto-generated method stub
+		double puntAcumulada = 0.0; //puntuacion acumulada
+		double aptitudMejor = 0.0; //mejor aptitud
+		double sumaAptitud = 0.0; //suma de la aptitud
+
+		//revisamos contadores de aptitud relativa y puntuacion acumulada de los 
+		//individuos de la poblacion. Calculamos la posicion del mejor individuo
+		for (int i = 0; i< tamañoPoblacion; i++){
+
+			double aptitudI = poblacion[i].getAptitud();
+			
+			if ( evaluador.esMejorAptitud(aptitudI, aptitudMejor) ){
+				this.posicionMejorCromosoma = i;
+				aptitudMejor = aptitudI;
+			}
+
+		}
+
+		double aptitudMenor = poblacion[0].getAptitud();
+		double[] aptitudesPositivas = new double[this.tamañoPoblacion];
+		//calculamos primero la aptitud menor:
+		for (int i = 1; i< this.tamañoPoblacion; i++){
+			if (poblacion[i].getAptitud() < aptitudMenor) aptitudMenor = poblacion[i].getAptitud();
+		}
+		//si la aptitud menor es negativa, eliminamos todos los valores negativos de aptitud y 
+		//recalculamos la suma de aptitudes.
+		if (aptitudMenor < 0){
+			for (int i = 0; i< this.tamañoPoblacion; i++){
+				double aptitudPositivaI = poblacion[i].getAptitud() + Math.abs(aptitudMenor);
+				aptitudesPositivas[i] = aptitudPositivaI;
+			}
+		//sino, simplemente copiamos los valores de aptitud al array de aptitudes positivas
+		}else{
+			for (int i = 0; i< this.tamañoPoblacion; i++){
+				double aptitudPositivaI = poblacion[i].getAptitud();
+				aptitudesPositivas[i] = aptitudPositivaI;
+			}
+		}
+		
+		//si el problema es de minimizacion, debemos asignar mejores puntuaciones a los individuos con
+		//menor aptitud luego transformamos el problema de minimizacion en un problema de maximizacion
+		double[] aptitudesMaximizadas = new double[aptitudesPositivas.length];
+		aptitudesMaximizadas = evaluador.transformarAptitudesAMaximizacion(aptitudesPositivas);
+		aptitudesPositivas = aptitudesMaximizadas;
+		
+		//calculamos la suma de las aptitudes
+		for (int i = 0; i< aptitudesPositivas.length; i++){
+			sumaAptitud += aptitudesPositivas[i];
+		}
+		//calculo de puntuaciones y puntuaciones acumuladas
+		for (int i = 0; i< tamañoPoblacion; i++){
+			
+			double aptitudI = aptitudesPositivas[i];
+			
+			poblacion[i].setPuntuacion(aptitudI/sumaAptitud);
+			double acumulacion = poblacion[i].getPuntuacion() + puntAcumulada;
+			poblacion[i].setPuntuacionAcumulada(acumulacion);
+			puntAcumulada = acumulacion;
+		
+		
+		}
+
+		//Si el mejor de esta generacion es mejor que el mejor que tenia de antes
+		//pues lo actualizamos
+		if ( evaluador.esMejorAptitud(aptitudMejor,elMejor.getAptitud())) {
+			elMejor = poblacion[posicionMejorCromosoma];
+		}
 		
 	}
 
 	public void inicializar(Evaluador funcionEvaluacion) {
-		// TODO Auto-generated method stub
+		this.evaluador = funcionEvaluacion;
+
+		//creamos la poblacion aleatoriamente, para cada cromosoma, lo creamos aleatoriamente y 
+		//ellos mismos diran a su genes que se creen aleatoriamente.
+
+		for (int j = 0; j< tamañoPoblacion;j++){
+			//generamos e inicializamos cada individuo de la poblacion
+			poblacion[j] = evaluador.generarCromosomaAleatorio();		
+		}
+
+		//inicializamos el mejor al primer individuo de la poblacion.		
+		elMejor = poblacion[0];
+		posicionMejorCromosoma = 0;
 		
 	}
 
@@ -179,30 +258,36 @@ public class AGeneticoViajante extends AGenetico{
 
 	}
 	
-	//TODO implementar los metodos de set con switch
-	//generar aqui las instancias de los operadores concretos del patron Strategy
+	//generamos aqui las instancias de los operadores concretos del patron Strategy
 	public void setCruzador(int tipoCruce) {
-		/*public static final int CRUCE_PMX = 0;
-		public static final int CRUCE_CX = 1;
-		public static final int CRUCE_ERX = 2;
-		public static final int CRUCE_ORDINAL = 3;
-		public static final int CRUCE_OX = 4;
-		*/
-		//TODO incluir variantes CRUCE_OX
+		switch(tipoCruce){
+		case CRUCE_PMX: this.cruzador = new CruzadorPMX(); break;
+		case CRUCE_CX: this.cruzador = new CruzadorCX(); break;
+		case CRUCE_ERX: this.cruzador = new CruzadorERX(); break;
+		case CRUCE_ORDINAL: this.cruzador = new CruzadorCodOrdinal(); break;
+		case CRUCE_OX: this.cruzador = new CruzadorOX(); break;
+		case CRUCE_OXOrdenPrioritario: this.cruzador = new CruzadorOXOrdenPrioritario(); break;
+		case CRUCE_OXPosicionesPrioritarias: this.cruzador = new CruzadorOXPosicionesPrioritarias(); break;
+		default: this.cruzador = new CruzadorPMX();
+		}
 	}
 
 	public void setMutador(int tipoMutacion) {
-		/*public static final int SELECCION_RULETA = 0;
-		public static final int SELECCION_RANKING = 1;
-		public static final int SELECCION_TORNEO = 2;
-		*/
+		switch(tipoMutacion){
+		case MUTACION_INSERCION: this.mutador = new MutadorInsercion(); break;
+		case MUTACION_INTERCAMBIO: this.mutador = new MutadorIntercambio(); break;
+		case MUTACION_INVERSION: this.mutador = new MutadorInversion(); break;
+		default: this.mutador = new MutadorInsercion();
+		}
 	}
 
 	public void setSeleccionador(int tipoSeleccion) {
-		/*public static final int MUTACION_INSERCION = 0;
-		public static final int MUTACION_INTERCAMBIO = 1;
-		public static final int MUTACION_INVERSION = 2;
-		*/
+		switch(tipoSeleccion){
+		case SELECCION_RULETA: this.seleccionador = new SeleccionRuleta(); break;
+		case SELECCION_RANKING: this.seleccionador = new SeleccionRanking(); break;
+		case SELECCION_TORNEO: this.seleccionador = new SeleccionTorneo(); break;
+		default:  this.seleccionador = new SeleccionRuleta();
+		}
 	}
 	
 	public double mediaPoblacionInstantanea(){
