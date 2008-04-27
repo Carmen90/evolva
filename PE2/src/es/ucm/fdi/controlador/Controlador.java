@@ -6,12 +6,20 @@ import es.ucm.fdi.gui.Grafica2D;
 
 public class Controlador {
 	
+	//Valores para ejecucion basica
 	public static int POBLACION_DEFECTO = 100;
 	public static int GENERACIONES_DEFECTO = 100;
 	public static double CRUCE_DEFECTO = 0.6;
 	public static double MUTACION_DEFECTO = 0.1;
 	public static double TOLERANCIA_DEFECTO = 0.0001;
 	public static double ELITISMO_DEFECTO = 0.02;
+	
+	//Valores para la ejecucion multiple
+	public static int[] POBLACION_MULTIPLE_DEFECTO = {100,1000,100};
+	public static int[] GENERACIONES_MULTIPLE_DEFECTO = {100,500,50};
+	public static double[] CRUCE_MULTIPLE_DEFECTO = {0.1,0.9,0.05};
+	public static double[] MUTACION_MULTIPLE_DEFECTO = {0.01,0.5,0.01};
+	public static double[] ELITISMO_MULTIPLE_DEFECTO = {0.01,0.3,0.01};
 	
 	public double[] mejores;
 	public double[] mejoresParciales;
