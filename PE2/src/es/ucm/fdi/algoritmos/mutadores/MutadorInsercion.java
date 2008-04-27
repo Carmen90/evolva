@@ -1,7 +1,5 @@
 package es.ucm.fdi.algoritmos.mutadores;
 
-import java.util.ArrayList;
-
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.genes.Gen;
 import es.ucm.fdi.genes.GenEntero;

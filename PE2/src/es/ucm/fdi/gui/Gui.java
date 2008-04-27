@@ -315,7 +315,9 @@ public class Gui extends JFrame{
 				textoNumGeneraciones.setEnabled(true);
 				textoProbCruce.setEnabled(true);
 				textoProbMutacion.setEnabled(true);
-				textoElitismo.setEnabled(true);
+				if(checkElitismo.isSelected())
+					textoElitismo.setEnabled(true);
+				checkElitismo.setEnabled(true);
 				
 			}
 			
@@ -341,28 +343,44 @@ public class Gui extends JFrame{
 			textoNumGeneraciones.setEnabled(true);
 			textoProbCruce.setEnabled(true);
 			textoProbMutacion.setEnabled(true);
-			textoElitismo.setEnabled(true);
+			if(checkElitismo.isSelected())
+				textoElitismo.setEnabled(true);
+			else 
+				textoElitismo.setEnabled(false);
+			checkElitismo.setEnabled(true);
 		}break;
 		case numGeneraciones: {
 			textoTamPoblacion.setEnabled(true);
 			textoNumGeneraciones.setEnabled(false);
 			textoProbCruce.setEnabled(true);
 			textoProbMutacion.setEnabled(true);
-			textoElitismo.setEnabled(true);
+			if(checkElitismo.isSelected())
+				textoElitismo.setEnabled(true);
+			else 
+				textoElitismo.setEnabled(false);
+			checkElitismo.setEnabled(true);
 		}break;
 		case probCruce: {
 			textoTamPoblacion.setEnabled(true);
 			textoNumGeneraciones.setEnabled(true);
 			textoProbCruce.setEnabled(false);
 			textoProbMutacion.setEnabled(true);
-			textoElitismo.setEnabled(true);
+			if(checkElitismo.isSelected())
+				textoElitismo.setEnabled(true);
+			else 
+				textoElitismo.setEnabled(false);
+			checkElitismo.setEnabled(true);
 		}break;
 		case probMutacion: {
 			textoTamPoblacion.setEnabled(true);
 			textoNumGeneraciones.setEnabled(true);
 			textoProbCruce.setEnabled(true);
 			textoProbMutacion.setEnabled(false);
-			textoElitismo.setEnabled(true);
+			if(checkElitismo.isSelected())
+				textoElitismo.setEnabled(true);
+			else 
+				textoElitismo.setEnabled(false);
+			checkElitismo.setEnabled(true);
 		}break;
 		case elitismo: {
 			textoTamPoblacion.setEnabled(true);
@@ -372,6 +390,7 @@ public class Gui extends JFrame{
 			textoElitismo.setEnabled(false);
 			if(!checkElitismo.isSelected())
 				checkElitismo.setSelected(true);
+			checkElitismo.setEnabled(false);
 		}break;
 		}
 	}
