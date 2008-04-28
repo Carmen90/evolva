@@ -321,9 +321,22 @@ public class Gui extends JFrame{
 	
 	class OyenteEjecutar implements ActionListener{
 
+		private void ejecutarAlgoritmo(){
+			try{
+				int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
+				int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
+				double probCruce = Double.parseDouble(textoProbCruce.getText());
+				double probMutacion = Double.parseDouble(textoProbMutacion.getText());
+				boolean elitismo = checkElitismo.isSelected();
+				double porcentajeElitismo = Double.parseDouble(textoElitismo.getText());
+				controlador.recogerDatosGUI(0, numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo, porcentajeElitismo);
+			}catch(NumberFormatException exception){
+				JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
+			}
+		}
+		
 		public void actionPerformed(ActionEvent e) {
-			//TODO ejecutarAlgoritmo();
-			
+			ejecutarAlgoritmo();
 		}	
 	}
 	
@@ -602,25 +615,11 @@ public class Gui extends JFrame{
 
 		public void actionPerformed(ActionEvent e) {
 			guardarValores(parametroActivo);
-			//TODO llamar a la ejecucion del algoritmo
-			
+			//TODO
 		}
 		
 	}
 	
-	private void ejecutarAlgoritmo(){
-		try{
-			int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
-			int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
-			double probCruce = Double.parseDouble(textoProbCruce.getText());
-			double probMutacion = Double.parseDouble(textoProbMutacion.getText());
-			boolean elitismo = checkElitismo.isSelected();
-			controlador.recogerDatosGUI(0, 0, numGeneraciones, tamPoblacion, probCruce, probMutacion, 0, elitismo);
-		}catch(NumberFormatException exception){
-			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
-		}
-	}
-
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}

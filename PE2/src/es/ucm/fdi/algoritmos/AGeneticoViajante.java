@@ -47,13 +47,12 @@ public class AGeneticoViajante extends AGenetico{
 		super();
 	}
 
-	public AGeneticoViajante(int tamañoPoblacion, int numMaxGeneraciones, double probabilidadCruce, double probabilidadMutacion, double tolerancia,
+	public AGeneticoViajante(int tamañoPoblacion, int numMaxGeneraciones, double probabilidadCruce, double probabilidadMutacion,
 							int tipoMutacion, int tipoCruce, int tipoSeleccion) {
-		super(tamañoPoblacion, numMaxGeneraciones, probabilidadCruce, probabilidadMutacion, tolerancia);
+		super(tamañoPoblacion, numMaxGeneraciones, probabilidadCruce, probabilidadMutacion, 0);
 		setCruzador(tipoCruce);
 		setMutador(tipoMutacion);
 		setSeleccionador(tipoSeleccion);
-		this.probabilidadMutacion = probabilidadMutacion;
 	}
 
 	//TODO INCLUIR MEJORAS DE DESPLAZAMIENTO Y ESCALADO DE APTITUD

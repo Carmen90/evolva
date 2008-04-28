@@ -47,7 +47,7 @@ public class CromosomaEnteroViajante extends Cromosoma{
 		for (int i = 0; i< original.getNumeroGenes(); i++){
 			copia[i] = (GenEntero)original.getGenes()[i].copiaGen();
 			this.longitudGenes[i]  = original.getLongitudGenes()[i];
-			this.fenotipo[i] = original.getFenotipo()[i];
+			//this.fenotipo[i] = original.getFenotipo()[i];
 		}
 		//setear genes		
 		this.genes = copia;
@@ -56,6 +56,7 @@ public class CromosomaEnteroViajante extends Cromosoma{
 		this.aptitud = original.getAptitud();
 		this.puntuacion = original.getPuntuacion();
 		this.puntuacionAcumulada = original.getPuntuacionAcumulada();
+		fenotipo();
 	}
 
 	public Cromosoma copiarCromosoma() {
@@ -69,7 +70,6 @@ public class CromosomaEnteroViajante extends Cromosoma{
 			valor[i] = gen.getGen()[i];
 		}
 		this.fenotipo = valor;
-		
 	}
 
 	public int calcularLongitudCromosoma() {

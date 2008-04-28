@@ -16,7 +16,7 @@ public class MutadorInsercion implements Mutador {
 
 		//Para cada individuo
 		for(int i=0;i<poblacion.length;i++){
-			System.out.println("individuo " + i);
+			//System.out.println("individuo " + i);
 			//Extraemos los genes de los padres
 			Gen[] genesIndividuo = poblacion[i].getGenes();
 

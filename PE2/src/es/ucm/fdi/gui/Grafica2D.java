@@ -52,11 +52,12 @@ public class Grafica2D extends JFrame{
 		plot.addLinePlot("Media de aptitudes", generaciones, medias);
 		plot.addLinePlot("Mejor Aptitud hasta el momento", generaciones, mejores);
 		
-		panelFenotipo = new JPanel( new GridLayout(elMejor.getNumeroGenes()+1,1));
+		//panelFenotipo = new JPanel( new GridLayout(elMejor.getNumeroGenes()+1,1));
+		panelFenotipo = new JPanel( new GridLayout( elMejor.getLongitudGenes()[0]+1,1));
 		
 		panelFenotipo.add(new JLabel("Fenotipo mejor individuo:"),JLabel.CENTER);
 		
-		for (int i = 0; i< elMejor.getNumeroGenes(); i++){
+		/*for (int i = 0; i< elMejor.getNumeroGenes(); i++){
 			String textoFenotipos = "";
 			if (i == 0) textoFenotipos += "[ ";
 			textoFenotipos += elMejor.getFenotipo()[i];
@@ -64,7 +65,17 @@ public class Grafica2D extends JFrame{
 			else textoFenotipos += "; ";
 			panelFenotipo.add(new JLabel(textoFenotipos));
 			
+		}*/
+		for (int i = 0; i< elMejor.getLongitudGenes()[0]; i++){
+			String textoFenotipos = "";
+			if (i == 0) textoFenotipos += "[ ";
+			textoFenotipos += elMejor.getFenotipo()[i];
+			if (i == elMejor.getLongitudGenes()[0]-1)textoFenotipos += " ] ";
+			else textoFenotipos += "; ";
+			panelFenotipo.add(new JLabel(textoFenotipos));
 		}
+		
+			
 		String textoAptitud = "Aptitud mejor individuo: "+elMejor.getAptitud();
 		
 		aptitudLabel = new JLabel(textoAptitud, JLabel.CENTER);
