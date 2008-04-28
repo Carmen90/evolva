@@ -163,6 +163,7 @@ public class Gui extends JFrame{
 		botonEjecucionMultiple = new JButton("Ejecución múltiple");
 		botonEjecucionMultiple.setEnabled(false);
 		
+		
 		//Para ejecutar el algoritmo correspondiente en cuanto se presione intro
 		OyenteTeclaEjecucionBasica tecladoBasico = new OyenteTeclaEjecucionBasica();
 		OyenteTeclaEjecucionMultiple tecladoMultiple = new OyenteTeclaEjecucionMultiple();
@@ -291,6 +292,9 @@ public class Gui extends JFrame{
 		OyenteEjecutar oyenteBoton = new OyenteEjecutar();
 		botonEmpezar.addActionListener(oyenteBoton);
 		
+		OyenteBotonEjecucionMultiple oyenteBotonMultiple = new OyenteBotonEjecucionMultiple();
+		botonEjecucionMultiple.addActionListener(oyenteBotonMultiple);
+		
 		OyenteElitismo oyenteCheckElitismo = new OyenteElitismo();
 		checkElitismo.addActionListener(oyenteCheckElitismo);
 		
@@ -318,7 +322,8 @@ public class Gui extends JFrame{
 	class OyenteEjecutar implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			ejecutarAlgoritmo();
+			//TODO ejecutarAlgoritmo();
+			
 		}	
 	}
 	
@@ -374,12 +379,48 @@ public class Gui extends JFrame{
 			desactivarCajaTexto(parametroActivo);
 			
 			//Cargamos los valores por defecto correspondientes
-			cargarValores(parametroActivo);			
+			cargarValoresUsuario(parametroActivo);			
 		}
 		
 	}
+	
+	private void cargarValoresUsuario(int parametroActivo){
+		switch(parametroActivo){
+		case tamañoPoblacion:{
+			textoInicial.setText(String.valueOf(controlador.getCopiaPoblacionMultiple()[0]));
+			textoFinal.setText(String.valueOf(controlador.getCopiaPoblacionMultiple()[1]));
+			textoIncremento.setText(String.valueOf(controlador.getCopiaPoblacionMultiple()[2]));
+		}break;
+		case numGeneraciones:{
+			textoInicial.setText(String.valueOf(controlador.getCopiaGeneracionesMultiple()[0]));
+			textoFinal.setText(String.valueOf(controlador.getCopiaGeneracionesMultiple()[1]));
+			textoIncremento.setText(String.valueOf(controlador.getCopiaGeneracionesMultiple()[2]));
+		}break;
+		case probCruce:{
+			textoInicial.setText(String.valueOf(controlador.getCopiaCruceMultiple()[0]));
+			textoFinal.setText(String.valueOf(controlador.getCopiaCruceMultiple()[1]));
+			textoIncremento.setText(String.valueOf(controlador.getCopiaCruceMultiple()[2]));
+		}break;
+		case probMutacion:{
+			textoInicial.setText(String.valueOf(controlador.getCopiaMutacionMultiple()[0]));
+			textoFinal.setText(String.valueOf(controlador.getCopiaMutacionMultiple()[1]));
+			textoIncremento.setText(String.valueOf(controlador.getCopiaMutacionMultiple()[2]));
+		}break;
+		case elitismo:{
+			textoInicial.setText(String.valueOf(controlador.getCopiaElitismoMultiple()[0]));
+			textoFinal.setText(String.valueOf(controlador.getCopiaElitismoMultiple()[1]));
+			textoIncremento.setText(String.valueOf(controlador.getCopiaElitismoMultiple()[2]));
+		}
+		}
+	}
 
-	public void cargarValores(int parametroActivo) {
+	private void cargarValores(int parametroActivo) {
+		controlador.setCopiaPoblacionMultiple(Controlador.POBLACION_MULTIPLE_DEFECTO);
+		controlador.setCopiaGeneracionesMultiple(Controlador.GENERACIONES_MULTIPLE_DEFECTO);
+		controlador.setCopiaCruceMultiple(Controlador.CRUCE_MULTIPLE_DEFECTO);
+		controlador.setCopiaMutacionMultiple(Controlador.MUTACION_MULTIPLE_DEFECTO);
+		controlador.setCopiaElitismoMultiple(Controlador.ELITISMO_MULTIPLE_DEFECTO);
+		
 		switch(parametroActivo){
 		case tamañoPoblacion:{
 			textoInicial.setText(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[0]));
@@ -410,6 +451,21 @@ public class Gui extends JFrame{
 		
 	}
 
+	private void guardarValores(int parametroActivo){
+		double[] copia = new double[3];
+		
+		copia[0]=Double.parseDouble(textoInicial.getText());
+		copia[1]=Double.parseDouble(textoFinal.getText());
+		copia[2]=Double.parseDouble(textoIncremento.getText());
+		
+		switch(parametroActivo){
+		case tamañoPoblacion:controlador.setCopiaPoblacionMultiple(copia);break;
+		case numGeneraciones:controlador.setCopiaGeneracionesMultiple(copia);break;
+		case probCruce:controlador.setCopiaCruceMultiple(copia);break;
+		case probMutacion:controlador.setCopiaMutacionMultiple(copia);break;
+		case elitismo:controlador.setCopiaElitismoMultiple(copia);
+		}
+	}
 	
 	//Se encarga de desactivar la caja de texto pasada por parametro y de activar las demas
 	private void desactivarCajaTexto(int paramActivo){
@@ -520,9 +576,11 @@ public class Gui extends JFrame{
 			textoProbMutacion.setText(String.valueOf(Controlador.MUTACION_DEFECTO));
 			textoElitismo.setText(String.valueOf(Controlador.ELITISMO_DEFECTO));
 			cargarValores(parametroActivo);
+			
 		}
 		
 	}
+
 	
 	class OyenteSalir implements ActionListener{
 
@@ -535,6 +593,16 @@ public class Gui extends JFrame{
 			) == JOptionPane.YES_OPTION){
 				System.exit(0);
 			}
+			
+		}
+		
+	}
+	
+	class OyenteBotonEjecucionMultiple implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			guardarValores(parametroActivo);
+			//TODO llamar a la ejecucion del algoritmo
 			
 		}
 		

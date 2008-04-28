@@ -15,11 +15,18 @@ public class Controlador {
 	public static double ELITISMO_DEFECTO = 0.02;
 	
 	//Valores para la ejecucion multiple
-	public static int[] POBLACION_MULTIPLE_DEFECTO = {100,1000,100};
-	public static int[] GENERACIONES_MULTIPLE_DEFECTO = {100,500,50};
+	public static double[] POBLACION_MULTIPLE_DEFECTO = {100,1000,100};
+	public static double[] GENERACIONES_MULTIPLE_DEFECTO = {100,500,50};
 	public static double[] CRUCE_MULTIPLE_DEFECTO = {0.1,0.9,0.05};
 	public static double[] MUTACION_MULTIPLE_DEFECTO = {0.01,0.5,0.01};
 	public static double[] ELITISMO_MULTIPLE_DEFECTO = {0.01,0.3,0.01};
+	
+	//Valores para guardar los datos que mete el usuario y recordarlos
+	private double[] copiaPoblacionMultiple;
+	private double[] copiaGeneracionesMultiple;
+	private double[] copiaCruceMultiple;
+	private double[] copiaMutacionMultiple;
+	private double[] copiaElitismoMultiple;
 	
 	public double[] mejores;
 	public double[] mejoresParciales;
@@ -27,8 +34,14 @@ public class Controlador {
 	
 	private int numeroFuncion;
 	private boolean elitismo;
-	
-	public Controlador(){}
+		
+	public Controlador(){
+		copiaPoblacionMultiple = POBLACION_MULTIPLE_DEFECTO;
+		copiaGeneracionesMultiple = GENERACIONES_MULTIPLE_DEFECTO;
+		copiaCruceMultiple = CRUCE_MULTIPLE_DEFECTO;
+		copiaMutacionMultiple = MUTACION_MULTIPLE_DEFECTO;
+		copiaElitismoMultiple = ELITISMO_MULTIPLE_DEFECTO;
+	}
 	
 	public void recogerDatosGUI(int funcion, int numGenes, int numGeneraciones, int tamPoblacion, double probCruce, 
 								double probMutacion, double tol, boolean eli){
@@ -96,6 +109,46 @@ public class Controlador {
 
 	public boolean getElitismo() {
 		return elitismo;
+	}
+
+	public double[] getCopiaPoblacionMultiple() {
+		return copiaPoblacionMultiple;
+	}
+
+	public void setCopiaPoblacionMultiple(double[] copia) {
+		this.copiaPoblacionMultiple = copia;
+	}
+
+	public double[] getCopiaGeneracionesMultiple() {
+		return copiaGeneracionesMultiple;
+	}
+
+	public void setCopiaGeneracionesMultiple(double[] copia) {
+		this.copiaGeneracionesMultiple = copia;
+	}
+
+	public double[] getCopiaCruceMultiple() {
+		return copiaCruceMultiple;
+	}
+
+	public void setCopiaCruceMultiple(double[] copiaCruceMultiple) {
+		this.copiaCruceMultiple = copiaCruceMultiple;
+	}
+
+	public double[] getCopiaMutacionMultiple() {
+		return copiaMutacionMultiple;
+	}
+
+	public void setCopiaMutacionMultiple(double[] copiaMutacionMultiple) {
+		this.copiaMutacionMultiple = copiaMutacionMultiple;
+	}
+
+	public double[] getCopiaElitismoMultiple() {
+		return copiaElitismoMultiple;
+	}
+
+	public void setCopiaElitismoMultiple(double[] copiaElitismoMultiple) {
+		this.copiaElitismoMultiple = copiaElitismoMultiple;
 	}	
 
 }
