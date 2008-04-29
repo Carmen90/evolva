@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.ComboPopup;
 
 import es.ucm.fdi.controlador.Controlador;
 
@@ -331,26 +332,60 @@ public class Gui extends JFrame{
 	
 	class OyenteEjecutar implements ActionListener{
 
-		private void ejecutarAlgoritmo(){
-			try{
-				int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
-				int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
-				double probCruce = Double.parseDouble(textoProbCruce.getText());
-				double probMutacion = Double.parseDouble(textoProbMutacion.getText());
-				boolean elitismo = checkElitismo.isSelected();
-				double porcentajeElitismo = Double.parseDouble(textoElitismo.getText());
-				controlador.ejecucionSencilla (numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo, porcentajeElitismo,
-											comboMutacion.getSelectedIndex(), comboCruce.getSelectedIndex(), comboSeleccion.getSelectedIndex());
-				}catch(NumberFormatException exception){
-				JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
-			}
-		}
-		
 		public void actionPerformed(ActionEvent e) {
 			ejecutarAlgoritmo();
 		}	
 	}
 	
+	class OyenteBotonEjecucionMultiple implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			ejecutarAlgoritmoMultiple();
+		}
+		
+	}
+	
+	private void ejecutarAlgoritmo(){
+		try{
+			int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
+			int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
+			double probCruce = Double.parseDouble(textoProbCruce.getText());
+			double probMutacion = Double.parseDouble(textoProbMutacion.getText());
+			boolean elitismo = checkElitismo.isSelected();
+			double porcentajeElitismo = Double.parseDouble(textoElitismo.getText());
+			int tipoMutacion = comboMutacion.getSelectedIndex();
+			int tipoCruce = comboCruce.getSelectedIndex();
+			int tipoSeleccion = comboSeleccion.getSelectedIndex();
+			controlador.ejecucionSencilla (numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo,
+										porcentajeElitismo, tipoMutacion, tipoCruce,tipoSeleccion);
+			
+		}catch(NumberFormatException exception){
+			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
+		}
+	}
+	
+	private void ejecutarAlgoritmoMultiple(){
+		try{
+			guardarValores(parametroActivo);
+			int parametro = comboVariacionParametro.getSelectedIndex();
+			double inicio = Double.parseDouble(textoInicial.getText());
+			double fin = Double.parseDouble(textoFinal.getText()); 
+			double incremento = Double.parseDouble(textoIncremento.getText()); 
+			int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
+			int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
+			double probCruce = Double.parseDouble(textoProbCruce.getText());
+			double probMutacion = Double.parseDouble(textoProbMutacion.getText());
+			boolean eli = checkElitismo.isSelected();
+			double porcentajeElite = Double.parseDouble(textoElitismo.getText());
+			int tipoMutacion = comboMutacion.getSelectedIndex();
+			int tipoCruce = comboCruce.getSelectedIndex();
+			int tipoSeleccion = comboSeleccion.getSelectedIndex();
+			controlador.ejecucionMultiple(parametro,inicio,fin,incremento, numGeneraciones, tamPoblacion, probCruce, 
+					probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
+		}catch(NumberFormatException exception){
+			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
+		}
+	}
 		
 	class OyenteElitismo implements ActionListener{
 
@@ -618,15 +653,6 @@ public class Gui extends JFrame{
 				System.exit(0);
 			}
 			
-		}
-		
-	}
-	
-	class OyenteBotonEjecucionMultiple implements ActionListener{
-
-		public void actionPerformed(ActionEvent e) {
-			guardarValores(parametroActivo);
-			//TODO
 		}
 		
 	}
