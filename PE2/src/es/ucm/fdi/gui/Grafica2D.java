@@ -117,6 +117,83 @@ public class Grafica2D extends JFrame{
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
+	
+	public void generarGraficaMultiple(String parametro, Cromosoma elMejor, double[] mejoresGlobales, double[] ultimosMejores, double[] iteraciones){
+		panelContenido = new JPanel(new BorderLayout());
+				
+		// create your PlotPanel (you can use it as a JPanel)
+		Plot2DPanel plot = new Plot2DPanel();
+		plot.setAxisLabel(0, "Iteración");
+		
+		plot.getAxis(0).setLabelPosition(0.5, -0.10);
+		// define the legend position
+		plot.addLegend("SOUTH");
+
+		// add a line plot to the PlotPanel
+		plot.addLinePlot("Mejor individuo global", iteraciones, mejoresGlobales);
+		plot.addLinePlot("Mejor individuo final", iteraciones, ultimosMejores);
+		
+		//panelFenotipo = new JPanel( new GridLayout(elMejor.getNumeroGenes()+1,1));
+		panelFenotipo = new JPanel( new GridLayout( elMejor.getLongitudGenes()[0]+1,1));
+		
+		panelFenotipo.add(new JLabel("Fenotipo mejor individuo:"),JLabel.CENTER);
+		
+		/*for (int i = 0; i< elMejor.getNumeroGenes(); i++){
+			String textoFenotipos = "";
+			if (i == 0) textoFenotipos += "[ ";
+			textoFenotipos += elMejor.getFenotipo()[i];
+			if (i == elMejor.getNumeroGenes()-1)textoFenotipos += " ] ";
+			else textoFenotipos += "; ";
+			panelFenotipo.add(new JLabel(textoFenotipos));
+			
+		}*/
+		for (int i = 0; i< elMejor.getLongitudGenes()[0]; i++){
+			String textoFenotipos = "";
+			if (i == 0) textoFenotipos += "[ ";
+			textoFenotipos += elMejor.getFenotipo()[i];
+			if (i == elMejor.getLongitudGenes()[0]-1)textoFenotipos += " ] ";
+			else textoFenotipos += "; ";
+			panelFenotipo.add(new JLabel(textoFenotipos));
+		}
+		
+			
+		String textoAptitud = "Aptitud mejor individuo: "+elMejor.getAptitud();
+		
+		aptitudLabel = new JLabel(textoAptitud, JLabel.CENTER);
+		
+		
+		this.botonFenotipo = new JButton ("Ver fenotipo");
+		botonFenotipo.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				Object textoOpciones[] = {"Cerrar"};
+				JOptionPane.showOptionDialog(
+						null,
+						panelFenotipo,
+						"Fenotipo del mejor individuo",
+						JOptionPane.PLAIN_MESSAGE,
+						-1,
+						null,
+						textoOpciones,
+						textoOpciones[0]);
+				}
+			
+		});
+		
+		JPanel panelilloLabels = new JPanel (new GridLayout(1,2));
+		panelilloLabels.add(aptitudLabel);
+		panelilloLabels.add(botonFenotipo);		
+		
+		panelContenido.add(plot, BorderLayout.CENTER);
+		panelContenido.add(panelilloLabels,BorderLayout.SOUTH);
+		
+		// put the PlotPanel in a JFrame like a JPanel
+		String titulo = "Grafico de resultados... parámetro variable: "+ parametro;
+		this.setTitle(titulo);
+		this.setSize(600, 600);
+		this.setContentPane(panelContenido);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setVisible(true);
+	}
 
 	public void setControlador (Controlador controlador){
 		this.controlador = controlador;

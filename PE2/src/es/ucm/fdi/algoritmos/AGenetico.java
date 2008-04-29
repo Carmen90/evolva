@@ -46,7 +46,7 @@ public abstract class AGenetico {
 	protected abstract void evaluarPoblacion();
 	
 	protected abstract double mediaPoblacionInstantanea();
-	protected abstract double mejorPoblacionInstantanea();
+	protected abstract Cromosoma mejorPoblacionInstantanea();
 	protected abstract void almacenarElite(double porcentajeElite);
 	public abstract void recuperarElite();
 	

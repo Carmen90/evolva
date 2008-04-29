@@ -24,7 +24,7 @@ public class SeleccionTorneo implements Seleccionador {
 			//El cromosoma campeon sera el mejor de los 3
 			campeon = elegidos[0];
 			for(int i = 1; i < numContrincantes; i++){
-				if(elegidos[i].getAptitud()>campeon.getAptitud())
+				if(e.esMejorAptitud(elegidos[i].getAptitud(), campeon.getAptitud()))
 					campeon = elegidos[i];
 			}
 			//Añadimos el campeon a la nueva poblacion

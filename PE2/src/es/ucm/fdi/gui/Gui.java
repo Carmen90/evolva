@@ -25,13 +25,13 @@ import javax.swing.border.Border;
 import es.ucm.fdi.controlador.Controlador;
 
 public class Gui extends JFrame{
-	
+
 	private static final long serialVersionUID = 5251944077014401211L;
-	private static final int tamañoPoblacion = 0;
-	private static final int numGeneraciones = 1;
-	private static final int probCruce = 2;
-	private static final int probMutacion = 3;
-	private static final int elitismo = 4;
+	public static final int tamañoPoblacion = 0;
+	public static final int numGeneraciones = 1;
+	public static final int probCruce = 2;
+	public static final int probMutacion = 3;
+	public static final int elitismo = 4;
 
 	private Controlador controlador;
 	private int parametroActivo;
@@ -50,6 +50,7 @@ public class Gui extends JFrame{
 	private JPanel panelEjecucionMultiple;
 	private JPanel panelDiversidadEjecucionMultiple;
 	private JPanel panelContenedorBasico;
+	private JPanel panelPresionEscalado;
 	
 	//ETIQUETAS
 	private JLabel labelNumGeneraciones;
@@ -75,6 +76,7 @@ public class Gui extends JFrame{
 	private JCheckBox checkPresionSelectiva;
 	private JCheckBox checkContractividad;
 	private JCheckBox checkEjecucionMultiple;
+	private JCheckBox checkEscalado;
 	
 	//CAMPOS DE TEXTO
 	private JTextField textoNumGeneraciones;
@@ -112,7 +114,7 @@ public class Gui extends JFrame{
 		panelEjecucionMultiple = new JPanel(new GridLayout(4,1));
 		panelDiversidadEjecucionMultiple = new JPanel(new GridLayout(2,1));
 		panelContenedorBasico = new JPanel(new BorderLayout());
-		
+		panelPresionEscalado = new JPanel(new GridLayout(1,2));
 		panelElitismo = new JPanel(new GridLayout(1,2));
 		
 		//Creamos las etiquetas
@@ -137,16 +139,16 @@ public class Gui extends JFrame{
 		
 		//Añadimos las opciones a cada combobox		
 		comboSeleccion.addItem("Ruleta");
-		comboSeleccion.addItem("Torneo");
 		comboSeleccion.addItem("Ranking");
+		comboSeleccion.addItem("Torneo");
 		
 		comboCruce.addItem("PMX");
-		comboCruce.addItem("OX");
-		comboCruce.addItem("OX posiciones prioritarias");
-		comboCruce.addItem("OX orden prioritario");
 		comboCruce.addItem("Ciclos (CX)");
 		comboCruce.addItem("Recombinación de rutas (ERX)");
 		comboCruce.addItem("Codificación ordinal");
+		comboCruce.addItem("OX");
+		comboCruce.addItem("OX orden prioritario");
+		comboCruce.addItem("OX posiciones prioritarias");
 		
 		comboMutacion.addItem("Inserción");
 		comboMutacion.addItem("Intercambio");
@@ -172,9 +174,11 @@ public class Gui extends JFrame{
 		checkElitismo = new JCheckBox("Elitismo");
 		checkElitismo.setSelected(false);
 		
-		checkPresionSelectiva = new JCheckBox("Presión selectiva Ranking");
+		checkPresionSelectiva = new JCheckBox("Presión selectiva");
+		checkPresionSelectiva.setEnabled(false);
 		checkContractividad = new JCheckBox("Contractividad");
 		checkEjecucionMultiple = new JCheckBox("Habilitar Ejecución múltiple");
+		checkEscalado = new JCheckBox("Escalado de aptitud");
 		
 		//Creamos las cajas de texto
 		textoNumGeneraciones = new JTextField(String.valueOf(Controlador.GENERACIONES_DEFECTO));
@@ -237,6 +241,9 @@ public class Gui extends JFrame{
 
 		panelElitismo.add(checkElitismo);
 		panelElitismo.add(textoElitismo);
+		
+		panelPresionEscalado.add(checkPresionSelectiva);
+		panelPresionEscalado.add(checkEscalado);
 				
 		//bordes
 		Border lineBorder, titleBorder, emptyBorder, compoundBorder;
@@ -246,8 +253,8 @@ public class Gui extends JFrame{
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelControlDiversidad.setBorder(compoundBorder);
 		panelControlDiversidad.add(panelElitismo);
-		panelControlDiversidad.add(checkPresionSelectiva);
 		panelControlDiversidad.add(checkContractividad);
+		panelControlDiversidad.add(panelPresionEscalado);
 		
 		panelVariacionParametros.add(labelVariacionParametro);
 		panelVariacionParametros.add(comboVariacionParametro);
@@ -304,6 +311,9 @@ public class Gui extends JFrame{
 		OyenteVariacionParametros oyenteComboVariacionParametros = new OyenteVariacionParametros();
 		comboVariacionParametro.addActionListener(oyenteComboVariacionParametros);
 		
+		OyenteComboSeleccion oyenteComboSelec = new OyenteComboSeleccion();
+		comboSeleccion.addActionListener(oyenteComboSelec);
+		
 		this.setContentPane(panelPrincipal);
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu();
@@ -329,8 +339,9 @@ public class Gui extends JFrame{
 				double probMutacion = Double.parseDouble(textoProbMutacion.getText());
 				boolean elitismo = checkElitismo.isSelected();
 				double porcentajeElitismo = Double.parseDouble(textoElitismo.getText());
-				controlador.recogerDatosGUI(0, numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo, porcentajeElitismo);
-			}catch(NumberFormatException exception){
+				controlador.ejecucionSencilla (numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo, porcentajeElitismo,
+											comboMutacion.getSelectedIndex(), comboCruce.getSelectedIndex(), comboSeleccion.getSelectedIndex());
+				}catch(NumberFormatException exception){
 				JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
 			}
 		}
@@ -617,6 +628,21 @@ public class Gui extends JFrame{
 			guardarValores(parametroActivo);
 			//TODO
 		}
+		
+	}
+	
+	class OyenteComboSeleccion implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			
+			if(comboSeleccion.getSelectedIndex() == 0)  //Ruleta = 0
+				checkEscalado.setEnabled(true);
+			else checkEscalado.setEnabled(false);
+			
+			if(comboSeleccion.getSelectedIndex() == 1)  //Ranking = 1
+				checkPresionSelectiva.setEnabled(true);
+			else checkPresionSelectiva.setEnabled(false);
+		}	
 		
 	}
 	

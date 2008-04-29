@@ -58,12 +58,14 @@ public class AGeneticoViajante extends AGenetico{
 	//TODO INCLUIR MEJORAS DE DESPLAZAMIENTO Y ESCALADO DE APTITUD
 	public void evaluarPoblacion() {
 		double puntAcumulada = 0.0; //puntuacion acumulada
-		double aptitudMejor = 0.0; //mejor aptitud
 		double sumaAptitud = 0.0; //suma de la aptitud
+		
+		double aptitudMejor = poblacion[0].getAptitud(); //mejor aptitud
+		this.posicionMejorCromosoma = 0;
 
 		//revisamos contadores de aptitud relativa y puntuacion acumulada de los 
 		//individuos de la poblacion. Calculamos la posicion del mejor individuo
-		for (int i = 0; i< tamañoPoblacion; i++){
+		for (int i = 1; i< tamañoPoblacion; i++){
 
 			double aptitudI = poblacion[i].getAptitud();
 			
@@ -298,14 +300,16 @@ public class AGeneticoViajante extends AGenetico{
 
 	}
 
-	public double mejorPoblacionInstantanea() {
-		double mejorAptitud = 0.0;
-		for (int i = 0; i < this.tamañoPoblacion; i++){
+	public Cromosoma mejorPoblacionInstantanea() {
+		double mejorAptitud = poblacion[0].getAptitud();
+		int posicionMejorAptitud = 0;
+		for (int i = 1; i < this.tamañoPoblacion; i++){
 			if (evaluador.esMejorAptitud(poblacion[i].getAptitud(),mejorAptitud)){
 				mejorAptitud = poblacion[i].getAptitud();
+				posicionMejorAptitud = i;
 			}
 		}
-		return mejorAptitud;
+		return poblacion[posicionMejorAptitud];
 	}
 
 }
