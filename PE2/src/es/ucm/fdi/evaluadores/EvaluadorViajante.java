@@ -103,7 +103,7 @@ public class EvaluadorViajante implements Evaluador{
 		}
 		
 		for (int i = 0; i< aptitudesPositivas.length; i++){
-			aptitudesPositivas[i] = aptitudMayor - aptitudesPositivas[i];
+			aptitudesPositivas[i] = (aptitudMayor+1) - aptitudesPositivas[i];
 		}
 		
 		return aptitudesPositivas;
