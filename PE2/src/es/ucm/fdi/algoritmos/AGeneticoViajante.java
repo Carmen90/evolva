@@ -8,6 +8,7 @@ import es.ucm.fdi.algoritmos.seleccionadores.*;
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
+import es.ucm.fdi.utils.Ordenacion;
 
 public class AGeneticoViajante extends AGenetico{
 	
@@ -57,9 +58,7 @@ public class AGeneticoViajante extends AGenetico{
 
 	//TODO INCLUIR MEJORAS DE DESPLAZAMIENTO Y ESCALADO DE APTITUD
 	public void evaluarPoblacion() {
-		double puntAcumulada = 0.0; //puntuacion acumulada
-		double sumaAptitud = 0.0; //suma de la aptitud
-		
+			
 		//evaluamos la aptitud de cada uno de los individuos de la poblacion.
 		for (int i = 0; i< this.tamañoPoblacion; i++){
 			double aptitud = this.evaluador.evaluaAptitud(poblacion[i]);
@@ -69,8 +68,7 @@ public class AGeneticoViajante extends AGenetico{
 		double aptitudMejor = poblacion[0].getAptitud(); //mejor aptitud
 		this.posicionMejorCromosoma = 0;
 
-		//revisamos contadores de aptitud relativa y puntuacion acumulada de los 
-		//individuos de la poblacion. Calculamos la posicion del mejor individuo
+		//Calculamos la posicion del mejor individuo
 		for (int i = 1; i< tamañoPoblacion; i++){
 
 			double aptitudI = poblacion[i].getAptitud();
@@ -81,56 +79,14 @@ public class AGeneticoViajante extends AGenetico{
 			}
 
 		}
-
-		double aptitudMenor = poblacion[0].getAptitud();
-		double[] aptitudesPositivas = new double[this.tamañoPoblacion];
-		//calculamos primero la aptitud menor:
-		for (int i = 1; i< this.tamañoPoblacion; i++){
-			if (poblacion[i].getAptitud() < aptitudMenor) aptitudMenor = poblacion[i].getAptitud();
-		}
-		//si la aptitud menor es negativa, eliminamos todos los valores negativos de aptitud y 
-		//recalculamos la suma de aptitudes.
-		if (aptitudMenor < 0){
-			for (int i = 0; i< this.tamañoPoblacion; i++){
-				double aptitudPositivaI = poblacion[i].getAptitud() + Math.abs(aptitudMenor);
-				aptitudesPositivas[i] = aptitudPositivaI;
-			}
-		//sino, simplemente copiamos los valores de aptitud al array de aptitudes positivas
-		}else{
-			for (int i = 0; i< this.tamañoPoblacion; i++){
-				double aptitudPositivaI = poblacion[i].getAptitud();
-				aptitudesPositivas[i] = aptitudPositivaI;
-			}
-		}
 		
-		//si el problema es de minimizacion, debemos asignar mejores puntuaciones a los individuos con
-		//menor aptitud luego transformamos el problema de minimizacion en un problema de maximizacion
-		double[] aptitudesMaximizadas = new double[aptitudesPositivas.length];
-		aptitudesMaximizadas = evaluador.transformarAptitudesAMaximizacion(aptitudesPositivas);
-		aptitudesPositivas = aptitudesMaximizadas;
-		
-		//calculamos la suma de las aptitudes
-		for (int i = 0; i< aptitudesPositivas.length; i++){
-			sumaAptitud += aptitudesPositivas[i];
-		}
-		//calculo de puntuaciones y puntuaciones acumuladas
-		for (int i = 0; i< tamañoPoblacion; i++){
-			
-			double aptitudI = aptitudesPositivas[i];
-			
-			poblacion[i].setPuntuacion(aptitudI/sumaAptitud);
-			double acumulacion = poblacion[i].getPuntuacion() + puntAcumulada;
-			poblacion[i].setPuntuacionAcumulada(acumulacion);
-			puntAcumulada = acumulacion;
-		
-		
-		}
-
 		//Si el mejor de esta generacion es mejor que el mejor que tenia de antes
 		//pues lo actualizamos
 		if ( evaluador.esMejorAptitud(aptitudMejor,elMejor.getAptitud())) {
 			elMejor = poblacion[posicionMejorCromosoma];
 		}
+
+		poblacion = this.seleccionador.generarSegmentos(poblacion, evaluador, false);
 		
 	}
 
@@ -209,69 +165,27 @@ public class AGeneticoViajante extends AGenetico{
 		this.numeroElite = (int)(this.tamañoPoblacion * porcentajeElite);
 		this.elite = new CromosomaEnteroViajante[numeroElite];
 
-		//ordenamos la poblacion:
-		ordenarPoblacion();
+		//en la poblacion "sortedPop", los individuos estan ordenados de peor a mejor
+		Cromosoma[] sortedPop = Ordenacion.sortSelectionIndividuals(poblacion, evaluador);
 
 		//guardamos los "numeroElite" mejores en el array de la elite
 		for (int i = 0; i<numeroElite; i++){
-			this.elite[i] = poblacion[i].copiarCromosoma();
+			this.elite[i] = sortedPop[sortedPop.length-i-1].copiarCromosoma();
 		}
 	}
 
 	public void recuperarElite() {
-		//ordenamos la poblacion:
-		ordenarPoblacion();
-
-		//recuperamos la elite, sustituyendo los peores individuos:
-		int contadorElite = 0;
-		for (int i = this.tamañoPoblacion-this.numeroElite; i<this.tamañoPoblacion;i++){
-			this.poblacion[i] = this.elite[contadorElite];
-			contadorElite++;
-		}
-
-	}
-
-	private void ordenarPoblacion(){
-		//tras el cruce y la mutacion, los individuos de la poblacion nueva todavia no tienen calculada su aptitud, y esto se hara mas adelante
-		//despues de recuperar la elite. Para recuperar la elite sustituyendo a los peores individuos, necesitamos saber las aptitudes
-		//antes de evaluar los individuos, con lo cual, si hay elitismo, calculamos las aptitudes de los individuos.
-		for (int i = 0; i< poblacion.length; i++){
-			poblacion[i].setAptitud(evaluador.evaluaAptitud(poblacion[i]));
-		}
+		//en la poblacion "sortedPop", los individuos estan ordenados de peor a mejor
+		Cromosoma[] sortedPop = Ordenacion.sortSelectionIndividuals(poblacion, evaluador);
+		this.poblacion = sortedPop;
 		
-		//para ordenar la poblacion, la recorremos entera, y vamos insertando ordenadamente 
-		//en funcion del criterio de la funcion, los individuos en un array auxiliar.
-		//despues, seteamos la poblacion ordenada...
-		Vector <Cromosoma> ordenado = new Vector <Cromosoma>();
-
-		//metemos el primer cromosoma directamente en el vector
-		ordenado.add(this.poblacion[0]);
-		//para los demas...
-		for (int i = 1; i< this.tamañoPoblacion; i++){
-			//individuo que vamos a insertar
-			Cromosoma individuoI = this.poblacion[i];
-
-			//buscamos donde insertar el nuevo elemento
-			int j = 0;
-			boolean indiceEncontrado = false;
-			while (!indiceEncontrado && j < ordenado.size()){
-
-				Cromosoma individuoOrdenadoJ = ordenado.get(j);
-				indiceEncontrado = evaluador.esMejorAptitud(individuoI.getAptitud(), individuoOrdenadoJ.getAptitud());
-				j++;
-			}
-			//si hemos encontrado un indice apto para la insercion
-			if (indiceEncontrado){
-				ordenado.insertElementAt(individuoI, --j);
-			}else ordenado.add(individuoI);
-		}
-		//una vez ordenados en el vector, seteamos la poblacion.
-		for (int i = 0; i < this.tamañoPoblacion; i++){
-			this.poblacion[i] = ordenado.get(i);
+		//recuperamos la elite, sustituyendo los peores individuos (estan colocados al principio):
+		for (int i = 0; i<this.numeroElite;i++){
+			this.poblacion[i] = this.elite[i];
 		}
 
 	}
-	
+
 	//generamos aqui las instancias de los operadores concretos del patron Strategy
 	public void setCruzador(int tipoCruce) {
 		switch(tipoCruce){

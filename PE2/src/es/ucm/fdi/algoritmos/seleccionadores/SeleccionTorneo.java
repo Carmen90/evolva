@@ -34,4 +34,8 @@ public class SeleccionTorneo implements Seleccionador {
 		return poblacionAux;
 	}
 
+	public Cromosoma[] generarSegmentos(Cromosoma[] poblacion, Evaluador evaluador, boolean mejora) {
+		return poblacion;
+	}
+	
 }

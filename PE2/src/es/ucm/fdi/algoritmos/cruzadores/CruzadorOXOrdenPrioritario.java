@@ -11,7 +11,7 @@ import es.ucm.fdi.utils.Ordenacion;
 
 public class CruzadorOXOrdenPrioritario implements Cruzador {
 
-	private static final int numPosicionesIntercambio = 27;
+	private static final int numPosicionesIntercambio = 10;
 	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
 		
 		int numeroGenes = padre1.getNumeroGenes();
