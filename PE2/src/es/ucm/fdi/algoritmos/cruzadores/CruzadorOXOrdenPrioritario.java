@@ -12,7 +12,7 @@ import es.ucm.fdi.utils.Ordenacion;
 public class CruzadorOXOrdenPrioritario implements Cruzador {
 
 	private static final int numPosicionesIntercambio = 27;
-	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2, Evaluador evaluador) {
+	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
 		
 		int numeroGenes = padre1.getNumeroGenes();
 		//creamos los cromosomas hijos
@@ -116,8 +116,8 @@ public class CruzadorOXOrdenPrioritario implements Cruzador {
 					
 		}
 		
-		hijo1.setGenes(genesHijo1,evaluador);
-		hijo2.setGenes(genesHijo2,evaluador);
+		hijo1.setGenes(genesHijo1);
+		hijo2.setGenes(genesHijo2);
 		
 		Cromosoma[] hijos = new Cromosoma[2];
 		hijos[0] = hijo1;

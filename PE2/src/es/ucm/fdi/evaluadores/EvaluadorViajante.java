@@ -71,7 +71,7 @@ public class EvaluadorViajante implements Evaluador{
 		genes[0] = gen;
 		
 		//setear genes (al setear los genes automaticamente se inicializa el cromosoma)
-		cromosoma.setGenes(genes, this);
+		cromosoma.setGenes(genes);
 		
 		return cromosoma;
 	}
@@ -90,7 +90,7 @@ public class EvaluadorViajante implements Evaluador{
 		genes[0] = gen;
 		
 		//setear genes (al setear los genes automaticamente se inicializa el cromosoma)
-		cromosoma.setGenes(genes, this);
+		cromosoma.setGenes(genes);
 		
 		return cromosoma;
 	}

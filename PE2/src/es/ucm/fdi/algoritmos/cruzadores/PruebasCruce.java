@@ -25,7 +25,7 @@ public class PruebasCruce {
 		
 		/**************************** CRUCE *********************************/
 		Cruzador cruzador = new CruzadorCodOrdinal();
-		Cromosoma[] hijos = cruzador.cruce(cromosoma, cromosoma2,e);
+		Cromosoma[] hijos = cruzador.cruce(cromosoma, cromosoma2);
 		
 		
 		/**************************** DEPURACION *********************************/

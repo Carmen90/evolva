@@ -10,7 +10,7 @@ import es.ucm.fdi.utils.Ciudades;
 /*IMPLEMENTACION DEL CRUCE POR CICLOS*/
 public class CruzadorCX implements Cruzador {
 
-	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2, Evaluador evaluador) {
+	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
 		
 		//crear cromosoma, crear genes, setear genes, inicializar cromosoma
 
@@ -51,8 +51,8 @@ public class CruzadorCX implements Cruzador {
 		}
 		//se compactan los hijos con la misma configuracion de genes que los padres.
 		//los cromosomas se evaluan en la funcion que setea los genes
-		hijo1.setGenes(genesHijo1, evaluador);
-		hijo2.setGenes(genesHijo2, evaluador);
+		hijo1.setGenes(genesHijo1);
+		hijo2.setGenes(genesHijo2);
 
 		Cromosoma[] hijos = new Cromosoma[2];
 		hijos[0] = hijo1;

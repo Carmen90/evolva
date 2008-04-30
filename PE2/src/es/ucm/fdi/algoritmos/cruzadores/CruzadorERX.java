@@ -14,7 +14,7 @@ public class CruzadorERX implements Cruzador {
 
 	public static final int MAX_ESTANCAMIENTOS = 5;
 	
-	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2, Evaluador evaluador) {
+	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
 		//crear cromosoma, crear genes, setear genes
 
 		int numeroGenes = padre1.getNumeroGenes();
@@ -54,8 +54,8 @@ public class CruzadorERX implements Cruzador {
 			genesHijo2[i] = genHijo2I;
 		}
 		//se compactan los hijos con la misma configuracion de genes que los padres.
-		hijo1.setGenes(genesHijo1, evaluador);
-		hijo2.setGenes(genesHijo2, evaluador);
+		hijo1.setGenes(genesHijo1);
+		hijo2.setGenes(genesHijo2);
 
 		Cromosoma[] hijos = new Cromosoma[2];
 		hijos[0] = hijo1;

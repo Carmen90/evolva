@@ -60,6 +60,12 @@ public class AGeneticoViajante extends AGenetico{
 		double puntAcumulada = 0.0; //puntuacion acumulada
 		double sumaAptitud = 0.0; //suma de la aptitud
 		
+		//evaluamos la aptitud de cada uno de los individuos de la poblacion.
+		for (int i = 0; i< this.tamañoPoblacion; i++){
+			double aptitud = this.evaluador.evaluaAptitud(poblacion[i]);
+			poblacion[i].setAptitud(aptitud);
+		}
+			
 		double aptitudMejor = poblacion[0].getAptitud(); //mejor aptitud
 		this.posicionMejorCromosoma = 0;
 
@@ -191,7 +197,7 @@ public class AGeneticoViajante extends AGenetico{
 	}
 	
 	private Cromosoma[] cruce (Cromosoma padre1, Cromosoma padre2){
-		if (this.cruzador != null) return cruzador.cruce(padre1, padre2, evaluador);
+		if (this.cruzador != null) return cruzador.cruce(padre1, padre2);
 		else return null;
 	}
 

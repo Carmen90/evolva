@@ -39,7 +39,7 @@ public abstract class Cromosoma {
 	//funcion a la que se llamara una vez generados aleatoriamente los genes del cromosoma por las funciones.
 	//seteara los atributos que dependen de los genes en cada cromosoma en particular
 	//como precondicion, se deben haber generado y seteado los genes!!!
-	private void inicializarCromosoma(Evaluador f) {
+	private void inicializarCromosoma() {
 		
 		//comprobacion de la precondicion
 		if (this.genes != null && this.genes.length != 0){
@@ -52,7 +52,8 @@ public abstract class Cromosoma {
 			}
 			this.longitudCromosoma = calcularLongitudCromosoma();
 			fenotipo();
-			this.aptitud = f.evaluaAptitud(this);
+			//la aptitud se generara en el metodo que evalua la poblacion, para despues poder evaluarla
+			this.aptitud = 0.0;
 			
 		}else{
 			System.out.println("[ERROR - Cromosoma]El cromosoma no se inicializo correctamente, debido a que no se configuraron los genes");
@@ -81,9 +82,9 @@ public abstract class Cromosoma {
 	}
 	
 	/* NO SE PUEDE SETEAR LOS GENES SIN INICIALIZAR DESPUES*/
-	public void setGenes(Gen[] genes, Evaluador evaluador) {
+	public void setGenes(Gen[] genes) {
 		this.genes = genes;
-		inicializarCromosoma(evaluador);
+		inicializarCromosoma();
 	}
 	
 	public double getPuntuacion() {

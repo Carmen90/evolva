@@ -8,8 +8,8 @@ import es.ucm.fdi.gui.*;
 public class Controlador {
 
 	//Valores para ejecucion basica
-	public static int POBLACION_DEFECTO = 100;
-	public static int GENERACIONES_DEFECTO = 100;
+	public static int POBLACION_DEFECTO = 5;//100;
+	public static int GENERACIONES_DEFECTO = 5;//100;
 	public static double CRUCE_DEFECTO = 0.6;
 	public static double MUTACION_DEFECTO = 0.1;
 	public static double TOLERANCIA_DEFECTO = 0.0001;
@@ -201,6 +201,8 @@ public class Controlador {
 		
 		Cromosoma[] resultados = new Cromosoma[2];
 		this.elitismo = eli;
+		
+		double mediaPoblacionAnterior = 0.0;
 
 		mejores = new double[numGeneraciones];
 		medias = new double[numGeneraciones];
@@ -211,6 +213,7 @@ public class Controlador {
 		
 		AG.inicializar(e); //crea población inicial de cromosomas
 		AG.evaluarPoblacion();//evalúa los individuos y coge el mejor
+		mediaPoblacionAnterior = AG.mediaPoblacionInstantanea();
 
 		while (!AG.terminado()) {
 
@@ -228,13 +231,27 @@ public class Controlador {
 
 			AG.evaluarPoblacion();
 
-			
-			//despues de evaluar la nueva generacion, recopilamos los datos de dicha generacion.
-			medias[AG.getGeneracionActual()] = AG.mediaPoblacionInstantanea();
-			mejores[AG.getGeneracionActual()] = AG.getElMejor().getAptitud();
-			mejoresParciales[AG.getGeneracionActual()] = AG.mejorPoblacionInstantanea().getAptitud();
-
-			AG.setGeneracionActual(AG.getGeneracionActual()+1);
+			double mediaPoblacionActual = AG.mediaPoblacionInstantanea();
+			if (contractividad){
+				//si la media de aptitudes supera la media de la poblacion anterior, entonces continuamos
+				//== PARA PREVENIR NO TERMINACION EN CASO DE ESTANCAMIENTO
+				if (e.esMejorAptitud(mediaPoblacionActual, mediaPoblacionAnterior) ||
+						mediaPoblacionActual == mediaPoblacionAnterior){ 
+					//despues de evaluar la nueva generacion, recopilamos los datos de dicha generacion.
+					medias[AG.getGeneracionActual()] = mediaPoblacionActual;
+					mejores[AG.getGeneracionActual()] = AG.getElMejor().getAptitud();
+					mejoresParciales[AG.getGeneracionActual()] = AG.mejorPoblacionInstantanea().getAptitud();
+					mediaPoblacionAnterior = mediaPoblacionActual;
+					
+					AG.setGeneracionActual(AG.getGeneracionActual()+1);
+				}
+			}else{
+				medias[AG.getGeneracionActual()] = mediaPoblacionActual;
+				mejores[AG.getGeneracionActual()] = AG.getElMejor().getAptitud();
+				mejoresParciales[AG.getGeneracionActual()] = AG.mejorPoblacionInstantanea().getAptitud();
+				mediaPoblacionAnterior = mediaPoblacionActual;
+				AG.setGeneracionActual(AG.getGeneracionActual()+1);
+			}
 		}
 		//el mejor global
 		resultados[0] = AG.getElMejor();
