@@ -51,12 +51,14 @@ public class Controlador {
 
 
 	public void ejecucionSencilla(int numGeneraciones, int tamPoblacion, double probCruce, 
-			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion){
+			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
+			 boolean contractividad){
 		
 		Evaluador e = new EvaluadorViajante();
 		
 		Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
-				probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
+				probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
+				contractividad);
 		
 
 		//tenemos varias graficas, todas deben conocer al controlador para solicitar datos del ultimo modelo 
@@ -69,7 +71,8 @@ public class Controlador {
 	public void ejecucionMultiple(int parametro, double inicio, double fin, double incremento, 
 								  int numGeneraciones, int tamPoblacion, double probCruce, 
 								  double probMutacion, boolean eli, double porcentajeElite,
-								  int tipoMutacion, int tipoCruce, int tipoSeleccion){
+								  int tipoMutacion, int tipoCruce, int tipoSeleccion,
+								  boolean contractividad){
 		
 		Evaluador e = new EvaluadorViajante();
 		
@@ -87,7 +90,8 @@ public class Controlador {
 			int numIt = 0;
 			for (int i = (int)inicio; i < (int)fin; i += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, i, probCruce, 
-						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
+						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
+						contractividad);
 				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -105,7 +109,8 @@ public class Controlador {
 			int numIt = 0;
 			for (int i = (int)inicio; i < (int)fin; i += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, i, tamPoblacion, probCruce, 
-						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
+						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
+						contractividad);
 				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -123,7 +128,8 @@ public class Controlador {
 			int numIt = 0;
 			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, d, 
-						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
+						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
+						contractividad);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -141,7 +147,8 @@ public class Controlador {
 			int numIt = 0;
 			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
-						d, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
+						d, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
+						contractividad);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -159,7 +166,8 @@ public class Controlador {
 			int numIt = 0;
 			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
-						probMutacion, eli, d, tipoMutacion, tipoCruce, tipoSeleccion);
+						probMutacion, eli, d, tipoMutacion, tipoCruce, tipoSeleccion,
+						contractividad);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -188,7 +196,8 @@ public class Controlador {
 	 * 		Cromosoma[1] -> El mejor en la ultima iteracion (Aptitud)
 	 */
 	private Cromosoma[] algoritmoGenetico(Evaluador e, int numGeneraciones, int tamPoblacion, double probCruce, 
-			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion){
+			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
+			boolean contractividad){
 		
 		Cromosoma[] resultados = new Cromosoma[2];
 		this.elitismo = eli;
@@ -219,6 +228,7 @@ public class Controlador {
 
 			AG.evaluarPoblacion();
 
+			
 			//despues de evaluar la nueva generacion, recopilamos los datos de dicha generacion.
 			medias[AG.getGeneracionActual()] = AG.mediaPoblacionInstantanea();
 			mejores[AG.getGeneracionActual()] = AG.getElMejor().getAptitud();

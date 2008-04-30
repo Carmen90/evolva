@@ -356,8 +356,10 @@ public class Gui extends JFrame{
 			int tipoMutacion = comboMutacion.getSelectedIndex();
 			int tipoCruce = comboCruce.getSelectedIndex();
 			int tipoSeleccion = comboSeleccion.getSelectedIndex();
+			boolean contractividad = checkContractividad.isSelected();
 			controlador.ejecucionSencilla (numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo,
-										porcentajeElitismo, tipoMutacion, tipoCruce,tipoSeleccion);
+										porcentajeElitismo, tipoMutacion, tipoCruce,tipoSeleccion,
+										contractividad);
 			
 		}catch(NumberFormatException exception){
 			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
@@ -380,8 +382,10 @@ public class Gui extends JFrame{
 			int tipoMutacion = comboMutacion.getSelectedIndex();
 			int tipoCruce = comboCruce.getSelectedIndex();
 			int tipoSeleccion = comboSeleccion.getSelectedIndex();
+			boolean contractividad = checkContractividad.isSelected();
 			controlador.ejecucionMultiple(parametro,inicio,fin,incremento, numGeneraciones, tamPoblacion, probCruce, 
-					probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
+					probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
+					contractividad);
 		}catch(NumberFormatException exception){
 			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
 		}
