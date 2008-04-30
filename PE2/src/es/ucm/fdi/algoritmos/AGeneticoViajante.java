@@ -232,6 +232,13 @@ public class AGeneticoViajante extends AGenetico{
 	}
 
 	private void ordenarPoblacion(){
+		//tras el cruce y la mutacion, los individuos de la poblacion nueva todavia no tienen calculada su aptitud, y esto se hara mas adelante
+		//despues de recuperar la elite. Para recuperar la elite sustituyendo a los peores individuos, necesitamos saber las aptitudes
+		//antes de evaluar los individuos, con lo cual, si hay elitismo, calculamos las aptitudes de los individuos.
+		for (int i = 0; i< poblacion.length; i++){
+			poblacion[i].setAptitud(evaluador.evaluaAptitud(poblacion[i]));
+		}
+		
 		//para ordenar la poblacion, la recorremos entera, y vamos insertando ordenadamente 
 		//en funcion del criterio de la funcion, los individuos en un array auxiliar.
 		//despues, seteamos la poblacion ordenada...
