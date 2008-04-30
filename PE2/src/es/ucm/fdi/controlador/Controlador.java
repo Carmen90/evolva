@@ -8,8 +8,8 @@ import es.ucm.fdi.gui.*;
 public class Controlador {
 
 	//Valores para ejecucion basica
-	public static int POBLACION_DEFECTO = 5;//100;
-	public static int GENERACIONES_DEFECTO = 5;//100;
+	public static int POBLACION_DEFECTO = 100;
+	public static int GENERACIONES_DEFECTO = 100;
 	public static double CRUCE_DEFECTO = 0.6;
 	public static double MUTACION_DEFECTO = 0.1;
 	public static double TOLERANCIA_DEFECTO = 0.0001;
@@ -73,7 +73,7 @@ public class Controlador {
 		
 		Evaluador e = new EvaluadorViajante();
 		
-		int numIteraciones = (int)((fin - inicio) / incremento);
+		int numIteraciones = (int)Math.round((fin - inicio) / incremento);
 		double[] iteraciones = new double[numIteraciones];
 		double[] mejoresGlobales = new double[numIteraciones];
 		double[] ultimosMejores = new double[numIteraciones];
@@ -85,7 +85,7 @@ public class Controlador {
 		case Gui.tamañoPoblacion:{
 			parametroS = "tamaño de la población";
 			int numIt = 0;
-			for (int i = (int)inicio; i < (int)fin; i++){
+			for (int i = (int)inicio; i < (int)fin; i += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, i, probCruce, 
 						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
 				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
@@ -103,7 +103,7 @@ public class Controlador {
 		case Gui.numGeneraciones:{
 			parametroS = "número de generaciones";
 			int numIt = 0;
-			for (int i = (int)inicio; i < (int)fin; i++){
+			for (int i = (int)inicio; i < (int)fin; i += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, i, tamPoblacion, probCruce, 
 						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
 				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
@@ -121,7 +121,7 @@ public class Controlador {
 		case Gui.probCruce:{
 			parametroS = "probabilidad de cruce";
 			int numIt = 0;
-			for (double d = inicio; d < fin; d++){
+			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, d, 
 						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
@@ -139,7 +139,7 @@ public class Controlador {
 		case Gui.probMutacion:{
 			parametroS = "probabilidad de mutación";
 			int numIt = 0;
-			for (double d = inicio; d < fin; d++){
+			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 						d, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
@@ -157,7 +157,7 @@ public class Controlador {
 		case Gui.elitismo:{
 			parametroS = "elitismo";
 			int numIt = 0;
-			for (double d = inicio; d < fin; d++){
+			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 						probMutacion, eli, d, tipoMutacion, tipoCruce, tipoSeleccion);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
