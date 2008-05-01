@@ -4,10 +4,11 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.genes.Gen;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.MyRandom;
+import es.ucm.fdi.utils.Singleton;
 
 public class MutadorInsercion implements Mutador {
 
-	public static int NUMERO_INSERCIONES = 1;
+	public static int NUMERO_INSERCIONES = Singleton.getInstance().getNumInserciones();
 
 	public Cromosoma[] mutacion(Cromosoma[] poblacion, double probabilidadMutacion) {
 

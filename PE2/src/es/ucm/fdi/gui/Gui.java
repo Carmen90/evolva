@@ -21,9 +21,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.swing.plaf.basic.ComboPopup;
 
 import es.ucm.fdi.controlador.Controlador;
+import es.ucm.fdi.utils.Singleton;
 
 public class Gui extends JFrame{
 
@@ -36,6 +36,9 @@ public class Gui extends JFrame{
 
 	private Controlador controlador;
 	private int parametroActivo;
+	
+	//FRAMES
+	JFrame ventanaModificacionConstantes;
 	
 	//PANELES
 	private JPanel panelPrincipal;
@@ -52,6 +55,11 @@ public class Gui extends JFrame{
 	private JPanel panelDiversidadEjecucionMultiple;
 	private JPanel panelContenedorBasico;
 	private JPanel panelPresionEscalado;
+	private JPanel panelConstantes;
+	private JPanel panelContenedorConstantes;
+	private JPanel panelIntercambios;
+	private JPanel panelInserciones;
+	private JPanel panelContrincantes;
 	
 	//ETIQUETAS
 	private JLabel labelNumGeneraciones;
@@ -65,6 +73,9 @@ public class Gui extends JFrame{
 	private JLabel labelInicial;
 	private JLabel labelFinal;
 	private JLabel labelIncremento;
+	private JLabel labelIntercambios;
+	private JLabel labelInserciones;
+	private JLabel labelContrincantes;
 	
 	//COMBOS
 	private JComboBox comboSeleccion;
@@ -88,14 +99,19 @@ public class Gui extends JFrame{
 	private JTextField textoInicial;
 	private JTextField textoFinal;
 	private JTextField textoIncremento;
+	private JTextField textoIntercambios;
+	private JTextField textoInserciones;
+	private JTextField textoContrincantes;
 	
 	//BOTONES
 	private JButton botonEmpezar;
 	private JButton botonEjecucionMultiple;
+	private JButton botonConstantes;
 	
 	//BARRA DE MENU
 	private JMenuBar barraMenu;
 	private JMenu menu;
+	private JMenuItem cambiarConstantes;
 	private JMenuItem itemValoresDefecto;
 	private JMenuItem itemSalir;
 	
@@ -117,6 +133,11 @@ public class Gui extends JFrame{
 		panelContenedorBasico = new JPanel(new BorderLayout());
 		panelPresionEscalado = new JPanel(new GridLayout(1,2));
 		panelElitismo = new JPanel(new GridLayout(1,2));
+		panelConstantes = new JPanel(new BorderLayout());
+		panelContenedorConstantes = new JPanel(new GridLayout(3,1));
+		panelIntercambios = new JPanel(new GridLayout(1,2));
+		panelInserciones = new JPanel(new GridLayout(1,2));
+		panelContrincantes = new JPanel(new GridLayout(1,2));
 		
 		//Creamos las etiquetas
 		labelNumGeneraciones = new JLabel("Número generaciones");
@@ -130,6 +151,9 @@ public class Gui extends JFrame{
 		labelInicial = new JLabel("Inicial");
 		labelFinal = new JLabel("Final  ",JLabel.RIGHT);
 		labelIncremento = new JLabel("Incremento");
+		labelIntercambios = new JLabel("Número intercambios");
+		labelInserciones = new JLabel("Número inserciones");
+		labelContrincantes = new JLabel("Número contrincantes");
 		
 		//Creamos los combobox
 		comboSeleccion = new JComboBox();
@@ -165,6 +189,9 @@ public class Gui extends JFrame{
 		botonEmpezar = new JButton("Ejecutar");
 		botonEjecucionMultiple = new JButton("Ejecución múltiple");
 		botonEjecucionMultiple.setEnabled(false);
+		botonConstantes = new JButton("Aceptar");
+		OyenteBotonModificarConstantes oyenteBotonAceptarCambios = new OyenteBotonModificarConstantes();
+		botonConstantes.addActionListener(oyenteBotonAceptarCambios);
 		
 		
 		//Para ejecutar el algoritmo correspondiente en cuanto se presione intro
@@ -194,10 +221,16 @@ public class Gui extends JFrame{
 		textoFinal.setEnabled(false);
 		textoIncremento = new JTextField(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[2]));
 		textoIncremento.setEnabled(false);
+		textoIntercambios = new JTextField(String.valueOf(Singleton.getInstance().getNumIntercambios()));
+		textoInserciones = new JTextField(String.valueOf(Singleton.getInstance().getNumInserciones()));
+		textoContrincantes = new JTextField(String.valueOf(Singleton.getInstance().getNumContrincantes()));
 		
 		//Creamos la barra de menus
 		barraMenu = new JMenuBar();
 		menu = new JMenu();
+		cambiarConstantes = new JMenuItem("Cambiar constantes");
+		OyenteModificarConstantes modificarCons = new OyenteModificarConstantes();
+		cambiarConstantes.addActionListener(modificarCons);
 		itemValoresDefecto = new JMenuItem("Valores por defecto");
 		OyenteValoresPorDefecto valoresDefecto = new OyenteValoresPorDefecto();
 		itemValoresDefecto.addActionListener(valoresDefecto);
@@ -292,7 +325,24 @@ public class Gui extends JFrame{
 		panelPrincipal.add(panelContenedorBasico);
 		panelPrincipal.add(panelMejoras);
 		
+		//Datos del panel de modificacion de constantes
+		panelIntercambios.add(labelIntercambios);
+		panelIntercambios.add(textoIntercambios);
+		
+		panelInserciones.add(labelInserciones);
+		panelInserciones.add(textoInserciones);
+		
+		panelContrincantes.add(labelContrincantes);
+		panelContrincantes.add(textoContrincantes);
+		
+		panelContenedorConstantes.add(panelIntercambios);
+		panelContenedorConstantes.add(panelInserciones);
+		panelContenedorConstantes.add(panelContrincantes);
+		panelConstantes.add(panelContenedorConstantes,BorderLayout.CENTER);
+		panelConstantes.add(botonConstantes,BorderLayout.SOUTH);
+		
 		menu.setText("Archivo");
+		menu.add(cambiarConstantes);
 		menu.add(itemValoresDefecto);
 		menu.add(itemSalir);
 		barraMenu.add(menu);
@@ -681,6 +731,36 @@ public class Gui extends JFrame{
 			}
 			else checkPresionSelectiva.setEnabled(false);
 		}	
+		
+	}
+	
+	class OyenteModificarConstantes implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			ventanaModificacionConstantes = new JFrame();
+			ventanaModificacionConstantes.setContentPane(panelConstantes);
+			ventanaModificacionConstantes.setTitle("Modificar constantes");
+			ventanaModificacionConstantes.setSize(300, 150);
+			ventanaModificacionConstantes.setVisible(true);			
+		}
+		
+	}
+	
+	class OyenteBotonModificarConstantes implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			int numIntercambios = Integer.parseInt(textoIntercambios.getText());
+			int numInserciones = Integer.parseInt(textoInserciones.getText());
+			int numContrincantes = Integer.parseInt(textoContrincantes.getText());
+			
+			Singleton.getInstance().setNumIntercambios(numIntercambios);
+			Singleton.getInstance().setNumInserciones(numInserciones);
+			Singleton.getInstance().setNumContrincantes(numContrincantes);
+			
+			//Cerramos la ventana
+			ventanaModificacionConstantes.dispose();
+			
+		}
 		
 	}
 	

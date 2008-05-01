@@ -6,13 +6,17 @@ import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.genes.Gen;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.Busquedas;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.MyRandom;
 import es.ucm.fdi.utils.Ordenacion;
+import es.ucm.fdi.utils.Singleton;
 
 public class CruzadorOXOrdenPrioritario implements Cruzador {
 
-	private static final int numPosicionesIntercambio = 10;
+	private static final int NUMERO_POSICIONES_INTERCAMBIO = Singleton.getInstance().getNumIntercambios();
+	
 	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
+		
 		
 		int numeroGenes = padre1.getNumeroGenes();
 		//creamos los cromosomas hijos
@@ -41,18 +45,18 @@ public class CruzadorOXOrdenPrioritario implements Cruzador {
 			int[] codificacionHijo1I = new int[longitudGen];
 			int[] codificacionHijo2I = new int[longitudGen];
 			
-			int[] ciudadesEnPosicionesElegidasP1 = new int[numPosicionesIntercambio]; //Guardamos las ciudades del padre1 que estan en las posiciones escogidas
-			int[] ciudadesEnPosicionesElegidasP2 = new int[numPosicionesIntercambio]; //Guardamos las ciudades del padre2 que estan en las posiciones escogidas
+			int[] ciudadesEnPosicionesElegidasP1 = new int[NUMERO_POSICIONES_INTERCAMBIO]; //Guardamos las ciudades del padre1 que estan en las posiciones escogidas
+			int[] ciudadesEnPosicionesElegidasP2 = new int[NUMERO_POSICIONES_INTERCAMBIO]; //Guardamos las ciudades del padre2 que estan en las posiciones escogidas
 			boolean[] posicionesEscogidas = new boolean[longitudGen];//De esta forma sabemos que posiciones han salido y cuales no
 			
 			//Guardamos las posiciones elegidas
-			int[] posicionesElegidas = new int[numPosicionesIntercambio];
+			int[] posicionesElegidas = new int[NUMERO_POSICIONES_INTERCAMBIO];
 
 			posicionesEscogidas[0] = true; //Madrid no se puede modificar. Es la primera ciudad
 			
 			//Generamos numPosicionesIntercambio posiciones aleatorias
 			int posicion = 0;
-			for(int j=0;j<numPosicionesIntercambio;j++){
+			for(int j=0;j<NUMERO_POSICIONES_INTERCAMBIO;j++){
 				posicion = MyRandom.aleatorioEntero(0, longitudGen);
 				while(posicionesEscogidas[posicion])
 					posicion = MyRandom.aleatorioEntero(0, longitudGen);
@@ -64,16 +68,16 @@ public class CruzadorOXOrdenPrioritario implements Cruzador {
 			//indeterminadas las ciudades seleccionadas al principioconservando su orden relativo
 			Ordenacion.ordenacionInsercion(posicionesElegidas);
 			
-			for(int j=0; j<numPosicionesIntercambio;j++){
+			for(int j=0; j<NUMERO_POSICIONES_INTERCAMBIO;j++){
 				int pos = posicionesElegidas[j];
 				ciudadesEnPosicionesElegidasP1[j] = codificacionGenPadre1I[pos];
 				ciudadesEnPosicionesElegidasP2[j] = codificacionGenPadre2I[pos];
 			}
 			
 			//Tenemos que ver las ciudades del padre1 seleccionadas en que posicion del padre2 aparecen y viceversa
-			int[] posicionCiudadesPadre1EnPadre2 = new int[numPosicionesIntercambio];
-			int[] posicionCiudadesPadre2EnPadre1 = new int[numPosicionesIntercambio];
-			for(int j=0;j<numPosicionesIntercambio;j++){
+			int[] posicionCiudadesPadre1EnPadre2 = new int[NUMERO_POSICIONES_INTERCAMBIO];
+			int[] posicionCiudadesPadre2EnPadre1 = new int[NUMERO_POSICIONES_INTERCAMBIO];
+			for(int j=0;j<NUMERO_POSICIONES_INTERCAMBIO;j++){
 				int ciudadP1 = ciudadesEnPosicionesElegidasP1[j];
 				posicionCiudadesPadre1EnPadre2[j] = Busquedas.buscar(ciudadP1, codificacionGenPadre2I);
 				int ciudadP2 = ciudadesEnPosicionesElegidasP2[j];
