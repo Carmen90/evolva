@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import es.ucm.fdi.controlador.Controlador;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.Singleton;
 
 public class Gui extends JFrame{
@@ -712,6 +713,7 @@ public class Gui extends JFrame{
 			textoProbMutacion.setText(String.valueOf(Controlador.MUTACION_DEFECTO));
 			textoElitismo.setText(String.valueOf(Controlador.ELITISMO_DEFECTO));
 			cargarValores(parametroActivo);
+			resetarConstantes();
 			
 		}
 		
@@ -804,6 +806,25 @@ public class Gui extends JFrame{
 		ventanaModificacionConstantes.dispose();
 	}
 	
+	private void resetarConstantes() {
+		int numIntercambios = ConstantesAlgoritmos.NUMERO_INTERCAMBIOS;
+		int numInserciones = ConstantesAlgoritmos.NUMERO_INSERCIONES;
+		int numContrincantes = ConstantesAlgoritmos.NUMERO_CONTRINCANTES;
+		
+		Singleton.getInstance().setNumIntercambios(numIntercambios);
+		Singleton.getInstance().setNumInserciones(numInserciones);
+		Singleton.getInstance().setNumContrincantes(numContrincantes);
+				
+		numIntercambios = Singleton.getInstance().getNumIntercambios();
+		numInserciones = Singleton.getInstance().getNumInserciones();
+		numContrincantes = Singleton.getInstance().getNumContrincantes();
+		
+		textoIntercambios.setText(String.valueOf(numIntercambios));
+		textoInserciones.setText(String.valueOf(numInserciones));
+		textoContrincantes.setText(String.valueOf(numContrincantes));
+		
+	}
+
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
