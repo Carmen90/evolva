@@ -357,6 +357,7 @@ public class Gui extends JFrame{
 			int tipoCruce = comboCruce.getSelectedIndex();
 			int tipoSeleccion = comboSeleccion.getSelectedIndex();
 			boolean contractividad = checkContractividad.isSelected();
+			//boolean presionSelectiva = checkPresionSelectiva.isSelected();
 			controlador.ejecucionSencilla (numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo,
 										porcentajeElitismo, tipoMutacion, tipoCruce,tipoSeleccion,
 										contractividad);

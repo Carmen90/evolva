@@ -9,6 +9,7 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.utils.Ordenacion;
+import es.ucm.fdi.utils.Poblacion;
 
 public class AGeneticoViajante extends AGenetico{
 	
@@ -217,7 +218,16 @@ public class AGeneticoViajante extends AGenetico{
 		default:  this.seleccionador = new SeleccionRuleta();
 		}
 	}
-	
+
+	public double mediaPoblacionInstantanea() {
+		return Poblacion.mediaPoblacionInstantanea(poblacion);
+	}
+
+	public Cromosoma mejorPoblacionInstantanea() {
+		return Poblacion.mejorPoblacionInstantanea(poblacion, evaluador);
+	}
+
+	/*
 	public double mediaPoblacionInstantanea(){
 		double totalAptitudes = 0.0;
 		for (int i = 0; i < this.tamañoPoblacion; i++){
@@ -238,5 +248,6 @@ public class AGeneticoViajante extends AGenetico{
 		}
 		return poblacion[posicionMejorAptitud];
 	}
+	*/
 
 }

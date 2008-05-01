@@ -2,9 +2,11 @@ package es.ucm.fdi.algoritmos.seleccionadores;
 
 import java.util.Vector;
 
+import es.ucm.fdi.algoritmos.AGeneticoViajante;
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.utils.Ordenacion;
+import es.ucm.fdi.utils.Poblacion;
 
 public class SeleccionRanking implements Seleccionador {
 
@@ -46,6 +48,19 @@ public class SeleccionRanking implements Seleccionador {
 
 	public Cromosoma[] generarSegmentos(Cromosoma[] poblacion, Evaluador evaluador, boolean mejora) {
 		int tamañoPoblacion = poblacion.length;
+		double presionSelectiva;
+		
+		//Si se le pasa true en mejora tenemos que hayar la presion selectiva (BETA) con la poblacion pasada por argumento
+		if(mejora){
+			double AptMax = Poblacion.mejorPoblacionInstantanea(poblacion, evaluador).getAptitud();
+			double AptMed = Poblacion.mediaPoblacionInstantanea(poblacion);
+			presionSelectiva = AptMax/AptMed;
+			
+			//La presion selectiva debe estar entre 1 y 2 por tanto, si supera 2 le asignamos directamente 2.
+			if(presionSelectiva > 2)
+				presionSelectiva = 2;
+		}
+		else presionSelectiva = BETA;
 		
 		poblacion = Ordenacion.sortSelectionIndividuals(poblacion, evaluador);
 		
@@ -54,8 +69,8 @@ public class SeleccionRanking implements Seleccionador {
 		for(int i=0 ; i < tamañoPoblacion ; i++){
 			
 			double probOfIth = (double)i/tamañoPoblacion;
-			probOfIth = probOfIth*2*(BETA -1);
-			probOfIth = BETA - probOfIth;
+			probOfIth = probOfIth*2*(presionSelectiva -1);
+			probOfIth = presionSelectiva - probOfIth;
 			probOfIth = (double)probOfIth*((double)1/tamañoPoblacion);
 			
 			poblacion[i].setPuntuacion(probOfIth);
