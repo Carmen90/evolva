@@ -108,8 +108,8 @@ public class Grafica2D extends JFrame{
 		panelContenido.add(panelilloLabels,BorderLayout.SOUTH);
 		
 		// put the PlotPanel in a JFrame like a JPanel
-		String titulo = "Grafico de resultados... Funcion "+controlador.getNumeroFuncion();
-		if (controlador.getElitismo()) titulo += " con "; else titulo+= " sin ";
+		String titulo = "Grafico de resultados ejecución básica ";
+		if (controlador.getElitismo()) titulo += "con "; else titulo+= "sin ";
 		titulo+="elitismo";
 		this.setTitle(titulo);
 		this.setSize(600, 600);
