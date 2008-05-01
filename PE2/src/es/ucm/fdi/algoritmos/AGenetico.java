@@ -43,7 +43,7 @@ public abstract class AGenetico {
 	protected abstract void seleccion();
 	protected abstract void reproduccion();
 	protected abstract void mutacion();
-	protected abstract void evaluarPoblacion();
+	protected abstract void evaluarPoblacion(boolean mejora);
 	
 	protected abstract double mediaPoblacionInstantanea();
 	protected abstract Cromosoma mejorPoblacionInstantanea();

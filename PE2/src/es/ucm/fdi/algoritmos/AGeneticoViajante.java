@@ -58,7 +58,7 @@ public class AGeneticoViajante extends AGenetico{
 	}
 
 	//TODO INCLUIR MEJORAS DE DESPLAZAMIENTO Y ESCALADO DE APTITUD
-	public void evaluarPoblacion() {
+	public void evaluarPoblacion(boolean mejora) {
 			
 		//evaluamos la aptitud de cada uno de los individuos de la poblacion.
 		for (int i = 0; i< this.tamañoPoblacion; i++){
@@ -87,7 +87,7 @@ public class AGeneticoViajante extends AGenetico{
 			elMejor = poblacion[posicionMejorCromosoma];
 		}
 
-		poblacion = this.seleccionador.generarSegmentos(poblacion, evaluador, false);
+		poblacion = this.seleccionador.generarSegmentos(poblacion, evaluador, mejora);
 		
 	}
 

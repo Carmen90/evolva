@@ -357,10 +357,11 @@ public class Gui extends JFrame{
 			int tipoCruce = comboCruce.getSelectedIndex();
 			int tipoSeleccion = comboSeleccion.getSelectedIndex();
 			boolean contractividad = checkContractividad.isSelected();
-			//boolean presionSelectiva = checkPresionSelectiva.isSelected();
+			boolean presionSelectiva = checkPresionSelectiva.isSelected();
+			boolean escalado = checkEscalado.isSelected();
 			controlador.ejecucionSencilla (numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo,
 										porcentajeElitismo, tipoMutacion, tipoCruce,tipoSeleccion,
-										contractividad);
+										contractividad, presionSelectiva, escalado);
 			
 		}catch(NumberFormatException exception){
 			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
@@ -384,9 +385,11 @@ public class Gui extends JFrame{
 			int tipoCruce = comboCruce.getSelectedIndex();
 			int tipoSeleccion = comboSeleccion.getSelectedIndex();
 			boolean contractividad = checkContractividad.isSelected();
+			boolean presionSelectiva = checkPresionSelectiva.isSelected();
+			boolean escalado = checkEscalado.isSelected();
 			controlador.ejecucionMultiple(parametro,inicio,fin,incremento, numGeneraciones, tamPoblacion, probCruce, 
 					probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-					contractividad);
+					contractividad, presionSelectiva, escalado);
 		}catch(NumberFormatException exception){
 			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
 		}
@@ -599,11 +602,11 @@ public class Gui extends JFrame{
 				
 				if(!checkEjecucionMultiple.isSelected()){
 					System.out.println("Ejecucion basica");
-					//TODO ejecutarAlgoritmo();
+					ejecutarAlgoritmo();
 				}
 				else{
 					System.out.println("Ejecucion multiple");
-					//TODO Ejecucion multiple
+					ejecutarAlgoritmoMultiple();
 				}
 			}
 		}
@@ -620,7 +623,7 @@ public class Gui extends JFrame{
 
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == 10){
-				//TODO Algoritmo con ejecucion multiple
+				ejecutarAlgoritmoMultiple();
 				System.out.println("Ejecucion multiple");
 			}
 		}
@@ -666,12 +669,16 @@ public class Gui extends JFrame{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			if(comboSeleccion.getSelectedIndex() == 0)  //Ruleta = 0
+			if(comboSeleccion.getSelectedIndex() == 0){  //Ruleta = 0
 				checkEscalado.setEnabled(true);
+				checkPresionSelectiva.setSelected(false);
+			}
 			else checkEscalado.setEnabled(false);
 			
-			if(comboSeleccion.getSelectedIndex() == 1)  //Ranking = 1
+			if(comboSeleccion.getSelectedIndex() == 1){  //Ranking = 1
 				checkPresionSelectiva.setEnabled(true);
+				checkEscalado.setSelected(false);
+			}
 			else checkPresionSelectiva.setEnabled(false);
 		}	
 		

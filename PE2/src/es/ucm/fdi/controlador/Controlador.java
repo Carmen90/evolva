@@ -52,13 +52,13 @@ public class Controlador {
 
 	public void ejecucionSencilla(int numGeneraciones, int tamPoblacion, double probCruce, 
 			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
-			 boolean contractividad){
+			 boolean contractividad, boolean presionSelectiva, boolean escalado){
 		
 		Evaluador e = new EvaluadorViajante();
 		
 		Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 				probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-				contractividad);
+				contractividad, presionSelectiva, escalado);
 		
 
 		//tenemos varias graficas, todas deben conocer al controlador para solicitar datos del ultimo modelo 
@@ -72,7 +72,7 @@ public class Controlador {
 								  int numGeneraciones, int tamPoblacion, double probCruce, 
 								  double probMutacion, boolean eli, double porcentajeElite,
 								  int tipoMutacion, int tipoCruce, int tipoSeleccion,
-								  boolean contractividad){
+								  boolean contractividad, boolean presionSelectiva, boolean escalado){
 		
 		Evaluador e = new EvaluadorViajante();
 		
@@ -91,7 +91,7 @@ public class Controlador {
 			for (int i = (int)inicio; i < (int)fin; i += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, i, probCruce, 
 						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad);
+						contractividad, presionSelectiva, escalado);
 				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -110,7 +110,7 @@ public class Controlador {
 			for (int i = (int)inicio; i < (int)fin; i += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, i, tamPoblacion, probCruce, 
 						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad);
+						contractividad, presionSelectiva, escalado);
 				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -129,7 +129,7 @@ public class Controlador {
 			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, d, 
 						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad);
+						contractividad, presionSelectiva, escalado);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -148,7 +148,7 @@ public class Controlador {
 			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 						d, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad);
+						contractividad, presionSelectiva, escalado);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -167,7 +167,7 @@ public class Controlador {
 			for (double d = inicio; d < fin; d += incremento){
 				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 						probMutacion, eli, d, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad);
+						contractividad, presionSelectiva, escalado);
 				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
 				else{
 					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
@@ -197,7 +197,10 @@ public class Controlador {
 	 */
 	private Cromosoma[] algoritmoGenetico(Evaluador e, int numGeneraciones, int tamPoblacion, double probCruce, 
 			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
-			boolean contractividad){
+			boolean contractividad, boolean presionSelectiva, boolean escalado){
+		
+		//Esta es la mejora que le pasamos si es seleccion por ranking o ruleta para que evalue la poblacion 
+		boolean mejora = presionSelectiva || escalado;
 		
 		Cromosoma[] resultados = new Cromosoma[2];
 		this.elitismo = eli;
@@ -212,7 +215,7 @@ public class Controlador {
 				probCruce,probMutacion,tipoMutacion,tipoCruce,tipoSeleccion);
 		
 		AG.inicializar(e); //crea población inicial de cromosomas
-		AG.evaluarPoblacion();//evalúa los individuos y coge el mejor
+		AG.evaluarPoblacion(mejora);//evalúa los individuos y coge el mejor
 		mediaPoblacionAnterior = AG.mediaPoblacionInstantanea();
 
 		while (!AG.terminado()) {
@@ -229,7 +232,7 @@ public class Controlador {
 			//sustituyendo los peores individuos generados en el proceso.
 			if (elitismo) AG.recuperarElite();
 
-			AG.evaluarPoblacion();
+			AG.evaluarPoblacion(mejora);
 
 			double mediaPoblacionActual = AG.mediaPoblacionInstantanea();
 			if (contractividad){
