@@ -247,6 +247,12 @@ public class Gui extends JFrame{
 		textoProbMutacion.addKeyListener(tecladoBasico);
 		textoElitismo.addKeyListener(tecladoBasico);
 		
+		//Añdimos el oyente de la tecla a los elementos para cambiar las constantes de los algoritmos
+		OyenteTeclaModificarConstantes oyenteTeclaConstantes = new OyenteTeclaModificarConstantes();
+		textoIntercambios.addKeyListener(oyenteTeclaConstantes);
+		textoInserciones.addKeyListener(oyenteTeclaConstantes);
+		textoContrincantes.addKeyListener(oyenteTeclaConstantes);		
+		
 		//Añadimos el oyente de la tecla a los elementos para la ejcucion multiple
 		textoInicial.addKeyListener(tecladoMultiple);
 		textoFinal.addKeyListener(tecladoMultiple);
@@ -326,12 +332,25 @@ public class Gui extends JFrame{
 		panelPrincipal.add(panelMejoras);
 		
 		//Datos del panel de modificacion de constantes
+		//bordes
+		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
+		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Cruce OX orden prioritario");
+		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
+		panelIntercambios.setBorder(compoundBorder);
 		panelIntercambios.add(labelIntercambios);
 		panelIntercambios.add(textoIntercambios);
 		
+		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
+		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Mutación por inserción");
+		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
+		panelInserciones.setBorder(compoundBorder);
 		panelInserciones.add(labelInserciones);
 		panelInserciones.add(textoInserciones);
 		
+		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
+		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Seleccion por Torneo");
+		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
+		panelContrincantes.setBorder(compoundBorder);
 		panelContrincantes.add(labelContrincantes);
 		panelContrincantes.add(textoContrincantes);
 		
@@ -740,7 +759,7 @@ public class Gui extends JFrame{
 			ventanaModificacionConstantes = new JFrame();
 			ventanaModificacionConstantes.setContentPane(panelConstantes);
 			ventanaModificacionConstantes.setTitle("Modificar constantes");
-			ventanaModificacionConstantes.setSize(300, 150);
+			ventanaModificacionConstantes.setSize(300, 210);
 			ventanaModificacionConstantes.setVisible(true);			
 		}
 		
@@ -749,19 +768,40 @@ public class Gui extends JFrame{
 	class OyenteBotonModificarConstantes implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			int numIntercambios = Integer.parseInt(textoIntercambios.getText());
-			int numInserciones = Integer.parseInt(textoInserciones.getText());
-			int numContrincantes = Integer.parseInt(textoContrincantes.getText());
-			
-			Singleton.getInstance().setNumIntercambios(numIntercambios);
-			Singleton.getInstance().setNumInserciones(numInserciones);
-			Singleton.getInstance().setNumContrincantes(numContrincantes);
-			
-			//Cerramos la ventana
-			ventanaModificacionConstantes.dispose();
+			modificarConstantesAlgoritmos();			
+		}
+		
+	}
+	
+	class OyenteTeclaModificarConstantes implements KeyListener{
+
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == 10){
+				modificarConstantesAlgoritmos();
+			}
+		}
+
+		public void keyReleased(KeyEvent e) {
+		
+		}
+
+		public void keyTyped(KeyEvent e) {
 			
 		}
 		
+	}
+	
+	private void modificarConstantesAlgoritmos(){
+		int numIntercambios = Integer.parseInt(textoIntercambios.getText());
+		int numInserciones = Integer.parseInt(textoInserciones.getText());
+		int numContrincantes = Integer.parseInt(textoContrincantes.getText());
+		
+		Singleton.getInstance().setNumIntercambios(numIntercambios);
+		Singleton.getInstance().setNumInserciones(numInserciones);
+		Singleton.getInstance().setNumContrincantes(numContrincantes);
+		
+		//Cerramos la ventana
+		ventanaModificacionConstantes.dispose();
 	}
 	
 	public void setControlador(Controlador controlador) {

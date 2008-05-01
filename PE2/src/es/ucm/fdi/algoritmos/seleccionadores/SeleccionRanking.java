@@ -1,8 +1,5 @@
 package es.ucm.fdi.algoritmos.seleccionadores;
 
-import java.util.Vector;
-
-import es.ucm.fdi.algoritmos.AGeneticoViajante;
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.utils.Ordenacion;
@@ -22,13 +19,13 @@ public class SeleccionRanking implements Seleccionador {
 	public Cromosoma[] performRankSelection(Cromosoma[] sortedPop, Evaluador e) {
 		int tamañoPoblacion = sortedPop.length;
 		
-		Cromosoma[] futureParents = new Cromosoma[sortedPop.length];
+		Cromosoma[] futureParents = new Cromosoma[tamañoPoblacion];
 		
 		futureParents[0]=sortedPop[0].copiarCromosoma();
 		futureParents[1]=sortedPop[1].copiarCromosoma();
 		int numOfParents =2;
 		
-		double entireSegment = sortedPop[sortedPop.length-1].getPuntuacionAcumulada();
+		double entireSegment = sortedPop[tamañoPoblacion-1].getPuntuacionAcumulada();
 		
 		while(numOfParents<futureParents.length){
 			double x = (double)(Math.random()*entireSegment);

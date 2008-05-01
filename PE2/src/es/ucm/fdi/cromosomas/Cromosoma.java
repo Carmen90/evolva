@@ -1,6 +1,5 @@
 package es.ucm.fdi.cromosomas;
 
-import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.genes.Gen;
 
 public abstract class Cromosoma {

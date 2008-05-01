@@ -2,7 +2,6 @@ package es.ucm.fdi.algoritmos.cruzadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
-import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.genes.Gen;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.Busquedas;

@@ -1,7 +1,5 @@
 package es.ucm.fdi.algoritmos;
 
-import java.util.Vector;
-
 import es.ucm.fdi.algoritmos.cruzadores.*;
 import es.ucm.fdi.algoritmos.mutadores.*;
 import es.ucm.fdi.algoritmos.seleccionadores.*;
