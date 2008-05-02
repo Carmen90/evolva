@@ -21,8 +21,8 @@ public class Grafica2D extends JFrame{
 	private static final long serialVersionUID = -3885066388990981332L;
 	private JPanel panelContenido;
 	private JLabel aptitudLabel;
-	private JButton botonFenotipo;
-	private JPanel panelFenotipo;
+	private JButton botonGenotipo;
+	private JPanel panelGenotipo;
 	
 	private Controlador controlador;
 	
@@ -53,9 +53,9 @@ public class Grafica2D extends JFrame{
 		plot.addLinePlot("Mejor Aptitud hasta el momento", generaciones, mejores);
 		
 		//panelFenotipo = new JPanel( new GridLayout(elMejor.getNumeroGenes()+1,1));
-		panelFenotipo = new JPanel( new GridLayout( elMejor.getLongitudGenes()[0]+1,1));
+		panelGenotipo = new JPanel( new GridLayout( elMejor.getLongitudGenes()[0]+1,1));
 		
-		panelFenotipo.add(new JLabel("Fenotipo mejor individuo:"),JLabel.CENTER);
+		panelGenotipo.add(new JLabel("Genotipo mejor individuo:"),JLabel.CENTER);
 		
 		/*for (int i = 0; i< elMejor.getNumeroGenes(); i++){
 			String textoFenotipos = "";
@@ -67,12 +67,12 @@ public class Grafica2D extends JFrame{
 			
 		}*/
 		for (int i = 0; i< elMejor.getLongitudGenes()[0]; i++){
-			String textoFenotipos = "";
-			if (i == 0) textoFenotipos += "[ ";
-			textoFenotipos += elMejor.getFenotipo()[i];
-			if (i == elMejor.getLongitudGenes()[0]-1)textoFenotipos += " ] ";
-			else textoFenotipos += "; ";
-			panelFenotipo.add(new JLabel(textoFenotipos));
+			String textoGenotipos = "";
+			if (i == 0) textoGenotipos += "[ ";
+			textoGenotipos += elMejor.getFenotipo()[i];
+			if (i == elMejor.getLongitudGenes()[0]-1)textoGenotipos += " ] ";
+			else textoGenotipos += "; ";
+			panelGenotipo.add(new JLabel(textoGenotipos));
 		}
 		
 			
@@ -81,14 +81,14 @@ public class Grafica2D extends JFrame{
 		aptitudLabel = new JLabel(textoAptitud, JLabel.CENTER);
 		
 		
-		this.botonFenotipo = new JButton ("Ver fenotipo");
-		botonFenotipo.addActionListener(new ActionListener(){
+		this.botonGenotipo = new JButton ("Ver genotipo");
+		botonGenotipo.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				Object textoOpciones[] = {"Cerrar"};
 				JOptionPane.showOptionDialog(
 						null,
-						panelFenotipo,
-						"Fenotipo del mejor individuo",
+						panelGenotipo,
+						"Genotipo del mejor individuo",
 						JOptionPane.PLAIN_MESSAGE,
 						-1,
 						null,
@@ -102,7 +102,7 @@ public class Grafica2D extends JFrame{
 		
 		JPanel panelilloLabels = new JPanel (new GridLayout(1,2));
 		panelilloLabels.add(aptitudLabel);
-		panelilloLabels.add(botonFenotipo);		
+		panelilloLabels.add(botonGenotipo);		
 		
 		panelContenido.add(plot, BorderLayout.CENTER);
 		panelContenido.add(panelilloLabels,BorderLayout.SOUTH);
@@ -134,9 +134,9 @@ public class Grafica2D extends JFrame{
 		plot.addLinePlot("Mejor individuo final", iteraciones, ultimosMejores);
 		
 		//panelFenotipo = new JPanel( new GridLayout(elMejor.getNumeroGenes()+1,1));
-		panelFenotipo = new JPanel( new GridLayout( elMejor.getLongitudGenes()[0]+1,1));
+		panelGenotipo = new JPanel( new GridLayout( elMejor.getLongitudGenes()[0]+1,1));
 		
-		panelFenotipo.add(new JLabel("Fenotipo mejor individuo:"),JLabel.CENTER);
+		panelGenotipo.add(new JLabel("Genotipo mejor individuo:"),JLabel.CENTER);
 		
 		/*for (int i = 0; i< elMejor.getNumeroGenes(); i++){
 			String textoFenotipos = "";
@@ -148,12 +148,12 @@ public class Grafica2D extends JFrame{
 			
 		}*/
 		for (int i = 0; i< elMejor.getLongitudGenes()[0]; i++){
-			String textoFenotipos = "";
-			if (i == 0) textoFenotipos += "[ ";
-			textoFenotipos += elMejor.getFenotipo()[i];
-			if (i == elMejor.getLongitudGenes()[0]-1)textoFenotipos += " ] ";
-			else textoFenotipos += "; ";
-			panelFenotipo.add(new JLabel(textoFenotipos));
+			String textoGenotipos = "";
+			if (i == 0) textoGenotipos += "[ ";
+			textoGenotipos += elMejor.getFenotipo()[i];
+			if (i == elMejor.getLongitudGenes()[0]-1)textoGenotipos += " ] ";
+			else textoGenotipos += "; ";
+			panelGenotipo.add(new JLabel(textoGenotipos));
 		}
 		
 			
@@ -162,14 +162,14 @@ public class Grafica2D extends JFrame{
 		aptitudLabel = new JLabel(textoAptitud, JLabel.CENTER);
 		
 		
-		this.botonFenotipo = new JButton ("Ver fenotipo");
-		botonFenotipo.addActionListener(new ActionListener(){
+		this.botonGenotipo = new JButton ("Ver genotipo");
+		botonGenotipo.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				Object textoOpciones[] = {"Cerrar"};
 				JOptionPane.showOptionDialog(
 						null,
-						panelFenotipo,
-						"Fenotipo del mejor individuo",
+						panelGenotipo,
+						"Genotipo del mejor individuo",
 						JOptionPane.PLAIN_MESSAGE,
 						-1,
 						null,
@@ -181,7 +181,7 @@ public class Grafica2D extends JFrame{
 		
 		JPanel panelilloLabels = new JPanel (new GridLayout(1,2));
 		panelilloLabels.add(aptitudLabel);
-		panelilloLabels.add(botonFenotipo);		
+		panelilloLabels.add(botonGenotipo);		
 		
 		panelContenido.add(plot, BorderLayout.CENTER);
 		panelContenido.add(panelilloLabels,BorderLayout.SOUTH);
