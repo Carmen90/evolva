@@ -8,8 +8,8 @@ import es.ucm.fdi.gui.*;
 public class Controlador {
 
 	//Valores para ejecucion basica
-	public static int POBLACION_DEFECTO = 5;//100;
-	public static int GENERACIONES_DEFECTO = 5;//100;
+	public static int POBLACION_DEFECTO = 2000;
+	public static int GENERACIONES_DEFECTO = 200;
 	public static double CRUCE_DEFECTO = 0.6;
 	public static double MUTACION_DEFECTO = 0.1;
 	public static double TOLERANCIA_DEFECTO = 0.0001;
