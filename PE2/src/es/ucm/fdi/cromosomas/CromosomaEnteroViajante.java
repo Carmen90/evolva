@@ -72,7 +72,7 @@ public class CromosomaEnteroViajante extends Cromosoma{
 	}
 
 	public int calcularLongitudCromosoma() {
-		return 28;
+		return 27;
 	}
 	public int calcularLongitudGen() {
 		//como solo tenemos un gen en cada cromosoma:

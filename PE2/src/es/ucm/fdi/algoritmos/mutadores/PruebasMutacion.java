@@ -24,7 +24,7 @@ public class PruebasMutacion {
 		System.out.println(cromosoma2.toString());
 
 		/**************************** CRUCE *********************************/
-		Mutador mutador = new MutadorInsercion();
+		Mutador mutador = new MutadorInversion();
 		Cromosoma[] individuos = new Cromosoma[2];
 		individuos[0] = cromosoma;
 		individuos[1] = cromosoma2;

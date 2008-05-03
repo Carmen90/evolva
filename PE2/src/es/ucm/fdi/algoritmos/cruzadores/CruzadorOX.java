@@ -56,8 +56,8 @@ public class CruzadorOX implements Cruzador {
 				codificacionHijo1I[j] = codificacionGenPadre2I[j];
 				codificacionHijo2I[j] = codificacionGenPadre1I[j];
 			}
-			codificacionHijo1I[0] = codificacionGenPadre1I[0];
-			codificacionHijo2I[0] = codificacionGenPadre2I[0];
+			//codificacionHijo1I[0] = codificacionGenPadre1I[0];
+			//codificacionHijo2I[0] = codificacionGenPadre2I[0];
 //INICIO CRUCE OX****************************************************************************
 			//Inicialmente partimos del segundo punto de corte de los padres
 			//Recorremos el padre1 desde el segundo punto de corte hasta el final
@@ -73,7 +73,7 @@ public class CruzadorOX implements Cruzador {
 					codificacionHijo1I[posicion1] = elem1;
 					posicion1++;
 					if(posicion1 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion1 = 1; //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion1 = 0; 
 					}
 					
 				}
@@ -81,18 +81,18 @@ public class CruzadorOX implements Cruzador {
 					codificacionHijo2I[posicion2] = elem2;
 					posicion2++;
 					if(posicion2 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion2 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion2 = 0;
 					}
 					
 				}
 			}
-			//En caso de que el corte mayor sea 27 hacemos esto para que no se salgan de los indices del array
+			//En caso de que el corte mayor sea 26 hacemos esto para que no se salgan de los indices del array
 			if(posicion1==longitudGen){ 
-				posicion1 = 1;
-				posicion2 = 1;
+				posicion1 = 0;
+				posicion2 = 0;
 			}
-			//Empezamos desde la siguiente ciudad a Madrid
-			for(int k=1;k<=mayor;k++){ //Recorremos los padres hasta el punto de partida
+
+			for(int k=0;k<=mayor;k++){ //Recorremos los padres hasta el punto de partida
 				int elem1 = codificacionGenPadre1I[k];
 				int elem2 = codificacionGenPadre2I[k];
 				int indice1 = Busquedas.buscar(elem1, codificacionHijo1I, menor, mayor);
@@ -102,14 +102,14 @@ public class CruzadorOX implements Cruzador {
 					codificacionHijo1I[posicion1] = elem1;
 					posicion1++;
 					if(posicion1 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion1 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion1 = 0;
 					}
 				}
 				if(indice2 == -1){
 					codificacionHijo2I[posicion2] = elem2;
 					posicion2++;	
 					if(posicion2 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion2 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion2 = 0;
 					}
 				}
 			}

@@ -96,7 +96,7 @@ public class CruzadorERX implements Cruzador {
 					adyacentesCiudadI.add(genesPadre2[0]);
 			}
 
-			if (indiceEnPadre1 != 0){
+			if (indiceEnPadre2 != 0){
 				int ciudadVecinaIzq = genesPadre2[indiceEnPadre2 - 1];
 				if (Busquedas.buscar(ciudadVecinaIzq, adyacentesCiudadI) == -1)
 					adyacentesCiudadI.add(genesPadre2[indiceEnPadre2-1]);
@@ -125,17 +125,20 @@ public class CruzadorERX implements Cruzador {
 				codificacionHijo[i] = 0;
 			}*/
 			//la ciudad 0 siempre tiene que ser madrid
-			codificacionHijo[0] = padreOrigen[0];
+			//codificacionHijo[0] = padreOrigen[0];
 			//como hemos añadido la ciudad en la posicion 0, esta se elimina de los adyacentes de todas las ciudades
-			eliminarDeListaVecinos(codificacionHijo[0], adyacencias);
+			//eliminarDeListaVecinos(codificacionHijo[0], adyacencias);
 			
 			//para aumentar la variabilidad del cruce, empezamos por la ciudad en la posicion 1
 			//X <- el primer elemento del padre aleatorio
-			codificacionHijo[1] = padreOrigen[1];
-			numeroCiudadesIntegradas = 2;
+			//codificacionHijo[1] = padreOrigen[1];
+			//numeroCiudadesIntegradas = 2;
+			
+			codificacionHijo[0] = padreOrigen[0];
+			numeroCiudadesIntegradas = 1;
 	
 			boolean estancamiento = false;
-			int i = 2;
+			int i = 1;
 			//Mientras no este lleno el hijo:
 			while (!estancamiento && i< Ciudades.NUM_CIUDADES){
 	
@@ -213,7 +216,7 @@ public class CruzadorERX implements Cruzador {
 		}while(numeroCiudadesIntegradas != Ciudades.NUM_CIUDADES && numeroEstancamientos != MAX_ESTANCAMIENTOS);
 
 		if (numeroEstancamientos == MAX_ESTANCAMIENTOS){
-			System.out.println("No se ha podido generar un hijo por superer el maximo de estancamientos...");
+			System.out.println("No se ha podido generar un hijo por superar el maximo de estancamientos...");
 			return padreOrigen;
 		}else return codificacionHijo;
 	}

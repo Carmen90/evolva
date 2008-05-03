@@ -129,9 +129,28 @@ public class Grafica2D extends JFrame{
 		// define the legend position
 		plot.addLegend("SOUTH");
 
-		// add a line plot to the PlotPanel
-		plot.addLinePlot("Mejor individuo global", iteraciones, mejoresGlobales);
-		plot.addLinePlot("Mejor individuo final", iteraciones, ultimosMejores);
+		
+		//Hacemos esto en caso de que la ultima posicion tenga un 0
+		double[] mejoresGlob = new double[mejoresGlobales.length-1];
+		double[] ultMejores = new double[mejoresGlobales.length-1];
+		double[] iter = new double[mejoresGlobales.length-1];
+		
+		if(mejoresGlobales[mejoresGlobales.length-1]==0){
+			for(int i = 0; i<mejoresGlobales.length-1;i++){
+				mejoresGlob[i] = mejoresGlobales[i];
+				ultMejores[i] = ultimosMejores[i];
+				iter[i] = iteraciones[i];
+			}
+			// add a line plot to the PlotPanel
+			plot.addLinePlot("Mejor individuo global", iter, mejoresGlob);
+			plot.addLinePlot("Mejor individuo final", iter, ultMejores);
+		}
+		else{
+			// add a line plot to the PlotPanel
+			plot.addLinePlot("Mejor individuo global", iteraciones, mejoresGlobales);
+			plot.addLinePlot("Mejor individuo final", iteraciones, ultimosMejores);
+		}
+		
 		
 		//panelFenotipo = new JPanel( new GridLayout(elMejor.getNumeroGenes()+1,1));
 		panelGenotipo = new JPanel( new GridLayout( elMejor.getLongitudGenes()[0]+1,1));

@@ -50,7 +50,7 @@ public class CruzadorOXOrdenPrioritario implements Cruzador {
 			//Guardamos las posiciones elegidas
 			int[] posicionesElegidas = new int[NUMERO_POSICIONES_INTERCAMBIO];
 
-			posicionesEscogidas[0] = true; //Madrid no se puede modificar. Es la primera ciudad
+			//posicionesEscogidas[0] = true; //Madrid no se puede modificar. Es la primera ciudad
 			
 			//Generamos numPosicionesIntercambio posiciones aleatorias
 			int posicion = 0;
@@ -83,8 +83,8 @@ public class CruzadorOXOrdenPrioritario implements Cruzador {
 			}
 			
 			//Madrid debe estar siempre en la posicion 0
-			codificacionHijo1I[0] = codificacionGenPadre1I[0];
-			codificacionHijo2I[0] = codificacionGenPadre2I[0];
+			//codificacionHijo1I[0] = codificacionGenPadre1I[0];
+			//codificacionHijo2I[0] = codificacionGenPadre2I[0];
 			
 			//Rellenamos el hijo1 copiando el padre2 excepto las posiciones que aparecen en posicionCiudadesPadre1EnPadre2 y viceversa
 			int pos1 = 0;

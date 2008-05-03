@@ -29,12 +29,12 @@ public class MutadorInversion implements Mutador {
 				double prob = Math.random();
 				if(prob<probabilidadMutacion){  //Hay mutacion
 					//Generamos 2 puntos al azar 
-					int punto1 = MyRandom.aleatorioEntero(1,longitudGen);
-					int punto2 = MyRandom.aleatorioEntero(1,longitudGen);
+					int punto1 = MyRandom.aleatorioEntero(0,longitudGen);
+					int punto2 = MyRandom.aleatorioEntero(0,longitudGen);
 					
 					//Hacemos que los dos puntos generados no sean iguales
 					while(punto2==punto1)
-						punto2 = MyRandom.aleatorioEntero(1,longitudGen);
+						punto2 = MyRandom.aleatorioEntero(0,longitudGen);
 					
 					int menor;
 					int mayor;

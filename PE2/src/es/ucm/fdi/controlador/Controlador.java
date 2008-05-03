@@ -76,7 +76,7 @@ public class Controlador {
 		
 		Evaluador e = new EvaluadorViajante();
 		
-		int numIteraciones = (int)Math.round((fin - inicio) / incremento);
+		int numIteraciones = (int)Math.round((fin - inicio) / incremento)+1;
 		double[] iteraciones = new double[numIteraciones];
 		double[] mejoresGlobales = new double[numIteraciones];
 		double[] ultimosMejores = new double[numIteraciones];

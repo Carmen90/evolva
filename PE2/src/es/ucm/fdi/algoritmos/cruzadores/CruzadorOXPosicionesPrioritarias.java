@@ -75,12 +75,13 @@ public class CruzadorOXPosicionesPrioritarias implements Cruzador {
 				
 			}
 		
+			/*
 			//Madrid debe estar siempre en la posicion 0
 			codificacionHijo1I[0] = codificacionGenPadre1I[0];
 			posicionesLibresHijo1[0] = false;
 			codificacionHijo2I[0] = codificacionGenPadre2I[0];
 			posicionesLibresHijo2[0] = false;
-			
+			*/
 			//Partimos del ultimo punto de corte generado
 			int posicion1 = posicion+1;
 			int posicion2 = posicion+1;
@@ -94,14 +95,14 @@ public class CruzadorOXPosicionesPrioritarias implements Cruzador {
 					while(!posicionesLibresHijo1[posicion1]){
 						posicion1++;
 						if(posicion1 == longitudGen){
-							posicion1=1;
+							posicion1=0;
 						}
 					}
 					codificacionHijo1I[posicion1] = elem1;
 					posicionesLibresHijo1[posicion1] = false;
 					posicion1++;
 					if(posicion1 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion1 = 1; //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion1 = 0;
 					}
 					
 				}
@@ -109,25 +110,25 @@ public class CruzadorOXPosicionesPrioritarias implements Cruzador {
 					while(!posicionesLibresHijo2[posicion2]){
 						posicion2++;
 						if(posicion2 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-							posicion2 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+							posicion2 = 0;
 						}
 					}
 					codificacionHijo2I[posicion2] = elem2;
 					posicionesLibresHijo2[posicion2] = false;
 					posicion2++;
 					if(posicion2 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion2 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion2 = 0;
 					}
 					
 				}
 			}
-			//En caso de que el corte mayor sea 27 hacemos esto para que no se salgan de los indices del array
+			//En caso de que el corte mayor sea 26 hacemos esto para que no se salgan de los indices del array
 			if(posicion1==longitudGen){ 
-				posicion1 = 1;
-				posicion2 = 1;
+				posicion1 = 0;
+				posicion2 = 0;
 			}
 			//Empezamos desde la siguiente ciudad a Madrid
-			for(int k=1;k<=posicion;k++){ //Recorremos los padres hasta el punto de partida
+			for(int k=0;k<=posicion;k++){ //Recorremos los padres hasta el punto de partida
 				int elem1 = codificacionGenPadre1I[k];
 				int elem2 = codificacionGenPadre2I[k];
 				int indice1 = Busquedas.buscar(elem1, elementosSeleccionadosPadre2);
@@ -137,28 +138,28 @@ public class CruzadorOXPosicionesPrioritarias implements Cruzador {
 					while(!posicionesLibresHijo1[posicion1]){
 						posicion1++;
 						if(posicion1 == longitudGen){
-							posicion1=1;
+							posicion1=0;
 						}
 					}
 					codificacionHijo1I[posicion1] = elem1;
 					posicionesLibresHijo1[posicion1] = false;
 					posicion1++;
 					if(posicion1 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion1 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion1 = 0;
 					}
 				}
 				if(indice2 == -1){
 					while(!posicionesLibresHijo2[posicion2]){
 						posicion2++;
 						if(posicion2 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-							posicion2 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+							posicion2 = 0;
 						}
 					}
 					codificacionHijo2I[posicion2] = elem2;
 					posicionesLibresHijo2[posicion2] = false;
 					posicion2++;	
 					if(posicion2 == longitudGen){ //Hemos llegado al final del padre y volvemos al principio
-						posicion2 = 1;  //Dejamos la posicion 0 (Madrid) siempre fija
+						posicion2 = 0;
 					}
 				}
 			}

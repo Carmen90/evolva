@@ -35,11 +35,11 @@ public class MutadorInsercion implements Mutador {
 					//hacemos tantas inserciones como especifica el parametro 				
 					for (int k = 0; k<NUMERO_INSERCIONES; k++){
 						//generamos las posiciones aleatorias...
-						int posicionElementoAIntercambiar = MyRandom.aleatorioEntero(1,longitudGen);
+						int posicionElementoAIntercambiar = MyRandom.aleatorioEntero(0,longitudGen);
 						int posicionInsercion = posicionElementoAIntercambiar;
 						//nos aseguramos de que no volvamos a insertar el elemento en la misma posicion
 						while (posicionInsercion == posicionElementoAIntercambiar)
-							posicionInsercion = MyRandom.aleatorioEntero(1, longitudGen);
+							posicionInsercion = MyRandom.aleatorioEntero(0, longitudGen);
 						
 						System.out.println("Se cambiara el elemento en "+posicionElementoAIntercambiar +
 								" ("+codificacionGenIndividuo[posicionElementoAIntercambiar]+")");
