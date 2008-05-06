@@ -44,12 +44,6 @@ public class Controlador {
 		copiaElitismoMultiple = ELITISMO_MULTIPLE_DEFECTO;
 	}
 
-	public void recogerDatosGUI(){
-
-		
-	}
-
-
 	public void ejecucionSencilla(int numGeneraciones, int tamPoblacion, double probCruce, 
 			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
 			 boolean contractividad, boolean presionSelectiva, boolean escalado){
