@@ -11,7 +11,7 @@ import es.ucm.fdi.utils.MyRandom;
 
 public class CruzadorERX implements Cruzador {
 
-	public static final int MAX_ESTANCAMIENTOS = 5;
+	public static final int MAX_ESTANCAMIENTOS = 25;
 	
 	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
 		//crear cromosoma, crear genes, setear genes
@@ -151,7 +151,7 @@ public class CruzadorERX implements Cruzador {
 				if (candidatos.size() == 0){ //si no hay candidatos entonces nos hemos bloqueado...
 					estancamiento = true;
 					numeroEstancamientos++;
-					System.out.println("ERX se ha estancado en la ciudad "+ciudadOrigen);
+					/*System.out.println("ERX se ha estancado en la ciudad "+ciudadOrigen);
 					System.out.println("El padre 1 era: ");
 					String cadena = "[ ";
 					for (int n = 0; n<padreOrigen.length; n++){
@@ -166,6 +166,7 @@ public class CruzadorERX implements Cruzador {
 					}
 					cadena += "]";
 					System.out.println(cadena);
+					*/
 				//sino podemos proseguir
 				}else{
 					//miramos que candidato contiene menos ciudades adyacentes
@@ -208,7 +209,7 @@ public class CruzadorERX implements Cruzador {
 						ciudadConMenosVecinos = minimos.get(indiceCandidato);
 					}
 					codificacionHijo[i] = ciudadConMenosVecinos;
-					System.out.println("Ciudad elegida en la iteracion "+i+" = "+ ciudadConMenosVecinos);
+					//System.out.println("Ciudad elegida en la iteracion "+i+" = "+ ciudadConMenosVecinos);
 					numeroCiudadesIntegradas++;
 					i++;
 				}
@@ -216,7 +217,7 @@ public class CruzadorERX implements Cruzador {
 		}while(numeroCiudadesIntegradas != Ciudades.NUM_CIUDADES && numeroEstancamientos != MAX_ESTANCAMIENTOS);
 
 		if (numeroEstancamientos == MAX_ESTANCAMIENTOS){
-			System.out.println("No se ha podido generar un hijo por superar el maximo de estancamientos...");
+			//System.out.println("No se ha podido generar un hijo por superar el maximo de estancamientos...");
 			return padreOrigen;
 		}else return codificacionHijo;
 	}

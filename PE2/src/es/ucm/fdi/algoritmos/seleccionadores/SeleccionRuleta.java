@@ -40,7 +40,7 @@ public class SeleccionRuleta implements Seleccionador{
 		double b = Poblacion.mediaPoblacionInstantanea(poblacion)*(1-a);
 		
 		for(int i = 0; i<tamañoPoblacion; i++){
-			aptitudesEscaladas[i] = a*evaluador.evaluaAptitud(poblacion[i])+b;
+			aptitudesEscaladas[i] = a*poblacion[i].getAptitud()+b;
 		}
 		
 		

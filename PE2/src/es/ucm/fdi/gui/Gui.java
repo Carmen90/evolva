@@ -37,10 +37,10 @@ public class Gui extends JFrame{
 
 	private Controlador controlador;
 	private int parametroActivo;
-	
+
 	//FRAMES
 	JFrame ventanaModificacionConstantes;
-	
+
 	//PANELES
 	private JPanel panelPrincipal;
 	private JPanel panelBasico;
@@ -61,7 +61,7 @@ public class Gui extends JFrame{
 	private JPanel panelIntercambios;
 	private JPanel panelInserciones;
 	private JPanel panelContrincantes;
-	
+
 	//ETIQUETAS
 	private JLabel labelNumGeneraciones;
 	private JLabel labelTamPoblacion;
@@ -77,20 +77,20 @@ public class Gui extends JFrame{
 	private JLabel labelIntercambios;
 	private JLabel labelInserciones;
 	private JLabel labelContrincantes;
-	
+
 	//COMBOS
 	private JComboBox comboSeleccion;
 	private JComboBox comboCruce;
 	private JComboBox comboMutacion;
 	private JComboBox comboVariacionParametro;
-	
+
 	//CHECKBOX
 	private JCheckBox checkElitismo;
 	private JCheckBox checkPresionSelectiva;
 	private JCheckBox checkContractividad;
 	private JCheckBox checkEjecucionMultiple;
 	private JCheckBox checkEscalado;
-	
+
 	//CAMPOS DE TEXTO
 	private JTextField textoNumGeneraciones;
 	private JTextField textoTamPoblacion;
@@ -103,23 +103,23 @@ public class Gui extends JFrame{
 	private JTextField textoIntercambios;
 	private JTextField textoInserciones;
 	private JTextField textoContrincantes;
-	
+
 	//BOTONES
 	private JButton botonEmpezar;
 	private JButton botonEjecucionMultiple;
 	private JButton botonConstantes;
-	
+
 	//BARRA DE MENU
 	private JMenuBar barraMenu;
 	private JMenu menu;
 	private JMenuItem cambiarConstantes;
 	private JMenuItem itemValoresDefecto;
 	private JMenuItem itemSalir;
-	
+
 	public Gui(){
-		
+
 		parametroActivo = tamañoPoblacion;
-		
+
 		panelPrincipal = new JPanel(new GridLayout(1,2));
 		panelBasico = new JPanel(new GridLayout(7,2));
 		panelMejoras = new JPanel(new BorderLayout());
@@ -139,7 +139,7 @@ public class Gui extends JFrame{
 		panelIntercambios = new JPanel(new GridLayout(1,2));
 		panelInserciones = new JPanel(new GridLayout(1,2));
 		panelContrincantes = new JPanel(new GridLayout(1,2));
-		
+
 		//Creamos las etiquetas
 		labelNumGeneraciones = new JLabel("Número generaciones");
 		labelTamPoblacion = new JLabel("Tamaño población");
@@ -155,19 +155,19 @@ public class Gui extends JFrame{
 		labelIntercambios = new JLabel("Número intercambios");
 		labelInserciones = new JLabel("Número inserciones");
 		labelContrincantes = new JLabel("Número contrincantes");
-		
+
 		//Creamos los combobox
 		comboSeleccion = new JComboBox();
 		comboCruce = new JComboBox();
 		comboMutacion = new JComboBox();
 		comboVariacionParametro = new JComboBox();
 		comboVariacionParametro.setEnabled(false);
-		
+
 		//Añadimos las opciones a cada combobox		
 		comboSeleccion.addItem("Ruleta");
 		comboSeleccion.addItem("Ranking");
 		comboSeleccion.addItem("Torneo");
-		
+
 		comboCruce.addItem("PMX");
 		comboCruce.addItem("Ciclos (CX)");
 		comboCruce.addItem("Recombinación de rutas (ERX)");
@@ -175,17 +175,17 @@ public class Gui extends JFrame{
 		comboCruce.addItem("OX");
 		comboCruce.addItem("OX orden prioritario");
 		comboCruce.addItem("OX posiciones prioritarias");
-		
+
 		comboMutacion.addItem("Inserción");
 		comboMutacion.addItem("Intercambio");
 		comboMutacion.addItem("Inversión");
-		
+
 		comboVariacionParametro.addItem("Tamaño población");
 		comboVariacionParametro.addItem("Número generaciones");
 		comboVariacionParametro.addItem("Probabilidad cruce");
 		comboVariacionParametro.addItem("Probabilidad mutación");
 		comboVariacionParametro.addItem("Elitismo");
-				
+
 		//Creamos los botones
 		botonEmpezar = new JButton("Ejecutar");
 		botonEjecucionMultiple = new JButton("Ejecución múltiple");
@@ -193,22 +193,22 @@ public class Gui extends JFrame{
 		botonConstantes = new JButton("Aceptar");
 		OyenteBotonModificarConstantes oyenteBotonAceptarCambios = new OyenteBotonModificarConstantes();
 		botonConstantes.addActionListener(oyenteBotonAceptarCambios);
-		
-		
+
+
 		//Para ejecutar el algoritmo correspondiente en cuanto se presione intro
 		OyenteTeclaEjecucionBasica tecladoBasico = new OyenteTeclaEjecucionBasica();
 		OyenteTeclaEjecucionMultiple tecladoMultiple = new OyenteTeclaEjecucionMultiple();
-		
+
 		//Creamos los checkbox
 		checkElitismo = new JCheckBox("Elitismo");
 		checkElitismo.setSelected(false);
-		
+
 		checkPresionSelectiva = new JCheckBox("Presión selectiva");
 		checkPresionSelectiva.setEnabled(false);
 		checkContractividad = new JCheckBox("Contractividad");
 		checkEjecucionMultiple = new JCheckBox("Habilitar Ejecución múltiple");
 		checkEscalado = new JCheckBox("Escalado de aptitud");
-		
+
 		//Creamos las cajas de texto
 		textoNumGeneraciones = new JTextField(String.valueOf(Controlador.GENERACIONES_DEFECTO));
 		textoTamPoblacion = new JTextField(String.valueOf(Controlador.POBLACION_DEFECTO));
@@ -225,7 +225,7 @@ public class Gui extends JFrame{
 		textoIntercambios = new JTextField(String.valueOf(Singleton.getInstance().getNumIntercambios()));
 		textoInserciones = new JTextField(String.valueOf(Singleton.getInstance().getNumInserciones()));
 		textoContrincantes = new JTextField(String.valueOf(Singleton.getInstance().getNumContrincantes()));
-		
+
 		//Creamos la barra de menus
 		barraMenu = new JMenuBar();
 		menu = new JMenu();
@@ -238,22 +238,22 @@ public class Gui extends JFrame{
 		itemSalir = new JMenuItem("Salir");
 		OyenteSalir salida = new OyenteSalir();
 		itemSalir.addActionListener(salida);
-		
 
-		
+
+
 		//Añadimos el oyente de la tecla a los elementos para la ejcucion del agoritmo basico
 		textoNumGeneraciones.addKeyListener(tecladoBasico);
 		textoTamPoblacion.addKeyListener(tecladoBasico);
 		textoProbCruce.addKeyListener(tecladoBasico);
 		textoProbMutacion.addKeyListener(tecladoBasico);
 		textoElitismo.addKeyListener(tecladoBasico);
-		
+
 		//Añdimos el oyente de la tecla a los elementos para cambiar las constantes de los algoritmos
 		OyenteTeclaModificarConstantes oyenteTeclaConstantes = new OyenteTeclaModificarConstantes();
 		textoIntercambios.addKeyListener(oyenteTeclaConstantes);
 		textoInserciones.addKeyListener(oyenteTeclaConstantes);
 		textoContrincantes.addKeyListener(oyenteTeclaConstantes);		
-		
+
 		//Añadimos el oyente de la tecla a los elementos para la ejcucion multiple
 		textoInicial.addKeyListener(tecladoMultiple);
 		textoFinal.addKeyListener(tecladoMultiple);
@@ -261,31 +261,31 @@ public class Gui extends JFrame{
 
 		panelBasico.add(labelTamPoblacion);
 		panelBasico.add(textoTamPoblacion);
-		
+
 		panelBasico.add(labelNumGeneraciones);
 		panelBasico.add(textoNumGeneraciones);
-		
+
 		panelBasico.add(labelSeleccion);
 		panelBasico.add(comboSeleccion);
-		
+
 		panelBasico.add(labelCruce);
 		panelBasico.add(comboCruce);
-		
+
 		panelBasico.add(labelProbCruce);
 		panelBasico.add(textoProbCruce);
-		
+
 		panelBasico.add(labelMutacion);
 		panelBasico.add(comboMutacion);
-		
+
 		panelBasico.add(labelProbMutacion);
 		panelBasico.add(textoProbMutacion);
 
 		panelElitismo.add(checkElitismo);
 		panelElitismo.add(textoElitismo);
-		
+
 		panelPresionEscalado.add(checkPresionSelectiva);
 		panelPresionEscalado.add(checkEscalado);
-				
+
 		//bordes
 		Border lineBorder, titleBorder, emptyBorder, compoundBorder;
 		emptyBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
@@ -296,22 +296,22 @@ public class Gui extends JFrame{
 		panelControlDiversidad.add(panelElitismo);
 		panelControlDiversidad.add(checkContractividad);
 		panelControlDiversidad.add(panelPresionEscalado);
-		
+
 		panelVariacionParametros.add(labelVariacionParametro);
 		panelVariacionParametros.add(comboVariacionParametro);
-		
+
 		panelInicial.add(labelInicial);
 		panelInicial.add(textoInicial);
-		
+
 		panelFinal.add(labelFinal);
 		panelFinal.add(textoFinal);
-		
+
 		panelInicialFinal.add(panelInicial);
 		panelInicialFinal.add(panelFinal);
-		
+
 		panelIncremento.add(labelIncremento);
 		panelIncremento.add(textoIncremento);
-		
+
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Ejecución múltiple");
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelEjecucionMultiple.setBorder(compoundBorder);
@@ -319,19 +319,19 @@ public class Gui extends JFrame{
 		panelEjecucionMultiple.add(panelVariacionParametros);
 		panelEjecucionMultiple.add(panelInicialFinal);
 		panelEjecucionMultiple.add(panelIncremento);
-		
+
 		panelDiversidadEjecucionMultiple.add(panelControlDiversidad);
 		panelDiversidadEjecucionMultiple.add(panelEjecucionMultiple);
-		
+
 		panelMejoras.add(panelDiversidadEjecucionMultiple,BorderLayout.CENTER);
 		panelMejoras.add(botonEjecucionMultiple,BorderLayout.SOUTH);
-		
+
 		panelContenedorBasico.add(panelBasico,BorderLayout.CENTER);
 		panelContenedorBasico.add(botonEmpezar,BorderLayout.SOUTH);
-		
+
 		panelPrincipal.add(panelContenedorBasico);
 		panelPrincipal.add(panelMejoras);
-		
+
 		//Datos del panel de modificacion de constantes
 		//bordes
 		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
@@ -340,51 +340,51 @@ public class Gui extends JFrame{
 		panelIntercambios.setBorder(compoundBorder);
 		panelIntercambios.add(labelIntercambios);
 		panelIntercambios.add(textoIntercambios);
-		
+
 		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Mutación por inserción");
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelInserciones.setBorder(compoundBorder);
 		panelInserciones.add(labelInserciones);
 		panelInserciones.add(textoInserciones);
-		
+
 		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Seleccion por Torneo");
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelContrincantes.setBorder(compoundBorder);
 		panelContrincantes.add(labelContrincantes);
 		panelContrincantes.add(textoContrincantes);
-		
+
 		panelContenedorConstantes.add(panelIntercambios);
 		panelContenedorConstantes.add(panelInserciones);
 		panelContenedorConstantes.add(panelContrincantes);
 		panelConstantes.add(panelContenedorConstantes,BorderLayout.CENTER);
 		panelConstantes.add(botonConstantes,BorderLayout.SOUTH);
-		
+
 		menu.setText("Archivo");
 		menu.add(cambiarConstantes);
 		menu.add(itemValoresDefecto);
 		menu.add(itemSalir);
 		barraMenu.add(menu);
-		
+
 		OyenteEjecutar oyenteBoton = new OyenteEjecutar();
 		botonEmpezar.addActionListener(oyenteBoton);
-		
+
 		OyenteBotonEjecucionMultiple oyenteBotonMultiple = new OyenteBotonEjecucionMultiple();
 		botonEjecucionMultiple.addActionListener(oyenteBotonMultiple);
-		
+
 		OyenteElitismo oyenteCheckElitismo = new OyenteElitismo();
 		checkElitismo.addActionListener(oyenteCheckElitismo);
-		
+
 		OyenteEjecucionMultiple oyenteCheckEjecucionMultiple = new OyenteEjecucionMultiple();
 		checkEjecucionMultiple.addActionListener(oyenteCheckEjecucionMultiple);
-		
+
 		OyenteVariacionParametros oyenteComboVariacionParametros = new OyenteVariacionParametros();
 		comboVariacionParametro.addActionListener(oyenteComboVariacionParametros);
-		
+
 		OyenteComboSeleccion oyenteComboSelec = new OyenteComboSeleccion();
 		comboSeleccion.addActionListener(oyenteComboSelec);
-		
+
 		this.setContentPane(panelPrincipal);
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu();
@@ -397,24 +397,24 @@ public class Gui extends JFrame{
 		this.setVisible(true);
 		this.setTitle("Problema del viajante");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 	}
-	
+
 	class OyenteEjecutar implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			ejecutarAlgoritmo();
 		}	
 	}
-	
+
 	class OyenteBotonEjecucionMultiple implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			ejecutarAlgoritmoMultiple();
 		}
-		
+
 	}
-	
+
 	private void ejecutarAlgoritmo(){
 		try{
 			int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
@@ -430,14 +430,14 @@ public class Gui extends JFrame{
 			boolean presionSelectiva = checkPresionSelectiva.isSelected();
 			boolean escalado = checkEscalado.isSelected();
 			controlador.ejecucionSencilla (numGeneraciones, tamPoblacion, probCruce, probMutacion ,elitismo,
-										porcentajeElitismo, tipoMutacion, tipoCruce,tipoSeleccion,
-										contractividad, presionSelectiva, escalado);
-			
+					porcentajeElitismo, tipoMutacion, tipoCruce,tipoSeleccion,
+					contractividad, presionSelectiva, escalado);
+
 		}catch(NumberFormatException exception){
-			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
+			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos","Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	private void ejecutarAlgoritmoMultiple(){
 		try{
 			guardarValores(parametroActivo);
@@ -461,10 +461,10 @@ public class Gui extends JFrame{
 					probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
 					contractividad, presionSelectiva, escalado);
 		}catch(NumberFormatException exception){
-			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos");
+			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos","Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
-		
+
 	class OyenteElitismo implements ActionListener{
 
 		public void actionPerformed(ActionEvent arg0) {
@@ -472,9 +472,9 @@ public class Gui extends JFrame{
 			if(elitismo.isSelected()) textoElitismo.setEnabled(true);
 			else textoElitismo.setEnabled(false);
 		}
-		
+
 	}
-	
+
 	class OyenteEjecucionMultiple implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -493,7 +493,7 @@ public class Gui extends JFrame{
 				textoInicial.setEnabled(false);
 				textoFinal.setEnabled(false);
 				textoIncremento.setEnabled(false);
-				
+
 				//Perimitimos modificar los parametros basicos del algoritmo
 				textoTamPoblacion.setEnabled(true);
 				textoNumGeneraciones.setEnabled(true);
@@ -504,23 +504,23 @@ public class Gui extends JFrame{
 				checkElitismo.setEnabled(true);
 				botonEjecucionMultiple.setEnabled(false);
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	class OyenteVariacionParametros implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			parametroActivo = comboVariacionParametro.getSelectedIndex();
 			desactivarCajaTexto(parametroActivo);
-			
+
 			//Cargamos los valores por defecto correspondientes
 			cargarValoresUsuario(parametroActivo);			
 		}
-		
+
 	}
-	
+
 	private void cargarValoresUsuario(int parametroActivo){
 		switch(parametroActivo){
 		case tamañoPoblacion:{
@@ -557,7 +557,7 @@ public class Gui extends JFrame{
 		controlador.setCopiaCruceMultiple(Controlador.CRUCE_MULTIPLE_DEFECTO);
 		controlador.setCopiaMutacionMultiple(Controlador.MUTACION_MULTIPLE_DEFECTO);
 		controlador.setCopiaElitismoMultiple(Controlador.ELITISMO_MULTIPLE_DEFECTO);
-		
+
 		switch(parametroActivo){
 		case tamañoPoblacion:{
 			textoInicial.setText(String.valueOf(Controlador.POBLACION_MULTIPLE_DEFECTO[0]));
@@ -585,16 +585,16 @@ public class Gui extends JFrame{
 			textoIncremento.setText(String.valueOf(Controlador.ELITISMO_MULTIPLE_DEFECTO[2]));
 		}
 		}
-		
+
 	}
 
 	private void guardarValores(int parametroActivo){
 		double[] copia = new double[3];
-		
+
 		copia[0]=Double.parseDouble(textoInicial.getText());
 		copia[1]=Double.parseDouble(textoFinal.getText());
 		copia[2]=Double.parseDouble(textoIncremento.getText());
-		
+
 		switch(parametroActivo){
 		case tamañoPoblacion:controlador.setCopiaPoblacionMultiple(copia);break;
 		case numGeneraciones:controlador.setCopiaGeneracionesMultiple(copia);break;
@@ -603,7 +603,7 @@ public class Gui extends JFrame{
 		case elitismo:controlador.setCopiaElitismoMultiple(copia);
 		}
 	}
-	
+
 	//Se encarga de desactivar la caja de texto pasada por parametro y de activar las demas
 	private void desactivarCajaTexto(int paramActivo){
 		switch(paramActivo){
@@ -663,13 +663,13 @@ public class Gui extends JFrame{
 		}break;
 		}
 	}
-	
-	
+
+
 	class OyenteTeclaEjecucionBasica implements KeyListener{
 
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == 10){
-				
+
 				if(!checkEjecucionMultiple.isSelected()){
 					System.out.println("Ejecucion basica");
 					ejecutarAlgoritmo();
@@ -686,9 +686,9 @@ public class Gui extends JFrame{
 
 		public void keyTyped(KeyEvent e) {
 		}
-		
+
 	}
-	
+
 	class OyenteTeclaEjecucionMultiple implements KeyListener{
 
 		public void keyPressed(KeyEvent e) {
@@ -701,9 +701,9 @@ public class Gui extends JFrame{
 		public void keyReleased(KeyEvent e) {}
 
 		public void keyTyped(KeyEvent e) {}
-		
+
 	}
-	
+
 	class OyenteValoresPorDefecto implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -714,12 +714,12 @@ public class Gui extends JFrame{
 			textoElitismo.setText(String.valueOf(Controlador.ELITISMO_DEFECTO));
 			cargarValores(parametroActivo);
 			resetarConstantes();
-			
+
 		}
-		
+
 	}
 
-	
+
 	class OyenteSalir implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -731,30 +731,30 @@ public class Gui extends JFrame{
 			) == JOptionPane.YES_OPTION){
 				System.exit(0);
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	class OyenteComboSeleccion implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			
+
 			if(comboSeleccion.getSelectedIndex() == 0){  //Ruleta = 0
 				checkEscalado.setEnabled(true);
 				checkPresionSelectiva.setSelected(false);
 			}
 			else checkEscalado.setEnabled(false);
-			
+
 			if(comboSeleccion.getSelectedIndex() == 1){  //Ranking = 1
 				checkPresionSelectiva.setEnabled(true);
 				checkEscalado.setSelected(false);
 			}
 			else checkPresionSelectiva.setEnabled(false);
 		}	
-		
+
 	}
-	
+
 	class OyenteModificarConstantes implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -764,17 +764,17 @@ public class Gui extends JFrame{
 			ventanaModificacionConstantes.setSize(300, 210);
 			ventanaModificacionConstantes.setVisible(true);			
 		}
-		
+
 	}
-	
+
 	class OyenteBotonModificarConstantes implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			modificarConstantesAlgoritmos();			
 		}
-		
+
 	}
-	
+
 	class OyenteTeclaModificarConstantes implements KeyListener{
 
 		public void keyPressed(KeyEvent e) {
@@ -784,45 +784,51 @@ public class Gui extends JFrame{
 		}
 
 		public void keyReleased(KeyEvent e) {
-		
+
 		}
 
 		public void keyTyped(KeyEvent e) {
+
+		}
+
+	}
+
+	private void modificarConstantesAlgoritmos(){
+		try{
+			int numIntercambios = Integer.parseInt(textoIntercambios.getText());
+			int numInserciones = Integer.parseInt(textoInserciones.getText());
+			int numContrincantes = Integer.parseInt(textoContrincantes.getText());
+
+			Singleton.getInstance().setNumIntercambios(numIntercambios);
+			Singleton.getInstance().setNumInserciones(numInserciones);
+			Singleton.getInstance().setNumContrincantes(numContrincantes);
+
+			//Cerramos la ventana
+			ventanaModificacionConstantes.dispose();
+		}catch(NumberFormatException e1){
+			JOptionPane.showMessageDialog(null, "Se han introducido mal los datos","Error",JOptionPane.ERROR_MESSAGE);
+			
 			
 		}
-		
 	}
-	
-	private void modificarConstantesAlgoritmos(){
-		int numIntercambios = Integer.parseInt(textoIntercambios.getText());
-		int numInserciones = Integer.parseInt(textoInserciones.getText());
-		int numContrincantes = Integer.parseInt(textoContrincantes.getText());
-		
-		Singleton.getInstance().setNumIntercambios(numIntercambios);
-		Singleton.getInstance().setNumInserciones(numInserciones);
-		Singleton.getInstance().setNumContrincantes(numContrincantes);
-		
-		//Cerramos la ventana
-		ventanaModificacionConstantes.dispose();
-	}
-	
+
 	private void resetarConstantes() {
 		int numIntercambios = ConstantesAlgoritmos.NUMERO_INTERCAMBIOS;
 		int numInserciones = ConstantesAlgoritmos.NUMERO_INSERCIONES;
 		int numContrincantes = ConstantesAlgoritmos.NUMERO_CONTRINCANTES;
-		
+
 		Singleton.getInstance().setNumIntercambios(numIntercambios);
 		Singleton.getInstance().setNumInserciones(numInserciones);
 		Singleton.getInstance().setNumContrincantes(numContrincantes);
-				
+
 		numIntercambios = Singleton.getInstance().getNumIntercambios();
 		numInserciones = Singleton.getInstance().getNumInserciones();
 		numContrincantes = Singleton.getInstance().getNumContrincantes();
-		
+
 		textoIntercambios.setText(String.valueOf(numIntercambios));
 		textoInserciones.setText(String.valueOf(numInserciones));
 		textoContrincantes.setText(String.valueOf(numContrincantes));
-		
+
 	}
 
 	public void setControlador(Controlador controlador) {
