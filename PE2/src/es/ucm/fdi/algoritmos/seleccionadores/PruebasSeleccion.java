@@ -15,6 +15,7 @@ public class PruebasSeleccion {
 		}
 		
 		Seleccionador torneo = new SeleccionRanking();
+		@SuppressWarnings("unused")
 		Cromosoma[] pobAux = torneo.seleccion(poblacion, evaluador);
 
 	}

@@ -4,7 +4,6 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.utils.Busquedas;
-import es.ucm.fdi.utils.Ciudades;
 
 /*IMPLEMENTACION DEL CRUCE POR CICLOS*/
 public class CruzadorCX implements Cruzador {
