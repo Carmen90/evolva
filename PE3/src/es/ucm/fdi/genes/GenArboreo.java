@@ -2,7 +2,9 @@ package es.ucm.fdi.genes;
 
 import java.util.ArrayList;
 
-import es.ucm.fdi.cromosomas.VisitanteGenArboreo;
+import es.ucm.fdi.genes.visitas.ResultadosVisitas;
+import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
+
 
 public abstract class GenArboreo extends Gen{
 	
@@ -16,7 +18,7 @@ public abstract class GenArboreo extends Gen{
 	public abstract void Agregar(GenArboreo c, int indice);
     public abstract GenArboreo Remover(int indice);
         
-    public abstract ArrayList aceptarVisitanteFenotipo (VisitanteGenArboreo v);
+    public abstract ResultadosVisitas aceptarVisitanteEvaluacion (VisitanteGenArboreo v);
     
     //public abstract void Mostrar();
     	

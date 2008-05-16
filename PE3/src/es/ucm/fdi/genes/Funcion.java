@@ -2,7 +2,9 @@ package es.ucm.fdi.genes;
 
 import java.util.ArrayList;
 
-import es.ucm.fdi.cromosomas.VisitanteGenArboreo;
+import es.ucm.fdi.genes.visitas.ResultadosVisitas;
+import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
+
 
 public class Funcion extends GenArboreo {
 
@@ -130,7 +132,7 @@ public class Funcion extends GenArboreo {
 		return numeroNodos + this.longitud;
 	}
 
-	public ArrayList aceptarVisitanteFenotipo(VisitanteGenArboreo v) {
+	public ResultadosVisitas aceptarVisitanteEvaluacion(VisitanteGenArboreo v) {
 		return v.visitarFuncion(this);
 	}
 	
