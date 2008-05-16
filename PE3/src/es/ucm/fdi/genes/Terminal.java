@@ -20,29 +20,19 @@ public class Terminal extends GenArboreo {
 		this.longitud = terminal.longitud;
 		this.profundidad = terminal.profundidad;
 	}
-	
-	@Override
+
 	public Gen copiaGen() {
 		Gen copia = new Terminal(this);
 		return copia;
 	}
 	
-	@Override
-	public void Agregar(GenArboreo c) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
+	//como estamos ante una hoja del arbol, no tenemos que implementar "Agregar" ni "Remover"
+	public void Agregar(GenArboreo c) {}
+	public void Agregar(GenArboreo c, int indice) {}
+	public GenArboreo Remover( int indice) { return null;}
+	
 	public void Mostrar(int profundidad) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void Remover(GenArboreo c) {
-		// TODO Auto-generated method stub
-
+		System.out.print(valor.toString());
 	}
 
 	public terminales getValor() {
@@ -51,10 +41,9 @@ public class Terminal extends GenArboreo {
 	public void setValor(terminales valor) {
 		this.valor = valor;
 	}
-	@Override
+	
 	public void setProfundidad(int profundidad) {
-		// TODO Auto-generated method stub
-		
+		this.profundidad = profundidad;
 	}
 
 }
