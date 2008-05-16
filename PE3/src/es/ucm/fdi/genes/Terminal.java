@@ -1,5 +1,9 @@
 package es.ucm.fdi.genes;
 
+import java.util.ArrayList;
+
+import es.ucm.fdi.cromosomas.VisitanteGenArboreo;
+
 public class Terminal extends GenArboreo {
 
 	public static enum terminales{AVANZA,DERECHA,IZQUIERDA};
@@ -44,6 +48,14 @@ public class Terminal extends GenArboreo {
 	
 	public void setProfundidad(int profundidad) {
 		this.profundidad = profundidad;
+	}
+	
+	public int calcularNumeroNodos() {
+		return 0;
+	}
+	
+	public ArrayList aceptarVisitanteFenotipo(VisitanteGenArboreo v) {
+		return v.visitarTerminal(this);
 	}
 
 }

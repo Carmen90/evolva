@@ -7,9 +7,11 @@ public abstract class Gen {
 	public abstract Gen copiaGen();
 	
 	public Gen(){}
+	
 	public Gen(int longitud){
 		this.longitud = longitud;
 	}
+	
 	public int getLongitud() {
 		return longitud;
 	}

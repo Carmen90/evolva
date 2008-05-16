@@ -1,5 +1,9 @@
 package es.ucm.fdi.genes;
 
+import java.util.ArrayList;
+
+import es.ucm.fdi.cromosomas.VisitanteGenArboreo;
+
 public class Funcion extends GenArboreo {
 
 	public static enum funciones {SIC, PROGN2, PROGN3};
@@ -116,6 +120,18 @@ public class Funcion extends GenArboreo {
 				this.argumentos[i].setProfundidad(profundidadHijos);
 		}
 		
+	}
+
+	public int calcularNumeroNodos() {
+		int numeroNodos = 0;
+		for (int i = 0; i< this.longitud; i++){
+			numeroNodos += this.argumentos[i].calcularNumeroNodos();
+		}
+		return numeroNodos + this.longitud;
+	}
+
+	public ArrayList aceptarVisitanteFenotipo(VisitanteGenArboreo v) {
+		return v.visitarFuncion(this);
 	}
 	
 }

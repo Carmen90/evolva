@@ -1,21 +1,26 @@
 package es.ucm.fdi.cromosomas;
 
+import java.util.ArrayList;
+
 import es.ucm.fdi.genes.Gen;
 
 public abstract class Cromosoma {
 	
 	//los genes se deben generar aleatoriamente por la funcion
 	protected Gen[] genes;
+	
 	//una vez generados los genes, se generan sus fenotipos
-	protected double[] fenotipo;
+	protected ArrayList<Object> fenotipo;
+	
 	//longitud total del cromosoma, que se calculara sumando las longitudes de sus genes.
 	protected int longitudCromosoma;
-	protected int[] longitudGenes;
+	
 	//numero de genes en el cromosoma
 	protected int numeroGenes;
 	
 	//la aptitud se genera en la inicializacion del algoritmo genetico
 	protected double aptitud;
+	
 	//la puntuacion y la puntuacion Acumulada de generan al evaluar la aptitud.
 	protected double puntuacion;
 	protected double puntuacionAcumulada;
