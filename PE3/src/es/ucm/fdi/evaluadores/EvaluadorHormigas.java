@@ -16,7 +16,8 @@ import es.ucm.fdi.utils.TableroComida;
 
 public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
-	public static int MAX_PASOS = 400;
+	public static final int MAX_PASOS = 400;
+	public static final int MAX_PROFUNDIDAD = 4;
 
 	private int pasosConsumidos;
 
@@ -41,23 +42,19 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		return ResultadoEvaluacion.getInstance().getBocadosComidos();
 	}
 
-	@Override
 	public Cromosoma generarCromosomaAleatorio() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Cromosoma generarCromosomaFijo(int[] padreFijo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public double[] transformarAptitudesAMaximizacion(
-			double[] aptitudesPositivas) {
-		// TODO Auto-generated method stub
-		return null;
+	public double[] transformarAptitudesAMaximizacion(double[] aptitudesPositivas) {
+		//el problema ya es de maximizacion!
+		return aptitudesPositivas;
 	}
 
 	public ResultadosVisitas visitarFuncion(Funcion f) {

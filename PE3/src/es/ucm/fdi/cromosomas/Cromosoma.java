@@ -10,7 +10,7 @@ public abstract class Cromosoma {
 	protected Gen[] genes;
 	
 	//una vez generados los genes, se generan sus fenotipos
-	protected ArrayList<Object> fenotipo;
+	protected double[] fenotipo;
 	
 	//longitud total del cromosoma, que se calculara sumando las longitudes de sus genes.
 	protected int longitudCromosoma;
@@ -48,12 +48,6 @@ public abstract class Cromosoma {
 		//comprobacion de la precondicion
 		if (this.genes != null && this.genes.length != 0){
 			
-			this.longitudGenes = new int[this.numeroGenes];
-			
-			for (int i = 0; i < numeroGenes; i++){
-				Gen genI = this.genes[i];
-				longitudGenes[i] = genI.getLongitud();
-			}
 			this.longitudCromosoma = calcularLongitudCromosoma();
 			fenotipo();
 			//la aptitud se generara en el metodo que evalua la poblacion, para despues poder evaluarla
@@ -118,14 +112,6 @@ public abstract class Cromosoma {
 
 	public void setNumeroGenes(int numeroGenes) {
 		this.numeroGenes = numeroGenes;
-	}
-
-	public int[] getLongitudGenes() {
-		return longitudGenes;
-	}
-
-	public void setLongitudGenes(int[] longitudGenes) {
-		this.longitudGenes = longitudGenes;
 	}
 	
 }
