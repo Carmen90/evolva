@@ -8,8 +8,9 @@ public abstract class GenArboreo extends Gen{
 	public abstract void setProfundidad(int profundidad);
 	
 	public abstract void Agregar(GenArboreo c);
-    public abstract void Remover(GenArboreo c);
-    public abstract void Mostrar(int profundidad);
+	public abstract void Agregar(GenArboreo c, int indice);
+    public abstract GenArboreo Remover(int indice);
+    //public abstract void Mostrar();
     	
 	public GenArboreo (){
 		super();

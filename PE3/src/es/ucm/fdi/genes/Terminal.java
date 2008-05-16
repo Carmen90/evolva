@@ -31,8 +31,8 @@ public class Terminal extends GenArboreo {
 	public void Agregar(GenArboreo c, int indice) {}
 	public GenArboreo Remover( int indice) { return null;}
 	
-	public void Mostrar(int profundidad) {
-		System.out.print(valor.toString());
+	public  String toString() {
+		return valor.toString();
 	}
 
 	public terminales getValor() {
