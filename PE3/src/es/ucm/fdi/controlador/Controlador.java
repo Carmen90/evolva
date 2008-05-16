@@ -1,6 +1,5 @@
 package es.ucm.fdi.controlador;
 
-import es.ucm.fdi.algoritmos.AGeneticoViajante;
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.*;
 import es.ucm.fdi.gui.*;

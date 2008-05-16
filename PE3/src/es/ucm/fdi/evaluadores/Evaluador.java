@@ -1,7 +1,6 @@
 package es.ucm.fdi.evaluadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
-import es.ucm.fdi.cromosomas.CromosomaEnteroViajante;
 
 public interface Evaluador {
 	
@@ -18,7 +17,7 @@ public interface Evaluador {
 	//cada gen en particular del cromosoma creado
 	public Cromosoma generarCromosomaAleatorio();
 	//para depuracion
-	public CromosomaEnteroViajante generarCromosomaFijo(int[] padreFijo);
+	public Cromosoma generarCromosomaFijo(int[] padreFijo);
 	
 	//funcion que especifica la mejora entre dos aptitudes
 	public boolean esMejorAptitud (double aptitud, double aptitudMejor);
