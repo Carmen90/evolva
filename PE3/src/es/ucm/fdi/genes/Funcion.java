@@ -1,7 +1,5 @@
 package es.ucm.fdi.genes;
 
-import java.util.ArrayList;
-
 import es.ucm.fdi.genes.visitas.ResultadosVisitas;
 import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
 

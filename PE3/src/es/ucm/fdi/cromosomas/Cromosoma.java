@@ -10,7 +10,7 @@ public abstract class Cromosoma {
 	protected Gen[] genes;
 	
 	//una vez generados los genes, se generan sus fenotipos
-	protected double[] fenotipo;
+	protected Object fenotipo;
 	
 	//longitud total del cromosoma, que se calculara sumando las longitudes de sus genes.
 	protected int longitudCromosoma;
@@ -69,10 +69,10 @@ public abstract class Cromosoma {
 	public void setAptitud(double aptitud) {
 		this.aptitud = aptitud;
 	}
-	public double[] getFenotipo() {
+	public Object getFenotipo() {
 		return fenotipo;
 	}
-	public void setFenotipo(double[] fenotipo) {
+	public void setFenotipo(Object fenotipo) {
 		this.fenotipo = fenotipo;
 	}
 	public Gen[] getGenes() {

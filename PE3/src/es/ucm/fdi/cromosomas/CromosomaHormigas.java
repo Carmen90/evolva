@@ -11,7 +11,6 @@ public class CromosomaHormigas extends Cromosoma{
 
 	public CromosomaHormigas(int numeroGenes) {
 		super(numeroGenes);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -26,10 +25,11 @@ public class CromosomaHormigas extends Cromosoma{
 		return null;
 	}
 
-	@Override
+	//en nuestro caso el fenotipo nos e utilizara para el algoritmo.
+	//simplemente lo utilizaremos para mostrarlo en la interfaz, con lo cual sera una cadena
+	//con la secuencia del arbol.
 	public void fenotipo() {
-		// TODO Auto-generated method stub
-		
+		fenotipo = this.genes[0].toString();
 	}
 
 	@Override

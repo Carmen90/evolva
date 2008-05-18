@@ -1,14 +1,10 @@
 package es.ucm.fdi.evaluadores;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaHormigas;
 import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.Gen;
 import es.ucm.fdi.genes.GenArboreo;
-import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.genes.Terminal;
 import es.ucm.fdi.genes.Terminal.terminales;
 import es.ucm.fdi.genes.Funcion.funciones;
@@ -41,9 +37,9 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		//con esta condicion comprobamos no evaluar otro arbol, si ya hemos llegado al
 		//maximo de pasos consumidos o a la solucion.
 		}while( this.pasosConsumidos < MAX_PASOS && 
-				ResultadoEvaluacion.getInstance().getBocadosComidos() < TableroComida.NUM_BOCADITOS );
+				ResultadoEvaluacion.getInstance().getNumBocadosComidos() < TableroComida.NUM_BOCADITOS );
 
-		return ResultadoEvaluacion.getInstance().getBocadosComidos();
+		return ResultadoEvaluacion.getInstance().getNumBocadosComidos();
 	}
 
 	public Cromosoma generarCromosomaAleatorio() {
@@ -123,10 +119,10 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
 		//con esta condicion controlamos que nos quedemos a mitad de la evaluacion de un arbol
 		//si hemos llegado a la solucion o al numero maximo de pasos posibles
-		if (this.pasosConsumidos < MAX_PASOS && resultado.getBocadosComidos() < TableroComida.NUM_BOCADITOS){
+		if (this.pasosConsumidos < MAX_PASOS && resultado.getNumBocadosComidos() < TableroComida.NUM_BOCADITOS){
 			
 			if (f.getValor() == funciones.SIC){
-				if (resultado.hayComida()) 
+				if (resultado.hayComidaDelante()) 
 					resultado = (ResultadoEvaluacion) f.getArgumentos()[0].aceptarVisitanteEvaluacion(this);
 				else resultado = (ResultadoEvaluacion) f.getArgumentos()[1].aceptarVisitanteEvaluacion(this);
 
@@ -144,11 +140,15 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 	public ResultadosVisitas visitarTerminal(Terminal t) {
 		ResultadoEvaluacion resultado = ResultadoEvaluacion.getInstance();
 
-		if (t.getValor() == terminales.AVANZA) resultado.avanza();
-		else if (t.getValor() == terminales.DERECHA) resultado.giraDerecha();
-		else if (t.getValor() == terminales.IZQUIERDA) resultado.giraIzquierda();
-
-		if (resultado.hayComida()) resultado.comer();
+		terminales valor = t.getValor();
+		if (valor == terminales.AVANZA){
+			resultado.avanza();
+			//si en la nueva casilla hay comida entonces la comemos
+			resultado.comer();
+		}
+		//si giramos, permanecemos en la misma casilla, con lo cual ya comimos el bocado si lo habia.
+		else if (valor == terminales.DERECHA) resultado.giraDerecha();
+		else if (valor == terminales.IZQUIERDA) resultado.giraIzquierda();
 
 		//consumimos un paso
 		this.pasosConsumidos++;
