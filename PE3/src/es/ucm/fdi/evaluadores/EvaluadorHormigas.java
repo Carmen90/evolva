@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
+import es.ucm.fdi.cromosomas.CromosomaHormigas;
 import es.ucm.fdi.genes.Funcion;
+import es.ucm.fdi.genes.Gen;
 import es.ucm.fdi.genes.GenArboreo;
+import es.ucm.fdi.genes.GenEntero;
 import es.ucm.fdi.genes.Terminal;
 import es.ucm.fdi.genes.Terminal.terminales;
 import es.ucm.fdi.genes.Funcion.funciones;
 import es.ucm.fdi.genes.visitas.ResultadoEvaluacion;
 import es.ucm.fdi.genes.visitas.ResultadosVisitas;
 import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
+import es.ucm.fdi.utils.MyRandom;
 import es.ucm.fdi.utils.TableroComida;
 
 public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
@@ -43,8 +47,65 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 	}
 
 	public Cromosoma generarCromosomaAleatorio() {
-		// TODO Auto-generated method stub
-		return null;
+		//crear cromosoma
+		CromosomaHormigas cromosoma = new CromosomaHormigas(1);
+		
+		//crear genes
+		GenArboreo gen = (GenArboreo) this.generarGenAleatorio();
+		
+		GenArboreo[] genes = new GenArboreo[cromosoma.getNumeroGenes()];
+		genes[0] = gen;
+		
+		//setear genes (al setear los genes automaticamente se inicializa el cromosoma)
+		cromosoma.setGenes(genes);
+		
+		return cromosoma;
+	}
+	
+	public Gen generarGenAleatorio() {
+		int profundidadInicial = 0;
+		GenArboreo gen = genArboreoAleatorio(profundidadInicial);
+		//antes de devolver el genAleatorio, generamos la profundidad de todos los hijos.
+		//gen.setProfundidad(profundidadInicial);
+		return gen;
+	}
+	
+	private GenArboreo genArboreoAleatorio(int profundidad){
+		
+		GenArboreo genArboreo = null;
+		//si todavia no hemos llegado a la profundidad máxima, generamos una funcion aleatoriamente
+		//y para cada parametro que se le tiene que aplicar, generamos un gen aleatoriamente. 
+		if (profundidad < MAX_PROFUNDIDAD){
+			int indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
+			funciones valorFuncion = funciones.values()[indiceFuncion];
+			int numParametros = 0;
+			if (indiceFuncion < Funcion.LIMITE_2_PARAMETROS){
+				numParametros = 2;
+			}else if (indiceFuncion < Funcion.LIMITE_3_PARAMETROS){
+				numParametros = 3;
+			}
+			
+			genArboreo = new Funcion(valorFuncion,profundidad);
+			genArboreo.setLongitud(numParametros);
+			
+			for (int i = 0; i< numParametros; i++){
+				//llamamos recursivamente para generar los genes 
+				GenArboreo c = genArboreoAleatorio(profundidad + 1);
+				//agregamos el gen generado.
+				genArboreo.Agregar(c);
+			}
+		
+		//cuando ya hemos superado el limite de profundidad, generamos uno de los posibles valores de
+		//terminales y lo devolvemos.
+		}else{
+			int indiceTerminal = MyRandom.aleatorioEntero(0, Terminal.NUM_TERMINALES);
+			terminales valorTerminal = terminales.values()[indiceTerminal];
+			
+			genArboreo = new Terminal(valorTerminal, profundidad);
+		}
+		
+		return genArboreo;
+		
 	}
 
 	public Cromosoma generarCromosomaFijo(int[] padreFijo) {
@@ -95,5 +156,4 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		return resultado;
 
 	}
-
 }

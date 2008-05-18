@@ -1,7 +1,5 @@
 package es.ucm.fdi.genes;
 
-import java.util.ArrayList;
-
 import es.ucm.fdi.genes.visitas.ResultadosVisitas;
 import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
 
@@ -9,6 +7,7 @@ import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
 public class Terminal extends GenArboreo {
 
 	public static enum terminales{AVANZA,DERECHA,IZQUIERDA};
+	public static final int NUM_TERMINALES = 3;
 	
 	private terminales valor;
 	

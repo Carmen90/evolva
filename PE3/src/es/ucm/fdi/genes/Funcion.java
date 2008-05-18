@@ -9,6 +9,12 @@ import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
 public class Funcion extends GenArboreo {
 
 	public static enum funciones {SIC, PROGN2, PROGN3};
+	//los siguientes parametros estaticos indican el indice siguiente a las funciones con dos y tres parametros.
+	public static final int LIMITE_2_PARAMETROS = 2;
+	public static final int LIMITE_3_PARAMETROS = 3;
+	//numero total de posibles valores para las funciones.
+	public static final int NUM_FUNCIONES = 3;
+	
 	
 	private funciones valor;
 	private GenArboreo[] argumentos;
