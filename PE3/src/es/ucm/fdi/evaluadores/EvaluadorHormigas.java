@@ -16,7 +16,7 @@ import es.ucm.fdi.utils.TableroComida;
 
 public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
-	public static final int MAX_PASOS = 400;
+	public static final int MAX_PASOS = 10;
 	public static final int MAX_PROFUNDIDAD = 2;
 
 	private int pasosConsumidos;
@@ -66,7 +66,7 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		return gen;
 	}
 	
-	private GenArboreo genArboreoAleatorio(int profundidad){
+	public static GenArboreo genArboreoAleatorio(int profundidad){
 		
 		GenArboreo genArboreo = null;
 		//si todavia no hemos llegado a la profundidad máxima, generamos una funcion aleatoriamente

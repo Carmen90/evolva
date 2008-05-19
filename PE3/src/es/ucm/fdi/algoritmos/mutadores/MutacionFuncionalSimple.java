@@ -5,6 +5,7 @@ import es.ucm.fdi.evaluadores.EvaluadorHormigas;
 import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.genes.Terminal;
+import es.ucm.fdi.genes.Funcion.funciones;
 import es.ucm.fdi.genes.Terminal.terminales;
 import es.ucm.fdi.utils.MyRandom;
 
@@ -35,15 +36,25 @@ public class MutacionFuncionalSimple implements Mutador {
 
 	private GenArboreo mutarGen(GenArboreo gen, int profundidad) {
 		
+		//Calculamos la longitud de la funcion (numero de parametros)
+		int longitud = gen.getLongitud();
 		//Comprobamos si hemos llegado a una funcion, que tendra longitud 2 ó 3
-		if(gen.getLongitud() >=2){
-			//Calculamos la longitud de la funcion
-			int longitud = gen.getLongitud();
-			//Generamos una parametro al azar por el que bajar por el arbol
-			int indiceParametro = MyRandom.aleatorioEntero(0, longitud);
-		}else{//Mutamos al padre
+		if(profundidad==0 && longitud!=0){
+			//generamos una funcion aleatoria y la cambiamos
+			int indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
+			funciones funcion = funciones.values()[indiceFuncion];
 			
-		}
+			int numParametros = 0;
+			if (indiceFuncion < Funcion.LIMITE_2_PARAMETROS){
+				numParametros = 2;
+			}else if (indiceFuncion < Funcion.LIMITE_3_PARAMETROS){
+				numParametros = 3;
+			}
+			
+			while((numParametros <= longitud){
+				//TODO cambiar el valor de la funcion que hay en el arbol
+			}
+			
 		
 		return gen;
 	}
