@@ -31,11 +31,11 @@ public class MutacionFuncionalSimple implements Mutador {
 			}
 		}
 		return poblacion;
-		
+
 	}
 
 	private GenArboreo mutarGen(GenArboreo gen, int profundidad) {
-		
+
 		//Calculamos la longitud de la funcion (numero de parametros)
 		int longitud = gen.getLongitud();
 		//Comprobamos si hemos llegado a una funcion, que tendra longitud 2 ó 3
@@ -43,20 +43,21 @@ public class MutacionFuncionalSimple implements Mutador {
 			//generamos una funcion aleatoria y la cambiamos
 			int indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
 			funciones funcion = funciones.values()[indiceFuncion];
-			
+
 			int numParametros = 0;
 			if (indiceFuncion < Funcion.LIMITE_2_PARAMETROS){
 				numParametros = 2;
 			}else if (indiceFuncion < Funcion.LIMITE_3_PARAMETROS){
 				numParametros = 3;
 			}
-			
-			while((numParametros <= longitud){
+
+			while(numParametros <= longitud){
 				//TODO cambiar el valor de la funcion que hay en el arbol
 			}
-			
-		
+
+		}
 		return gen;
+
 	}
 
 }
