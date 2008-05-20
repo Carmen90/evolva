@@ -8,7 +8,6 @@ import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.genes.Terminal;
 import es.ucm.fdi.genes.Terminal.terminales;
 import es.ucm.fdi.genes.Funcion.funciones;
-import es.ucm.fdi.genes.visitas.ResultadoEvaluacion;
 import es.ucm.fdi.genes.visitas.ResultadosVisitas;
 import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
 import es.ucm.fdi.utils.MyRandom;
