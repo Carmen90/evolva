@@ -28,7 +28,7 @@ public abstract class Cromosoma {
 	/**************************************METODOS ABSTRACTOS*************************************/
 	public abstract void fenotipo();
 	public abstract Cromosoma copiarCromosoma();
-	public abstract int calcularLongitudCromosoma();
+	protected abstract int calcularLongitudCromosoma();
 	public abstract String toString();
 	/************************************FIN METODOS ABSTRACTOS***********************************/
 	
