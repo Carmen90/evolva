@@ -21,7 +21,7 @@ public class PruebasMutacion {
 		System.out.println(cromosoma.getFenotipo());
 
 		/**************************** MUTACION *********************************/
-		Mutador mutador = new MutacionTerminalSimple();
+		Mutador mutador = new MutacionFuncionalSimple();
 		Cromosoma[] individuos = new Cromosoma[1];
 		individuos[0] = cromosoma;
 		individuos = mutador.mutacion(individuos, 0.9);

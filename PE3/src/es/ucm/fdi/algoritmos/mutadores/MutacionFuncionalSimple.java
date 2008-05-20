@@ -4,9 +4,7 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.EvaluadorHormigas;
 import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.GenArboreo;
-import es.ucm.fdi.genes.Terminal;
 import es.ucm.fdi.genes.Funcion.funciones;
-import es.ucm.fdi.genes.Terminal.terminales;
 import es.ucm.fdi.utils.MyRandom;
 
 public class MutacionFuncionalSimple implements Mutador {
@@ -24,7 +22,8 @@ public class MutacionFuncionalSimple implements Mutador {
 				GenArboreo gen = (GenArboreo) individuo.getGenes()[0];
 				//Generamos una profundidad aleatoria
 				int profundidad = MyRandom.aleatorioEntero(0, EvaluadorHormigas.MAX_PROFUNDIDAD);
-				gen = mutarGen(gen, profundidad);
+				//TODO cambiar el 1 por la profundidad.
+				ResultadoMutacion resultado = mutarGen(gen, 1);
 				//como hemos mutado el individuo, entonces recalculamos el fenotipo.
 				//la evaluacion se hara en el ultimo paso de cada generacion.
 				individuo.fenotipo();
@@ -34,30 +33,93 @@ public class MutacionFuncionalSimple implements Mutador {
 
 	}
 
-	private GenArboreo mutarGen(GenArboreo gen, int profundidad) {
+	private ResultadoMutacion mutarGen(GenArboreo gen, int profundidad) {
 
+		ResultadoMutacion resultado = new ResultadoMutacion();
 		//Calculamos la longitud de la funcion (numero de parametros)
 		int longitud = gen.getLongitud();
-		//Comprobamos si hemos llegado a una funcion, que tendra longitud 2 ó 3
+		//CASO BASE: Comprobamos si hemos llegado a una funcion, que tendra longitud 2 ó 3
 		if(profundidad==0 && longitud!=0){
+			int numParametros;
+			int indiceFuncion;
+			funciones funcion;
+			do{
 			//generamos una funcion aleatoria y la cambiamos
-			int indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
-			funciones funcion = funciones.values()[indiceFuncion];
+			indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
+			funcion = funciones.values()[indiceFuncion];//Aqui tenemos la nueva funcion a setear
 
-			int numParametros = 0;
+			numParametros = 0;
 			if (indiceFuncion < Funcion.LIMITE_2_PARAMETROS){
 				numParametros = 2;
 			}else if (indiceFuncion < Funcion.LIMITE_3_PARAMETROS){
 				numParametros = 3;
 			}
 
-			while(numParametros <= longitud){
-				//TODO cambiar el valor de la funcion que hay en el arbol
+			}while(numParametros > longitud);  //Repetimos el proceso mientras obtengamos funciones de mayor longitud 
+												//que la que queremos mutar
+			if(numParametros < longitud){
+				//Tenemos una funcion de 3 argumentos y la vamos a cambiar por una de 2. 
+				//Habra que podar la rama que cuelga de un parametro elegido al azar.
+
+				//Generamos un entero aleatorio entre 0 y 2 para descartar la rama que cuelga de ese parametro
+				int paramEliminado = MyRandom.aleatorioEntero(0, Funcion.LIMITE_3_PARAMETROS);
+				GenArboreo[] nuevosArgumentos = new GenArboreo[numParametros];
+				int indice = 0;
+				for(int i=0; i<longitud; i++){ //Copiamos los parametros al nuevo array de parametros solo si
+					//no coinciden con el parametro eliminado
+					if(i != paramEliminado){
+						nuevosArgumentos[indice] = ((Funcion)gen).getArgumentos()[i];
+						indice++;
+					}
+				}
+				((Funcion)gen).setArgumentos(nuevosArgumentos);  //Seteamos los nuevos argumentos
+
 			}
+			((Funcion)gen).setValor(funcion); //Seteamos el nuevo valor de funcion
+			resultado.exito=true;
+			resultado.gen = gen;
 
+		}else if(profundidad == 0 && longitud == 0){ //Hemos llegado a la profundidad deseada, pero no estamos es una 
+													//funcion => NO PODEMOS MUTAR
+			resultado.exito=false;
+			resultado.gen = gen;
+			
+		}else if(profundidad != 0 && longitud == 0){ //No estamos en la profundidad deseada, pero hemos llegado a un TERMINAL
+			resultado.exito=false;
+			resultado.gen = gen;
+			
+		}else{ //Longitud != 0 y estamos descendiendo
+			profundidad--;
+			boolean[] ramasVisitadas;
+			boolean todasRamasVisitadas = false;
+			int contador = 0;
+			do{
+				ramasVisitadas = new boolean[longitud];
+				int ramaAleatoria;
+				do{
+					ramaAleatoria = MyRandom.aleatorioEntero(0, longitud);
+				}while(ramasVisitadas[ramaAleatoria]);
+				ramasVisitadas[ramaAleatoria] = true;
+				contador++;
+				if(contador == longitud) //Hemos visitado todas las ramas
+					todasRamasVisitadas = true;
+				resultado = mutarGen(((Funcion)gen).getArgumentos()[ramaAleatoria], profundidad);
+			}while(!resultado.exito && !todasRamasVisitadas);
 		}
-		return gen;
+		return resultado;
 
+	}
+	
+	private class ResultadoMutacion{
+		private boolean exito;
+		private GenArboreo gen;
+		
+		private ResultadoMutacion(){}
+		private ResultadoMutacion(boolean exito, GenArboreo gen){
+			this.exito = exito;
+			this.gen = gen;
+		}
+		
 	}
 
 }
