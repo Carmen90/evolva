@@ -24,7 +24,7 @@ public class PruebasMutacion {
 		Mutador mutador = new MutacionFuncionalSimple();
 		Cromosoma[] individuos = new Cromosoma[1];
 		individuos[0] = cromosoma;
-		individuos = mutador.mutacion(individuos, 0.9);
+		individuos = mutador.mutacion(individuos, 1);
 
 
 		/**************************** DEPURACION *********************************/

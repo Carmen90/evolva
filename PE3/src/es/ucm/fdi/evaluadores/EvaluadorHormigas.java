@@ -16,7 +16,7 @@ import es.ucm.fdi.utils.TableroComida;
 public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
 	public static final int MAX_PASOS = 10;
-	public static final int MAX_PROFUNDIDAD = 2;
+	public static final int MAX_PROFUNDIDAD = 3;
 
 	private int pasosConsumidos;
 

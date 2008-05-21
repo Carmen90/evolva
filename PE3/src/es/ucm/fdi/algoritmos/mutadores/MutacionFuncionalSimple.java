@@ -23,7 +23,7 @@ public class MutacionFuncionalSimple implements Mutador {
 				//Generamos una profundidad aleatoria
 				int profundidad = MyRandom.aleatorioEntero(0, EvaluadorHormigas.MAX_PROFUNDIDAD);
 				//TODO cambiar el 1 por la profundidad.
-				ResultadoMutacion resultado = mutarGen(gen, 1);
+				ResultadoMutacion resultado = mutarGen(gen, profundidad);
 				//como hemos mutado el individuo, entonces recalculamos el fenotipo.
 				//la evaluacion se hara en el ultimo paso de cada generacion.
 				individuo.fenotipo();
@@ -44,16 +44,20 @@ public class MutacionFuncionalSimple implements Mutador {
 			int indiceFuncion;
 			funciones funcion;
 			do{
-			//generamos una funcion aleatoria y la cambiamos
-			indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
-			funcion = funciones.values()[indiceFuncion];//Aqui tenemos la nueva funcion a setear
+				//generamos una funcion aleatoria y la cambiamos. 
+				//TODO si sale una funcion igual que la que tenemos, ¿la dejamos o generamos otra distinta?
+				//De momento generamos otra distinta, de modo que siempre camiara de valor
+				do{
+					indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
+					funcion = funciones.values()[indiceFuncion];//Aqui tenemos la nueva funcion a setear
+				}while(funcion == ((Funcion)gen).getValor());
 
-			numParametros = 0;
-			if (indiceFuncion < Funcion.LIMITE_2_PARAMETROS){
-				numParametros = 2;
-			}else if (indiceFuncion < Funcion.LIMITE_3_PARAMETROS){
-				numParametros = 3;
-			}
+				numParametros = 0;
+				if (indiceFuncion < Funcion.LIMITE_2_PARAMETROS){
+					numParametros = 2;
+				}else if (indiceFuncion < Funcion.LIMITE_3_PARAMETROS){
+					numParametros = 3;
+				}
 
 			}while(numParametros > longitud);  //Repetimos el proceso mientras obtengamos funciones de mayor longitud 
 												//que la que queremos mutar
@@ -72,29 +76,37 @@ public class MutacionFuncionalSimple implements Mutador {
 						indice++;
 					}
 				}
-				((Funcion)gen).setArgumentos(nuevosArgumentos);  //Seteamos los nuevos argumentos
+				//Seteamos los nuevos argumentos
+				((Funcion)gen).setArgumentos(nuevosArgumentos);
+				((Funcion)gen).setLongitud(numParametros);
+				((Funcion)gen).setNumAgregados(numParametros);
 
 			}
 			((Funcion)gen).setValor(funcion); //Seteamos el nuevo valor de funcion
 			resultado.exito=true;
 			resultado.gen = gen;
 
-		}else if(profundidad == 0 && longitud == 0){ //Hemos llegado a la profundidad deseada, pero no estamos es una 
-													//funcion => NO PODEMOS MUTAR
+		}else if(profundidad == 0 && longitud == 0){
+			/*TODO Hemos llegado a la profundidad deseada, pero no estamos es una 
+			funcion => NO PODEMOS MUTAR. Este caso de momento no se va a dar, 
+			porque solo se baja como mucho hasta el penultimo nivel y los arboles son equilibrados*/
 			resultado.exito=false;
 			resultado.gen = gen;
 			
-		}else if(profundidad != 0 && longitud == 0){ //No estamos en la profundidad deseada, pero hemos llegado a un TERMINAL
+		}else if(profundidad != 0 && longitud == 0){ 
+			/*TODO No estamos en la profundidad deseada, pero hemos llegado a un TERMINAL
+			Esto de momento no ocurre ya que los arboles son equilibrados. Con el cruce 
+			la cosa cambiara...*/
 			resultado.exito=false;
 			resultado.gen = gen;
 			
 		}else{ //Longitud != 0 y estamos descendiendo
 			profundidad--;
-			boolean[] ramasVisitadas;
+			boolean[] ramasVisitadas = new boolean[longitud];
 			boolean todasRamasVisitadas = false;
 			int contador = 0;
 			do{
-				ramasVisitadas = new boolean[longitud];
+				//ramasVisitadas = new boolean[longitud];
 				int ramaAleatoria;
 				do{
 					ramaAleatoria = MyRandom.aleatorioEntero(0, longitud);

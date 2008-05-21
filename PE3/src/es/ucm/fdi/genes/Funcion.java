@@ -108,12 +108,17 @@ public class Funcion extends GenArboreo {
 		return argumentos;
 	}
 
+	/*
 	public boolean setArgumentos(GenArboreo[] argumentos){
 		if (argumentos.length == this.longitud){
 			this.argumentos = argumentos;
 			return true;
 		}
 		return false;
+	}*/
+	
+	public void setArgumentos(GenArboreo[] argumentos){
+		this.argumentos = argumentos;
 	}
 
 	public void setProfundidad(int profundidad) {
@@ -138,6 +143,14 @@ public class Funcion extends GenArboreo {
 
 	public ResultadosVisitas aceptarVisitanteEvaluacion(VisitanteGenArboreo v) {
 		return v.visitarFuncion(this);
+	}
+
+	public int getNumAgregados() {
+		return numAgregados;
+	}
+
+	public void setNumAgregados(int numAgregados) {
+		this.numAgregados = numAgregados;
 	}
 	
 }
