@@ -51,8 +51,6 @@ public class Funcion extends GenArboreo {
 		//lo añadimos si podemos añadir mas elementos
 		if (this.numAgregados != this.longitud){
 			this.argumentos[numAgregados] = c;
-			//seteamos la profundidad
-			c.setProfundidad(this.profundidad + 1);
 			numAgregados++;
 		}
 		
@@ -62,7 +60,6 @@ public class Funcion extends GenArboreo {
 	//no hace falta tocar el numero de agregados, ya que eso solo es para la inicializacion
 	public void Agregar(GenArboreo c, int indice){
 		this.argumentos[indice] = c;
-		c.setProfundidad(this.profundidad + 1);
 	}
 
 	public String toString() {
@@ -124,7 +121,7 @@ public class Funcion extends GenArboreo {
 	public void setProfundidad(int profundidad) {
 		//seteamos la profundidad a la que se encuentra la funcion en el arbol
 		this.profundidad = profundidad;
-		int profundidadHijos = profundidad++;
+		int profundidadHijos = profundidad + 1;
 		//y propagamos a sus argumentos, ya sean terminales u otras funciones, la profundidad + 1
 		for (int i = 0; i< this.longitud; i++){
 			if (this.argumentos[i] != null)
