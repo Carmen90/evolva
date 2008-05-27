@@ -14,14 +14,15 @@ public class PruebasMutacion {
 
 		/****************************CROMOSOMA 1*********************************/
 		//crear cromosoma
-		CromosomaHormigas cromosoma = (CromosomaHormigas) e.generarCromosomaAleatorio();
+		//CromosomaHormigas cromosoma = (CromosomaHormigas) e.generarCromosomaAleatorio();
+		CromosomaHormigas cromosoma = (CromosomaHormigas) e.generarCromosomaFijo();
 
 		
 		System.out.println("Individuo inicial: ");
 		System.out.println(cromosoma.getFenotipo());
 
 		/**************************** MUTACION *********************************/
-		Mutador mutador = new MutacionFuncionalSimple();
+		Mutador mutador = new MutacionArbol();
 		Cromosoma[] individuos = new Cromosoma[1];
 		individuos[0] = cromosoma;
 		individuos = mutador.mutacion(individuos, 1);
