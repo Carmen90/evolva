@@ -7,6 +7,8 @@ import es.ucm.fdi.utils.MyRandom;
 import es.ucm.fdi.genes.Funcion;
 
 public class CruzadorArboreo implements Cruzador{
+	
+	private GenArboreo nodoI = null;
 
 	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
 		//crear cromosoma, crear genes, setear genes, inicializar cromosoma
@@ -59,33 +61,36 @@ public class CruzadorArboreo implements Cruzador{
 	//	si es terminal repetimos el proceso.
 	//	si no es terminal 
 	//		seleccionamos uno de los hijos. (el que se va a sustituir)
-	//			si el hijo no es terminal ya tenemos el punto de cruce
-	//			sino repetimos
-	//	si se agotan los hijos repetimos el proceso entero.
+	//			---->> [COMENTADO] si el hijo no es terminal ya tenemos el punto de cruce
+	//			---->> [COMENTADO] sino repetimos
+	//	    ---->> [COMENTADO] si se agotan los hijos repetimos el proceso entero.
+	// El punto de cruce puede ser tambien un terminal ahora.
 	private PuntoDeCruce calcularPuntoDeCruce(GenArboreo g){
 		
 		PuntoDeCruce punto = new PuntoDeCruce();
 		boolean esFuncionElPadre = false;
-		boolean esFuncionElHijo = false;
+		//boolean esFuncionElHijo = false;
 		
 		do{
 			
 			int posicionAleatoria = MyRandom.aleatorioEntero(0,g.calcularNumeroNodos()+1);	
-			GenArboreo genEnPosicion = obtenerNodo(posicionAleatoria, g);
+			obtenerNodo(posicionAleatoria, g);
+			//obtenerNodo(posicionAleatoria, g);
+			GenArboreo genEnPosicion = this.nodoI;
 			if (genEnPosicion.getLongitud() != 0){
 				
 				esFuncionElPadre = true;
 				
-				boolean[] hijosVisitados = new boolean[genEnPosicion.getLongitud()];
+				/*boolean[] hijosVisitados = new boolean[genEnPosicion.getLongitud()];
 				boolean todosLosHijosVisitados = false;
 				GenArboreo hijoI = null;
 				int posicionHijoAleatorio = -1;
 				
-				do{
+				do{*/
 					//calculamos un hijo aleatorio
-					posicionHijoAleatorio = MyRandom.aleatorioEntero(0, genEnPosicion.getLongitud());
+					int posicionHijoAleatorio = MyRandom.aleatorioEntero(0, genEnPosicion.getLongitud());
 					//si no hemos visitado este hijo le visitamos
-					if (!hijosVisitados[posicionHijoAleatorio]){
+				/*	if (!hijosVisitados[posicionHijoAleatorio]){
 						hijoI = ((Funcion)genEnPosicion).getArgumentos()[posicionHijoAleatorio];
 						hijosVisitados[posicionHijoAleatorio] = true;
 					}
@@ -99,36 +104,40 @@ public class CruzadorArboreo implements Cruzador{
 				
 				//repetimos el calculo del hijo mientras no sea una funcion y no hayamos visitado todos
 				}while(hijoI.getLongitud() == 0 && !todosLosHijosVisitados);
-				
-				if (hijoI.getLongitud()!= 0){
-					esFuncionElHijo = true;
+				*/
+				/*if (hijoI.getLongitud()!= 0){
+					esFuncionElHijo = true; */
 					punto.setNumeroHijo(posicionHijoAleatorio);
 					punto.setNumeroNodo(posicionAleatoria);
-				}
+				//}
 			}
 			
-		}while(!esFuncionElPadre && !esFuncionElHijo);
+		}while(! (esFuncionElPadre /*&& esFuncionElHijo*/) );
 		return punto;
 	}
 	
-	//funcion que devuelve el Nodo en la posicion indicada por el indice (preorden).
-	private GenArboreo obtenerNodo(int indice, GenArboreo g){
+	//funcion que setea el nodoI en el indice indicado.
+	//devuelve hasta que nodo hemos bajado en el arbol.
+	//cuando hemos llegado al nodo, encontes devolvemos -1.
+	private int obtenerNodo(int indice, GenArboreo g){
 		//si hemos llegado al indice 0, devolvemos el GenArboreo.
-		if (indice == 0) return g;
-		else{
-			GenArboreo descendiente = null;
+		if (indice == 0){
+			this.nodoI = g;
+			indice = -1;
+		}else{
+			indice--;
 			
-			//si la longitud es 0 estamos en un terminal, enotonces devolvemos null.
-			for (int i = 0; i< g.getLongitud(); i++){
-				indice++;
-				if (descendiente == null)
-					descendiente = obtenerNodo(indice, ((Funcion)g).getArgumentos()[i]);
-				
+			int i = 0;
+			while (i < g.getLongitud() && indice != -1){
+				indice = obtenerNodo(indice, ((Funcion)g).getArgumentos()[i]);
+				i++;
 			}
-			return descendiente;
 		}
+		return indice;
 		
 	}
+	
+	
 	
 	class PuntoDeCruce{
 		private int numeroNodo;
