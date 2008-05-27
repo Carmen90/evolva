@@ -61,6 +61,7 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		int profundidadInicial = 0;
 		GenArboreo gen = genArboreoAleatorio(profundidadInicial);
 		//antes de devolver el genAleatorio, generamos la profundidad de todos los hijos.
+		//No hace falta, ya que en la generacion ya se va seteando en la construccion la profundidad...
 		//gen.setProfundidad(profundidadInicial);
 		return gen;
 	}
@@ -103,9 +104,67 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		
 	}
 
-	public Cromosoma generarCromosomaFijo(int[] padreFijo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Cromosoma generarCromosomaFijo() {
+		//crear cromosoma
+		CromosomaHormigas cromosoma = new CromosomaHormigas(1);
+		
+		//crear genes
+		GenArboreo genRaiz = new Funcion(funciones.PROGN2,0);
+		
+		GenArboreo nivel1_1 = new Funcion(funciones.SIC,1);
+		GenArboreo nivel1_2 = new Funcion(funciones.PROGN3,1);
+		
+		GenArboreo nivel2_1 = new Funcion(funciones.SIC,2);
+		GenArboreo nivel2_2 = new Funcion(funciones.PROGN2,2);
+		GenArboreo nivel2_3 = new Funcion(funciones.SIC,2);
+		GenArboreo nivel2_4 = new Funcion(funciones.PROGN2,2);
+		GenArboreo nivel2_5 = new Funcion(funciones.PROGN3,2);
+		
+		GenArboreo nivel3_1 = new Terminal(terminales.AVANZA,3);
+		GenArboreo nivel3_2 = new Terminal(terminales.IZQUIERDA,3);
+		GenArboreo nivel3_3 = new Terminal(terminales.AVANZA,3);
+		GenArboreo nivel3_4 = new Terminal(terminales.DERECHA,3);
+		GenArboreo nivel3_5 = new Terminal(terminales.AVANZA,3);
+		GenArboreo nivel3_6 = new Terminal(terminales.IZQUIERDA,3);
+		GenArboreo nivel3_7 = new Terminal(terminales.DERECHA,3);
+		GenArboreo nivel3_8 = new Terminal(terminales.DERECHA,3);
+		GenArboreo nivel3_9 = new Terminal(terminales.IZQUIERDA,3);
+		GenArboreo nivel3_10 = new Terminal(terminales.AVANZA,3);
+		GenArboreo nivel3_11 = new Terminal(terminales.IZQUIERDA,3);
+		
+		genRaiz.Agregar(nivel1_1);
+		genRaiz.Agregar(nivel1_2);
+		
+		nivel1_1.Agregar(nivel2_1);
+		nivel1_1.Agregar(nivel2_2);
+		
+		nivel1_2.Agregar(nivel2_3);
+		nivel1_2.Agregar(nivel2_4);
+		nivel1_2.Agregar(nivel2_5);
+		
+		nivel2_1.Agregar(nivel3_1);
+		nivel2_1.Agregar(nivel3_2);
+		
+		nivel2_2.Agregar(nivel3_3);
+		nivel2_2.Agregar(nivel3_4);
+		
+		nivel2_3.Agregar(nivel3_5);
+		nivel2_3.Agregar(nivel3_6);
+		
+		nivel2_4.Agregar(nivel3_7);
+		nivel2_4.Agregar(nivel3_8);
+		
+		nivel2_5.Agregar(nivel3_9);
+		nivel2_5.Agregar(nivel3_10);
+		nivel2_5.Agregar(nivel3_11);
+		
+		GenArboreo[] genes = new GenArboreo[cromosoma.getNumeroGenes()];
+		genes[0] = genRaiz;
+		
+		//setear genes (al setear los genes automaticamente se inicializa el cromosoma)
+		cromosoma.setGenes(genes);
+		
+		return cromosoma;
 	}
 
 	public double[] transformarAptitudesAMaximizacion(double[] aptitudesPositivas) {

@@ -23,7 +23,7 @@ public interface Evaluador {
 	
 	
 	//para depuracion
-	public Cromosoma generarCromosomaFijo(int[] padreFijo);
+	public Cromosoma generarCromosomaFijo();
 	
 	
 	
