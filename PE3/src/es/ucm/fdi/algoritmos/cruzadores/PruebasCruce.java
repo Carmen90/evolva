@@ -18,15 +18,17 @@ public class PruebasCruce {
 		//crear cromosoma
 		CromosomaHormigas cromosoma2 =(CromosomaHormigas) e.generarCromosomaAleatorio();
 		
+		/**************************** DEPURACION *********************************/
+		System.out.println("Cromosomas Progenitores: ");
+		System.out.println(cromosoma.getFenotipo());
+		System.out.println(cromosoma2.toString());
+		
 		/**************************** CRUCE *********************************/
 		Cruzador cruzador = new CruzadorArboreo();
 		Cromosoma[] hijos = cruzador.cruce(cromosoma, cromosoma2);
 		
 		
 		/**************************** DEPURACION *********************************/
-		System.out.println("Cromosomas Progenitores: ");
-		System.out.println(cromosoma.toString());
-		System.out.println(cromosoma2.toString());
 		System.out.println("Cromosomas Hijos: ");
 		System.out.println(hijos[0].toString());
 		System.out.println(hijos[1].toString());

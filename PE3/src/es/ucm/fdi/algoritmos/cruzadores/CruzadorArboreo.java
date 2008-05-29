@@ -30,15 +30,30 @@ public class CruzadorArboreo implements Cruzador{
 			
 			//calculamos los puntos de cruce en los padres
 			PuntoDeCruce puntoCrucePadre1 = this.calcularPuntoDeCruce(genPadre1I);
-			PuntoDeCruce puntoCrucePadre2 = this.calcularPuntoDeCruce(genPadre2I);	
+			PuntoDeCruce puntoCrucePadre2 = this.calcularPuntoDeCruce(genPadre2I);
+			
+			/******************************DEPURACION*******************************/
+			System.out.println("punto de cruce padre 1: " + puntoCrucePadre1.toString());
+			System.out.println("punto de cruce padre 2: " + puntoCrucePadre2.toString());
 			
 			//creamos el genEntero hijo1 e hijo2
-			GenArboreo genHijo1I = null;
-			GenArboreo genHijo2I = null;
+			GenArboreo genHijo1I = (GenArboreo) genPadre1I.copiaGen();
+			GenArboreo genHijo2I = (GenArboreo) genPadre2I.copiaGen();
 						
 			//creamos la codificacion del gen i de cada hijo
 			/****************Cruce Arboreo****************/
+			obtenerNodo(puntoCrucePadre1.numeroNodo, genHijo1I);
+			GenArboreo ramaHijo1 = this.nodoI.Remover(puntoCrucePadre1.numeroHijo);
 			
+			obtenerNodo(puntoCrucePadre2.numeroNodo, genHijo2I);
+			GenArboreo ramaHijo2 = this.nodoI.Remover(puntoCrucePadre2.numeroHijo);
+			
+			obtenerNodo(puntoCrucePadre1.numeroNodo, genHijo1I);
+			this.nodoI.Agregar(ramaHijo2, puntoCrucePadre1.numeroHijo);
+			
+			obtenerNodo(puntoCrucePadre2.numeroNodo, genHijo2I);
+			this.nodoI.Agregar(ramaHijo1, puntoCrucePadre2.numeroHijo);
+							
 			/****************FIN Cruce Arboreo****************/
 			
 			genesHijo1[i] = genHijo1I;
@@ -117,7 +132,7 @@ public class CruzadorArboreo implements Cruzador{
 	}
 	
 	//funcion que setea el nodoI en el indice indicado.
-	//devuelve hasta que nodo hemos bajado en el arbol.
+	//devuelve hasta que nodo hemos bajado en el arbol (para controlar la recursion)
 	//cuando hemos llegado al nodo, encontes devolvemos -1.
 	private int obtenerNodo(int indice, GenArboreo g){
 		//si hemos llegado al indice 0, devolvemos el GenArboreo.
@@ -137,8 +152,6 @@ public class CruzadorArboreo implements Cruzador{
 		
 	}
 	
-	
-	
 	class PuntoDeCruce{
 		private int numeroNodo;
 		private int numeroHijo;
@@ -153,6 +166,9 @@ public class CruzadorArboreo implements Cruzador{
 		}
 		public void setNumeroHijo(int numeroHijo) {
 			this.numeroHijo = numeroHijo;
+		}
+		public String toString(){
+			return "numeroNodo: "+numeroNodo+"; numeroHijo: "+numeroHijo;
 		}
 		
 	}

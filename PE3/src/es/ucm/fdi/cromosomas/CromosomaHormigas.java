@@ -34,10 +34,8 @@ public class CromosomaHormigas extends Cromosoma{
 		fenotipo = this.genes[0].toString();
 	}
 
-	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return fenotipo.toString();
 	}
 
 }
