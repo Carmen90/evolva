@@ -12,6 +12,7 @@ public class PruebasSeleccion {
 		for (int j = 0; j< 5;j++){
 			//generamos e inicializamos cada individuo de la poblacion
 			poblacion[j] = evaluador.generarCromosomaAleatorio();		
+			poblacion[j].setAptitud(evaluador.evaluaAptitud(poblacion[j]));
 		}
 		
 		Seleccionador torneo = new SeleccionTorneo();

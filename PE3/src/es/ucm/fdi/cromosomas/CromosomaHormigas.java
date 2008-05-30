@@ -1,17 +1,31 @@
 package es.ucm.fdi.cromosomas;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.GenArboreo;
-import es.ucm.fdi.genes.Terminal;
-import es.ucm.fdi.genes.Terminal.terminales;
 
 public class CromosomaHormigas extends Cromosoma{
 
 	public CromosomaHormigas(int numeroGenes) {
 		super(numeroGenes);
+	}
+	
+	private CromosomaHormigas(CromosomaHormigas original){
+		//crear cromosoma
+		super(original.numeroGenes);
+		
+		//crear genes, longitudes de los genes y fenotipos
+		GenArboreo[] copia  = new GenArboreo[original.getNumeroGenes()];
+				
+		for (int i = 0; i< original.getNumeroGenes(); i++){
+			copia[i] = (GenArboreo)original.getGenes()[i].copiaGen();
+		}
+		//setear genes		
+		this.genes = copia;
+
+		this.longitudCromosoma = original.getLongitudCromosoma();
+		this.aptitud = original.getAptitud();
+		this.puntuacion = original.getPuntuacion();
+		this.puntuacionAcumulada = original.getPuntuacionAcumulada();
+		fenotipo();
 	}
 
 	protected int calcularLongitudCromosoma() {
@@ -20,11 +34,8 @@ public class CromosomaHormigas extends Cromosoma{
 		return numeroNodos;
 	}
 
-	
-	@Override
 	public Cromosoma copiarCromosoma() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CromosomaHormigas(this);
 	}
 
 	//en nuestro caso el fenotipo nos e utilizara para el algoritmo.

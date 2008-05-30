@@ -33,6 +33,6 @@ public class PruebasCruce {
 		System.out.println("Cromosomas Hijos: ");
 		System.out.println(hijos[0].toString());
 		System.out.println(hijos[1].toString());
-				
+		
 	}
 }

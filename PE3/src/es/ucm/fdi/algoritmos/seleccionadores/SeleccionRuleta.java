@@ -7,8 +7,13 @@ import es.ucm.fdi.utils.Poblacion;
 
 public class SeleccionRuleta implements Seleccionador{
 	
-	public static final double C = 1.5; 
+	public static final double C = 1.5;
+	
+	
 	//precondicion!! la poblacion inicial debe estar ordenada
+	//los segmentos de ruleta se asignan segun la puntuacion acumulada de los individuos.
+	//al estar los individuos ordenados de peor a mejor aptitud y tener menor segmento de ruleta los peores
+	//es decir, rangos de probabilidad mas pequeños, tienen menos probabilidad de ser seleccionados
 	public Cromosoma[] seleccion(Cromosoma[] poblacionInicial, Evaluador e) {
 		int tamañoPoblacion = poblacionInicial.length;
 		Cromosoma[] poblacionSeleccionada = new Cromosoma[tamañoPoblacion];
@@ -28,8 +33,11 @@ public class SeleccionRuleta implements Seleccionador{
 			poblacionSeleccionada[i] = poblacionInicial[posSuperviviente].copiarCromosoma();
 		}
 		return poblacionSeleccionada;
+		//tras la seleccion, la poblacion auxiliar esta desordenada!!!! OJO
 	}
 
+	
+	//TODO REVISAR LA GENERACION DE SEGMENTOS CON EL ESCALADO!!!!!
 	public Cromosoma[] generarSegmentos(Cromosoma[] poblacion, Evaluador evaluador, boolean mejora) {
 		double puntAcumulada = 0.0; //puntuacion acumulada
 		double sumaAptitud = 0.0; //suma de la aptitud
