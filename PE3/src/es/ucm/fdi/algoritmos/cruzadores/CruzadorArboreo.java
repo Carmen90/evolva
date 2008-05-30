@@ -2,9 +2,12 @@ package es.ucm.fdi.algoritmos.cruzadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaHormigas;
+import es.ucm.fdi.evaluadores.EvaluadorHormigas;
 import es.ucm.fdi.genes.GenArboreo;
+import es.ucm.fdi.genes.Terminal;
 import es.ucm.fdi.utils.MyRandom;
 import es.ucm.fdi.genes.Funcion;
+import es.ucm.fdi.genes.Terminal.terminales;
 
 public class CruzadorArboreo implements Cruzador{
 	
@@ -26,6 +29,7 @@ public class CruzadorArboreo implements Cruzador{
 		for (int i = 0; i < padre1.getNumeroGenes(); i++){
 			//obtenemos el genEntero de los padres 1 y 2
 			GenArboreo genPadre1I = (GenArboreo) padre1.getGenes()[i];
+			
 			GenArboreo genPadre2I = (GenArboreo) padre2.getGenes()[i];
 			
 			//calculamos los puntos de cruce en los padres
@@ -33,8 +37,8 @@ public class CruzadorArboreo implements Cruzador{
 			PuntoDeCruce puntoCrucePadre2 = this.calcularPuntoDeCruce(genPadre2I);
 			
 			/******************************DEPURACION*******************************/
-			System.out.println("punto de cruce padre 1: " + puntoCrucePadre1.toString());
-			System.out.println("punto de cruce padre 2: " + puntoCrucePadre2.toString());
+			/*System.out.println("punto de cruce padre 1: " + puntoCrucePadre1.toString());
+			System.out.println("punto de cruce padre 2: " + puntoCrucePadre2.toString());*/
 			
 			//creamos el genEntero hijo1 e hijo2
 			GenArboreo genHijo1I = (GenArboreo) genPadre1I.copiaGen();
@@ -53,6 +57,10 @@ public class CruzadorArboreo implements Cruzador{
 			
 			obtenerNodo(puntoCrucePadre2.numeroNodo, genHijo2I);
 			this.nodoI.Agregar(ramaHijo1, puntoCrucePadre2.numeroHijo);
+			
+			//control de profundidad
+			genHijo1I = controlarProfundidad(genHijo1I);
+			genHijo2I = controlarProfundidad(genHijo2I);
 							
 			/****************FIN Cruce Arboreo****************/
 			
@@ -152,6 +160,44 @@ public class CruzadorArboreo implements Cruzador{
 		
 	}
 	
+	//Funcion para el control de profundidad de los arboles cruzados
+	//cuando llegamos al limite de profundidad, cambiamos los hijos 
+	//funcion y los sustituimos por terminales aleatorios
+	public GenArboreo controlarProfundidad(GenArboreo g){
+		//si estamos a un nivel de la profundidad maxima, entonces miramos los hijos 
+		//y sustituimos las funciones por terminales
+		if (g.getProfundidad() == EvaluadorHormigas.MAX_PROFUNDIDAD - 1){
+			for (int i = 0; i< g.getLongitud(); i++){
+				//si el hijo i es una funcion
+				if (((Funcion)g).getArgumentos()[i].getLongitud() != 0){
+					//calculamos un terminal aleatorio
+					int indiceTerminal = MyRandom.aleatorioEntero(0, Terminal.NUM_TERMINALES);
+					terminales valorTerminal = terminales.values()[indiceTerminal];
+					GenArboreo terminal = new Terminal(valorTerminal,EvaluadorHormigas.MAX_PROFUNDIDAD);
+					
+					//removemos el hijo actual
+					GenArboreo sustituido = ((Funcion)g).Remover(i);
+					//seteamos el terminal nuevo
+					((Funcion)g).Agregar(terminal, i);
+					
+					/*DEPURACION*/
+					/*System.out.println("podada la rama: "+ sustituido.toString());
+					System.out.println("sustituida por: "+terminal.toString());*/
+				}
+			}
+		//si no hemos llegado al nivel de profundidad, entonces seguimos controlando 
+		//la profundidad para cada uno de los hijos
+		}else{
+			for (int i = 0; i< g.getLongitud(); i++){
+				((Funcion)g).getArgumentos()[i] = controlarProfundidad(((Funcion)g).getArgumentos()[i]);
+			}
+		}
+		return g;
+		
+	}
+	
+	
+	//Clase utilizada para representar los puntos de cruce en un arbol
 	class PuntoDeCruce{
 		private int numeroNodo;
 		private int numeroHijo;
