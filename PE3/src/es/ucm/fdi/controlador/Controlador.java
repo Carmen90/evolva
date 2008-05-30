@@ -1,5 +1,7 @@
 package es.ucm.fdi.controlador;
 
+import es.ucm.fdi.algoritmos.AGenetico;
+import es.ucm.fdi.algoritmos.AGeneticoHormigas;
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.*;
 import es.ucm.fdi.gui.*;
@@ -47,7 +49,7 @@ public class Controlador {
 			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
 			 boolean contractividad, boolean presionSelectiva, boolean escalado){
 		
-		Evaluador e = new EvaluadorViajante();
+		Evaluador e = new EvaluadorHormigas();
 		
 		Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 				probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
@@ -59,128 +61,6 @@ public class Controlador {
 		Grafica2D grafica = new Grafica2D();
 		grafica.setControlador(this);
 		grafica.generarGrafica(resultados[0], mejores, mejoresParciales, medias, numGeneraciones);
-	}
-	
-	public void ejecucionMultiple(int parametro, double inicio, double fin, double incremento, 
-								  int numGeneraciones, int tamPoblacion, double probCruce, 
-								  double probMutacion, boolean eli, double porcentajeElite,
-								  int tipoMutacion, int tipoCruce, int tipoSeleccion,
-								  boolean contractividad, boolean presionSelectiva, boolean escalado){
-		
-		Evaluador e = new EvaluadorViajante();
-		
-		int numIteraciones = (int)Math.round((fin - inicio) / incremento)+1;
-		double[] iteraciones = new double[numIteraciones];
-		double[] mejoresGlobales = new double[numIteraciones];
-		double[] ultimosMejores = new double[numIteraciones];
-		
-		Cromosoma elMejorDeTodasLasIteraciones = null;
-		
-		String parametroS = "";
-		switch (parametro){
-		case Gui.tamañoPoblacion:{
-			parametroS = "tamaño de la población";
-			int numIt = 0;
-			for (int i = (int)inicio; i < (int)fin; i += incremento){
-				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, i, probCruce, 
-						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad, presionSelectiva, escalado);
-				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
-				else{
-					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
-						elMejorDeTodasLasIteraciones = resultados[0];
-				}
-				iteraciones[numIt] = i;
-				mejoresGlobales[numIt] = resultados[0].getAptitud();
-				ultimosMejores[numIt] = resultados[1].getAptitud();
-				numIt++;
-			}
-			break;
-		}
-		case Gui.numGeneraciones:{
-			parametroS = "número de generaciones";
-			int numIt = 0;
-			for (int i = (int)inicio; i < (int)fin; i += incremento){
-				Cromosoma[] resultados = algoritmoGenetico(e, i, tamPoblacion, probCruce, 
-						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad, presionSelectiva, escalado);
-				if (i == (int)inicio) elMejorDeTodasLasIteraciones = resultados[0];
-				else{
-					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
-						elMejorDeTodasLasIteraciones = resultados[0];
-				}
-				iteraciones[numIt] = i;
-				mejoresGlobales[numIt] = resultados[0].getAptitud();
-				ultimosMejores[numIt] = resultados[1].getAptitud();
-				numIt++;
-			}
-			break;
-		}
-		case Gui.probCruce:{
-			parametroS = "probabilidad de cruce";
-			int numIt = 0;
-			for (double d = inicio; d < fin; d += incremento){
-				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, d, 
-						probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad, presionSelectiva, escalado);
-				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
-				else{
-					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
-						elMejorDeTodasLasIteraciones = resultados[0];
-				}
-				iteraciones[numIt] = d;
-				mejoresGlobales[numIt] = resultados[0].getAptitud();
-				ultimosMejores[numIt] = resultados[1].getAptitud();
-				numIt++;
-			}
-			break;
-		}
-		case Gui.probMutacion:{
-			parametroS = "probabilidad de mutación";
-			int numIt = 0;
-			for (double d = inicio; d < fin; d += incremento){
-				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
-						d, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad, presionSelectiva, escalado);
-				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
-				else{
-					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
-						elMejorDeTodasLasIteraciones = resultados[0];
-				}
-				iteraciones[numIt] = d;
-				mejoresGlobales[numIt] = resultados[0].getAptitud();
-				ultimosMejores[numIt] = resultados[1].getAptitud();
-				numIt++;
-			}
-			break;
-		}
-		case Gui.elitismo:{
-			parametroS = "elitismo";
-			int numIt = 0;
-			for (double d = inicio; d < fin; d += incremento){
-				Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
-						probMutacion, eli, d, tipoMutacion, tipoCruce, tipoSeleccion,
-						contractividad, presionSelectiva, escalado);
-				if (d == inicio) elMejorDeTodasLasIteraciones = resultados[0];
-				else{
-					if (e.esMejorAptitud(resultados[0].getAptitud(), elMejorDeTodasLasIteraciones.getAptitud()))
-						elMejorDeTodasLasIteraciones = resultados[0];
-				}
-				iteraciones[numIt] = d;
-				mejoresGlobales[numIt] = resultados[0].getAptitud();
-				ultimosMejores[numIt] = resultados[1].getAptitud();
-				numIt++;
-			}
-			break;
-		}
-		default:
-		}
-	
-		//tenemos varias graficas, todas deben conocer al controlador para solicitar datos del ultimo modelo 
-		//generado. No obstante, el controlador no necesita detalles de las vistas graficas, por eso lo creamos aqui
-		Grafica2D grafica = new Grafica2D();
-		grafica.setControlador(this);
-		grafica.generarGraficaMultiple(parametroS, elMejorDeTodasLasIteraciones , mejoresGlobales, ultimosMejores, iteraciones);
 	}
 	
 	/*
@@ -204,7 +84,7 @@ public class Controlador {
 		medias = new double[numGeneraciones];
 		mejoresParciales = new double[numGeneraciones];
 
-		AGeneticoViajante AG = new AGeneticoViajante(tamPoblacion,numGeneraciones,
+		AGeneticoHormigas AG = new AGeneticoHormigas(tamPoblacion,numGeneraciones,
 				probCruce,probMutacion,tipoMutacion,tipoCruce,tipoSeleccion);
 		
 		AG.inicializar(e); //crea población inicial de cromosomas

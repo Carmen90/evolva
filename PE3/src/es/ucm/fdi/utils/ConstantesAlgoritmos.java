@@ -9,7 +9,19 @@ public class ConstantesAlgoritmos {
 	private int numInserciones;
 	private int numContrincantes;
 	
-	public ConstantesAlgoritmos(){
+	private static ConstantesAlgoritmos INSTANCE;
+	
+	private static void createInstance(){
+		if(INSTANCE == null)
+			INSTANCE = new ConstantesAlgoritmos();
+	}
+	
+	public static ConstantesAlgoritmos getInstance(){
+		if(INSTANCE == null) createInstance();
+		return INSTANCE;
+	}
+	
+	private ConstantesAlgoritmos(){
 		numIntercambios = NUMERO_INTERCAMBIOS;
 		numInserciones = NUMERO_INSERCIONES;
 		numContrincantes = NUMERO_CONTRINCANTES;

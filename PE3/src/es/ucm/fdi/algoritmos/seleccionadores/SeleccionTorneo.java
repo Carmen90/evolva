@@ -2,12 +2,12 @@ package es.ucm.fdi.algoritmos.seleccionadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.Evaluador;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.MyRandom;
-import es.ucm.fdi.utils.Singleton;
 
 public class SeleccionTorneo implements Seleccionador {
 	
-	private static final int NUMERO_CONTRINCANTES = Singleton.getInstance().getNumContrincantes();
+	private static final int NUMERO_CONTRINCANTES = ConstantesAlgoritmos.getInstance().getNumContrincantes();
 	
 	public Cromosoma[] seleccion(Cromosoma[] poblacionInicial, Evaluador e) {
 		Cromosoma[] poblacionAux = new Cromosoma[poblacionInicial.length];

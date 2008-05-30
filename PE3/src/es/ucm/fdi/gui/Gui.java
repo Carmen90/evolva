@@ -21,6 +21,7 @@ import javax.swing.border.Border;
 
 import sun.net.www.content.image.jpeg;
 
+import es.ucm.fdi.controlador.Controlador;
 import es.ucm.fdi.utils.TableroComida;
 
 public class Gui extends JFrame {
@@ -75,6 +76,9 @@ public class Gui extends JFrame {
 	//BOTONES
 	private JButton botonEjecutar;
 	private JButton botonMostrarGrafica;
+	
+	//CONTROLADOR
+	private Controlador controlador;
 		
 	public Gui(){
 		
@@ -252,5 +256,13 @@ public class Gui extends JFrame {
 			else textoElitismo.setEnabled(false);
 		}
 		
+	}
+
+	public Controlador getControlador() {
+		return controlador;
+	}
+
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
 	}
 }
