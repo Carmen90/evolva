@@ -13,6 +13,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -69,7 +73,6 @@ public class Gui extends JFrame {
 	//CHECKBOX
 	private JCheckBox checkElitismo;
 	private JCheckBox checkContractividad;
-	private JCheckBox checkEscalado;
 	
 	//COMBOS
 	private JComboBox comboMutacion;
@@ -78,6 +81,13 @@ public class Gui extends JFrame {
 	//BOTONES
 	private JButton botonEjecutar;
 	private JButton botonMostrarGrafica;
+	
+	//BARRA DE MENU
+	private JMenuBar barraMenu;
+	private JMenu menu;
+	private JMenuItem cambiarConstantes;
+	private JMenuItem itemValoresDefecto;
+	private JMenuItem itemSalir;
 		
 	public Gui(){
 		
@@ -110,7 +120,6 @@ public class Gui extends JFrame {
 		checkElitismo.addActionListener(oyenteElitismo);
 		
 		checkContractividad = new JCheckBox("Contractividad");
-		checkEscalado = new JCheckBox("Escalado de aptitud");
 		
 		//Creamos los combos y añadimos los elementos
 		comboMutacion = new JComboBox();
@@ -125,6 +134,26 @@ public class Gui extends JFrame {
 		//Creamos los botones
 		botonEjecutar = new JButton("Ejecutar");
 		botonMostrarGrafica = new JButton("Gráfica");
+		
+
+		//Creamos la barra de menus y añadimos los elementos y oyentes
+		barraMenu = new JMenuBar();
+		menu = new JMenu();
+		cambiarConstantes = new JMenuItem("Cambiar constantes");
+		OyenteModificarConstantes modificarCons = new OyenteModificarConstantes();
+		cambiarConstantes.addActionListener(modificarCons);
+		itemValoresDefecto = new JMenuItem("Valores por defecto");
+		OyenteValoresPorDefecto valoresDefecto = new OyenteValoresPorDefecto();
+		itemValoresDefecto.addActionListener(valoresDefecto);
+		itemSalir = new JMenuItem("Salir");
+		OyenteSalir salida = new OyenteSalir();
+		itemSalir.addActionListener(salida);
+
+		menu.setText("Archivo");
+		menu.add(cambiarConstantes);
+		menu.add(itemValoresDefecto);
+		menu.add(itemSalir);
+		barraMenu.add(menu);
 		
 		//Creamos el panel principal de la aplicacion
 		panelPrincipal = new JPanel(new BorderLayout());
@@ -202,13 +231,12 @@ public class Gui extends JFrame {
 		panelParametrosAG.add(panelProbMutacion);
 		
 		//Creamos el panel de mejoras y añadimos sus componentes
-		panelMejoras = new JPanel(new GridLayout(3,1));
+		panelMejoras = new JPanel(new GridLayout(2,1));
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Mejoras");
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelMejoras.setBorder(compoundBorder);
 		panelMejoras.add(panelElitismo);
 		panelMejoras.add(checkContractividad);
-		panelMejoras.add(checkEscalado);
 		
 		//Creamos el panel de parametros de la hormiga y añadimos sus componentes
 		panelParametrosHormiga = new JPanel(new GridLayout(2,1));
@@ -251,6 +279,7 @@ public class Gui extends JFrame {
 		panelPrincipal.add(panelGenotipo_Grafica,BorderLayout.CENTER);
 		
 		this.setContentPane(panelPrincipal);
+		this.setJMenuBar(barraMenu);
 		this.setSize(950, 490);
 		this.setVisible(true);
 		this.setTitle("Hormiga automática");
@@ -263,6 +292,37 @@ public class Gui extends JFrame {
 			if(checkElitismo.isSelected())
 				textoElitismo.setEnabled(true);
 			else textoElitismo.setEnabled(false);
+		}
+		
+	}
+	
+	public class OyenteModificarConstantes implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			//TODO
+		}
+		
+	}
+	
+	public class OyenteValoresPorDefecto implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			//TODO
+		}
+		
+	}
+	
+	public class OyenteSalir implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			if( JOptionPane.showConfirmDialog(null,
+					"¿Seguro que desea salir?",
+					"Salir de la aplicación",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE
+			) == JOptionPane.YES_OPTION){
+				System.exit(0);
+			}
 		}
 		
 	}
