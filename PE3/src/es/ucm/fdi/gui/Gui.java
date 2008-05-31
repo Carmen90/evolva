@@ -22,12 +22,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicOptionPaneUI;
 
 import sun.net.www.content.image.jpeg;
 
 import es.ucm.fdi.utils.TableroComida;
 
 public class Gui extends JFrame {
+	
+	//FRAMES
+	private JFrame frameModificacionConstantes;
 	
 	//PANELES
 	private JPanel panelPrincipal;
@@ -49,6 +53,9 @@ public class Gui extends JFrame {
 	private JPanel panelDatosAux;
 	private JPanel panelTipoMutacion;
 	private JPanel panelSeleccion;
+	private JPanel panelConstantes;
+	private JPanel panelContenedorConstantes;
+	private JPanel panelContrincantes;
 	
 	//ETIQUETAS
 	private JLabel labelNumGeneraciones;
@@ -59,6 +66,7 @@ public class Gui extends JFrame {
 	private JLabel labelProfundidad;
 	private JLabel labelMaxPasos;
 	private JLabel labelSeleccion;
+	private JLabel labelNumContrincantes;
 	
 	//CAMPOS DE TEXTO
 	private JTextField textoNumGeneraciones;
@@ -69,6 +77,7 @@ public class Gui extends JFrame {
 	private JTextField textoProfundidad;
 	private JTextField textoMaxPasos;
 	private JTextArea textoGenotipo;
+	private JTextField textoNumContrincantes;
 	
 	//CHECKBOX
 	private JCheckBox checkElitismo;
@@ -81,6 +90,7 @@ public class Gui extends JFrame {
 	//BOTONES
 	private JButton botonEjecutar;
 	private JButton botonMostrarGrafica;
+	private JButton botonConstantes;
 	
 	//BARRA DE MENU
 	private JMenuBar barraMenu;
@@ -100,6 +110,7 @@ public class Gui extends JFrame {
 		labelProfundidad = new JLabel("Profundidad");
 		labelMaxPasos = new JLabel("Max. pasos");
 		labelSeleccion = new JLabel("Tipo selección");
+		labelNumContrincantes = new JLabel("Contrincantes");
 		
 		//Creamos los campos de texto
 		textoNumGeneraciones = new JTextField();
@@ -113,6 +124,7 @@ public class Gui extends JFrame {
 		textoGenotipo = new JTextArea();
 		textoGenotipo.setEditable(false);
 		textoGenotipo.setLineWrap(true);
+		textoNumContrincantes = new JTextField();
 		
 		//Creamos los checkbox
 		checkElitismo = new JCheckBox("Elitismo");
@@ -134,6 +146,7 @@ public class Gui extends JFrame {
 		//Creamos los botones
 		botonEjecutar = new JButton("Ejecutar");
 		botonMostrarGrafica = new JButton("Gráfica");
+		botonConstantes = new JButton("Aceptar");
 		
 
 		//Creamos la barra de menus y añadimos los elementos y oyentes
@@ -186,6 +199,9 @@ public class Gui extends JFrame {
 		panelElitismo = new JPanel(new GridLayout(1,2));
 		panelProfundidad = new JPanel(new GridLayout(1,2));
 		panelMaxPasos = new JPanel(new GridLayout(1,2));
+		panelConstantes = new JPanel(new BorderLayout());
+		panelContenedorConstantes = new JPanel(new GridLayout(1,1));
+		panelContrincantes = new JPanel(new GridLayout(1,2));
 		
 		//Añadimos los componentes de las celdas de los paneles
 		panelPoblacion.add(labelTamPoblacion);
@@ -215,6 +231,9 @@ public class Gui extends JFrame {
 		panelMaxPasos.add(labelMaxPasos);
 		panelMaxPasos.add(textoMaxPasos);
 		
+		panelContrincantes.add(labelNumContrincantes);
+		panelContrincantes.add(textoNumContrincantes);
+		
 		//Creamos el panel de parametros basicos del AG y añadimos sus componentes
 		panelParametrosAG = new JPanel(new GridLayout(6,1));
 		Border lineBorder, titleBorder, emptyBorder, compoundBorder;
@@ -237,6 +256,14 @@ public class Gui extends JFrame {
 		panelMejoras.setBorder(compoundBorder);
 		panelMejoras.add(panelElitismo);
 		panelMejoras.add(checkContractividad);
+		
+		//Añadimos los componentes al contenedor de la ventana que cambia el valor de las constantes en los algoritmos
+		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Selección por Torneo");
+		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
+		panelContrincantes.setBorder(compoundBorder);
+		panelContenedorConstantes.add(panelContrincantes);
+		panelConstantes.add(panelContenedorConstantes,BorderLayout.CENTER);
+		panelConstantes.add(botonConstantes, BorderLayout.SOUTH);
 		
 		//Creamos el panel de parametros de la hormiga y añadimos sus componentes
 		panelParametrosHormiga = new JPanel(new GridLayout(2,1));
@@ -300,6 +327,12 @@ public class Gui extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			//TODO
+			frameModificacionConstantes = new JFrame();
+			frameModificacionConstantes.setContentPane(panelConstantes);
+			frameModificacionConstantes.setTitle("Modificar constantes");
+			frameModificacionConstantes.setSize(240, 210);
+			frameModificacionConstantes.setVisible(true);	
+			
 		}
 		
 	}
