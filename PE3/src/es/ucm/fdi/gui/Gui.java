@@ -26,6 +26,7 @@ import javax.swing.plaf.basic.BasicOptionPaneUI;
 
 import sun.net.www.content.image.jpeg;
 
+import es.ucm.fdi.controlador.Controlador;
 import es.ucm.fdi.utils.TableroComida;
 
 public class Gui extends JFrame {
@@ -98,6 +99,9 @@ public class Gui extends JFrame {
 	private JMenuItem cambiarConstantes;
 	private JMenuItem itemValoresDefecto;
 	private JMenuItem itemSalir;
+	
+	//CONTROLADOR
+	private Controlador controlador;
 		
 	public Gui(){
 		
@@ -358,5 +362,13 @@ public class Gui extends JFrame {
 			}
 		}
 		
+	}
+
+	public Controlador getControlador() {
+		return controlador;
+	}
+
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
 	}
 }
