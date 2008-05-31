@@ -21,7 +21,6 @@ import javax.swing.border.Border;
 
 import sun.net.www.content.image.jpeg;
 
-import es.ucm.fdi.controlador.Controlador;
 import es.ucm.fdi.utils.TableroComida;
 
 public class Gui extends JFrame {
@@ -45,6 +44,7 @@ public class Gui extends JFrame {
 	private JScrollPane panelScroll;
 	private JPanel panelDatosAux;
 	private JPanel panelTipoMutacion;
+	private JPanel panelSeleccion;
 	
 	//ETIQUETAS
 	private JLabel labelNumGeneraciones;
@@ -54,6 +54,7 @@ public class Gui extends JFrame {
 	private JLabel labelProbMutacion;
 	private JLabel labelProfundidad;
 	private JLabel labelMaxPasos;
+	private JLabel labelSeleccion;
 	
 	//CAMPOS DE TEXTO
 	private JTextField textoNumGeneraciones;
@@ -72,13 +73,11 @@ public class Gui extends JFrame {
 	
 	//COMBOS
 	private JComboBox comboMutacion;
+	private JComboBox comboSeleccion;
 	
 	//BOTONES
 	private JButton botonEjecutar;
 	private JButton botonMostrarGrafica;
-	
-	//CONTROLADOR
-	private Controlador controlador;
 		
 	public Gui(){
 		
@@ -90,6 +89,7 @@ public class Gui extends JFrame {
 		labelProbMutacion = new JLabel("Probabilidad mutación");
 		labelProfundidad = new JLabel("Profundidad");
 		labelMaxPasos = new JLabel("Max. pasos");
+		labelSeleccion = new JLabel("Tipo selección");
 		
 		//Creamos los campos de texto
 		textoNumGeneraciones = new JTextField();
@@ -117,6 +117,10 @@ public class Gui extends JFrame {
 		comboMutacion.addItem("Terminal simple");
 		comboMutacion.addItem("Funcional simple");
 		comboMutacion.addItem("Árbol");
+		
+		comboSeleccion = new JComboBox();
+		comboSeleccion.addItem("Ruleta");
+		comboSeleccion.addItem("Torneo");
 		
 		//Creamos los botones
 		botonEjecutar = new JButton("Ejecutar");
@@ -146,6 +150,7 @@ public class Gui extends JFrame {
 		//Creamos los paneles de las celdas
 		panelPoblacion = new JPanel(new GridLayout(1,2));
 		panelGeneraciones = new JPanel(new GridLayout(1,2));
+		panelSeleccion = new JPanel(new GridLayout(1,2));
 		panelProbCruce = new JPanel(new GridLayout(1,2));
 		panelTipoMutacion = new JPanel(new GridLayout(1,2));
 		panelProbMutacion = new JPanel(new GridLayout(1,2));
@@ -159,6 +164,9 @@ public class Gui extends JFrame {
 		
 		panelGeneraciones.add(labelNumGeneraciones);
 		panelGeneraciones.add(textoNumGeneraciones);
+		
+		panelSeleccion.add(labelSeleccion);
+		panelSeleccion.add(comboSeleccion);
 		
 		panelProbCruce.add(labelProbCruce);
 		panelProbCruce.add(textoProbCruce);
@@ -179,7 +187,7 @@ public class Gui extends JFrame {
 		panelMaxPasos.add(textoMaxPasos);
 		
 		//Creamos el panel de parametros basicos del AG y añadimos sus componentes
-		panelParametrosAG = new JPanel(new GridLayout(5,1));
+		panelParametrosAG = new JPanel(new GridLayout(6,1));
 		Border lineBorder, titleBorder, emptyBorder, compoundBorder;
 		emptyBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
 		lineBorder = BorderFactory.createLineBorder(Color.BLACK);
@@ -188,6 +196,7 @@ public class Gui extends JFrame {
 		panelParametrosAG.setBorder(compoundBorder);
 		panelParametrosAG.add(panelPoblacion);
 		panelParametrosAG.add(panelGeneraciones);
+		panelParametrosAG.add(panelSeleccion);
 		panelParametrosAG.add(panelProbCruce);
 		panelParametrosAG.add(panelTipoMutacion);
 		panelParametrosAG.add(panelProbMutacion);
@@ -242,7 +251,7 @@ public class Gui extends JFrame {
 		panelPrincipal.add(panelGenotipo_Grafica,BorderLayout.CENTER);
 		
 		this.setContentPane(panelPrincipal);
-		this.setSize(950, 470);
+		this.setSize(950, 490);
 		this.setVisible(true);
 		this.setTitle("Hormiga automática");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -256,13 +265,5 @@ public class Gui extends JFrame {
 			else textoElitismo.setEnabled(false);
 		}
 		
-	}
-
-	public Controlador getControlador() {
-		return controlador;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
 	}
 }
