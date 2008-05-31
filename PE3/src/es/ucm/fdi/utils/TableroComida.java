@@ -2,7 +2,7 @@ package es.ucm.fdi.utils;
 
 public class TableroComida {
 	
-	public static final int NUM_BOCADITOS = 89;
+	public static final int NUM_BOCADITOS = 90;
 	public static final int DIMENSION_X = 32;
 	public static final int DIMENSION_Y = 32;
 	

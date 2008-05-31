@@ -78,8 +78,8 @@ public class ResultadoEvaluacion implements ResultadosVisitas {
 		case OESTE: columnaSiguiente = (this.columnaActual - 1 + TableroComida.DIMENSION_X) % TableroComida.DIMENSION_X;
 					break;
 		}
-		
-		if (TableroComida.COMIDA[filaSiguiente][columnaSiguiente] == 1) return true;
+		//si en el tablero hay una supuesta casilla con comida y no la hemos comido
+		if (TableroComida.COMIDA[filaSiguiente][columnaSiguiente] == 1 && !this.bocadosComidos[filaSiguiente][columnaSiguiente]) return true;
 		return false;
 	}
 	

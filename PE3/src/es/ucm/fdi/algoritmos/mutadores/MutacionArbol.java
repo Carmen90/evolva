@@ -57,7 +57,7 @@ public class MutacionArbol implements Mutador {
 				((Funcion)gen).setNumAgregados(numParametros);
 			}
 			}
-			System.out.println("Nueva rama: "+nuevaRama.toString());
+			//System.out.println("Nueva rama: "+nuevaRama.toString());
 			resultado.exito = true;
 			resultado.gen = gen;
 

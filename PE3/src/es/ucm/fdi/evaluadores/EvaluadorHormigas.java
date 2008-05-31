@@ -15,10 +15,21 @@ import es.ucm.fdi.utils.TableroComida;
 
 public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
-	public static final int MAX_PASOS = 10;
-	public static final int MAX_PROFUNDIDAD = 3;
+	public static final int MAX_PASOS = 400;
+	public static final int MAX_PROFUNDIDAD = 4;
 
 	private int pasosConsumidos;
+	
+	private boolean mostrarPasos;
+	private boolean[][] pasos;
+	
+	public EvaluadorHormigas(){
+		this.mostrarPasos = false;
+	}
+	
+	public EvaluadorHormigas(boolean mostrarPasos){
+		this.mostrarPasos = mostrarPasos; 
+	}
 
 	public boolean esMejorAptitud(double aptitud, double aptitudMejor) {
 		//Es un problema de maximizacion, luego una aptitud mayor es mejor
@@ -27,7 +38,11 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
 	public double evaluaAptitud(Cromosoma individuo) {
 		this.pasosConsumidos = 0;
-		
+		if (mostrarPasos){
+			this.pasos = new boolean[TableroComida.DIMENSION_X][TableroComida.DIMENSION_Y];
+			this.pasos[0][0] = true;
+			
+		}
 		ResultadoEvaluacion.getInstance().inicializar();
 		GenArboreo gen = (GenArboreo) individuo.getGenes()[0];
 		
@@ -203,6 +218,9 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 			resultado.avanza();
 			//si en la nueva casilla hay comida entonces la comemos
 			resultado.comer();
+			if (this.mostrarPasos){
+				this.pasos[resultado.getFilaActual()][resultado.getColumnaActual()] = true;
+			}
 		}
 		//si giramos, permanecemos en la misma casilla, con lo cual ya comimos el bocado si lo habia.
 		else if (valor == terminales.DERECHA) resultado.giraDerecha();
@@ -213,5 +231,9 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
 		return resultado;
 
+	}
+
+	public boolean[][] getPasos() {
+		return pasos;
 	}
 }

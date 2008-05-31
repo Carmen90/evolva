@@ -43,6 +43,9 @@ public class SeleccionRuleta implements Seleccionador{
 		double sumaAptitud = 0.0; //suma de la aptitud
 		int tamañoPoblacion = poblacion.length;
 		
+		//ordenamos la poblacion de peor a mejor aptitud.
+		poblacion = Ordenacion.sortSelectionIndividuals(poblacion, evaluador);
+				
 		double[] aptitudesEscaladas = new double[poblacion.length];
 		double a = (C-1)*Poblacion.mediaPoblacionInstantanea(poblacion)/(Poblacion.mejorPoblacionInstantanea(poblacion, evaluador).getAptitud()-Poblacion.mediaPoblacionInstantanea(poblacion));
 		double b = Poblacion.mediaPoblacionInstantanea(poblacion)*(1-a);
@@ -50,11 +53,7 @@ public class SeleccionRuleta implements Seleccionador{
 		for(int i = 0; i<tamañoPoblacion; i++){
 			aptitudesEscaladas[i] = a*poblacion[i].getAptitud()+b;
 		}
-		
-		
-		//ordenamos la poblacion de peor a mejor aptitud.
-		poblacion = Ordenacion.sortSelectionIndividuals(poblacion, evaluador);
-				
+						
 		double[] aptitudesPositivas = new double[tamañoPoblacion];
 		for (int i = 0; i< tamañoPoblacion; i++){
 				double aptitudPositivaI = poblacion[i].getAptitud();

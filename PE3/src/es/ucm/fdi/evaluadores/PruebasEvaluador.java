@@ -8,8 +8,8 @@ public class PruebasEvaluador {
 		Evaluador evaluador = new EvaluadorHormigas();
 		
 		//PRUEBA DE GENERACION ALEATORIA DE CROMOSOMAS:
-		//Cromosoma c = evaluador.generarCromosomaAleatorio();
-		Cromosoma c = evaluador.generarCromosomaFijo();
+		Cromosoma c = evaluador.generarCromosomaAleatorio();
+		//Cromosoma c = evaluador.generarCromosomaFijo();
 		System.out.println("--->PRUEBA DE GENERACION ALEATORIA DE CROMOSOMAS");
 		System.out.println("El cromosoma aleatorio generado es el siguiente: ");
 		System.out.println(c.getFenotipo());

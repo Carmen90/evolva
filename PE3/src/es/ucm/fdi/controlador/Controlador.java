@@ -11,56 +11,36 @@ public class Controlador {
 	//Valores para ejecucion basica
 	public static int POBLACION_DEFECTO = 300;
 	public static int GENERACIONES_DEFECTO = 100;
-	public static double CRUCE_DEFECTO = 0.7;
+	public static double CRUCE_DEFECTO = 0.8;
 	public static double MUTACION_DEFECTO = 0.12;
-	public static double TOLERANCIA_DEFECTO = 0.0001;
 	public static double ELITISMO_DEFECTO = 0.02;
-
-	//Valores para la ejecucion multiple
-	public static double[] POBLACION_MULTIPLE_DEFECTO = {100,1000,100};
-	public static double[] GENERACIONES_MULTIPLE_DEFECTO = {100,500,50};
-	public static double[] CRUCE_MULTIPLE_DEFECTO = {0.1,0.9,0.05};
-	public static double[] MUTACION_MULTIPLE_DEFECTO = {0.01,0.5,0.01};
-	public static double[] ELITISMO_MULTIPLE_DEFECTO = {0.01,0.3,0.01};
-
-	//Valores para guardar los datos que mete el usuario y recordarlos
-	private double[] copiaPoblacionMultiple;
-	private double[] copiaGeneracionesMultiple;
-	private double[] copiaCruceMultiple;
-	private double[] copiaMutacionMultiple;
-	private double[] copiaElitismoMultiple;
 
 	public double[] mejores;
 	public double[] mejoresParciales;
 	public double[] medias;
 
-	private int numeroFuncion;
 	private boolean elitismo;
 
-	public Controlador(){
-		copiaPoblacionMultiple = POBLACION_MULTIPLE_DEFECTO;
-		copiaGeneracionesMultiple = GENERACIONES_MULTIPLE_DEFECTO;
-		copiaCruceMultiple = CRUCE_MULTIPLE_DEFECTO;
-		copiaMutacionMultiple = MUTACION_MULTIPLE_DEFECTO;
-		copiaElitismoMultiple = ELITISMO_MULTIPLE_DEFECTO;
-	}
+	public Controlador(){}
 
 	public void ejecucionSencilla(int numGeneraciones, int tamPoblacion, double probCruce, 
 			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
-			 boolean contractividad, boolean presionSelectiva, boolean escalado){
+			 boolean contractividad, boolean escalado){
 		
 		Evaluador e = new EvaluadorHormigas();
 		
 		Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 				probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
-				contractividad, presionSelectiva, escalado);
+				contractividad, escalado);
 		
 
 		//tenemos varias graficas, todas deben conocer al controlador para solicitar datos del ultimo modelo 
 		//generado. No obstante, el controlador no necesita detalles de las vistas graficas, por eso lo creamos aqui
+		/*
 		Grafica2D grafica = new Grafica2D();
 		grafica.setControlador(this);
 		grafica.generarGrafica(resultados[0], mejores, mejoresParciales, medias, numGeneraciones);
+		*/
 	}
 	
 	/*
@@ -70,10 +50,7 @@ public class Controlador {
 	 */
 	private Cromosoma[] algoritmoGenetico(Evaluador e, int numGeneraciones, int tamPoblacion, double probCruce, 
 			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
-			boolean contractividad, boolean presionSelectiva, boolean escalado){
-		
-		//Esta es la mejora que le pasamos si es seleccion por ranking o ruleta para que evalue la poblacion 
-		boolean mejora = presionSelectiva || escalado;
+			boolean contractividad, boolean escalado){
 		
 		Cromosoma[] resultados = new Cromosoma[2];
 		this.elitismo = eli;
@@ -88,7 +65,8 @@ public class Controlador {
 				probCruce,probMutacion,tipoMutacion,tipoCruce,tipoSeleccion);
 		
 		AG.inicializar(e); //crea población inicial de cromosomas
-		AG.evaluarPoblacion(mejora);//evalúa los individuos y coge el mejor
+		AG.evaluarPoblacion(escalado);//evalúa los individuos y coge el mejor
+		//-------------> POBLACION ORDENADA <------------------//
 		mediaPoblacionAnterior = AG.mediaPoblacionInstantanea();
 
 		while (!AG.terminado()) {
@@ -96,16 +74,20 @@ public class Controlador {
 			//antes de la seleccion, separamos los mejores individuos, calculados a partir
 			//del porcentaje introducido por el usuario.
 			if (elitismo) AG.almacenarElite(porcentajeElite);
+			//-------------> POBLACION ORDENADA <------------------//
 
 			AG.seleccion();
 			AG.reproduccion();
 			AG.mutacion();
+			//POBLACION DESORDENADA
 
 			//antes de reevaluar la poblacion, incluimos de nuevo los  mejores individuos
 			//sustituyendo los peores individuos generados en el proceso.
 			if (elitismo) AG.recuperarElite();
+			//-------------> POBLACION ORDENADA <------------------//
 
-			AG.evaluarPoblacion(mejora);
+			AG.evaluarPoblacion(escalado);
+			//-------------> POBLACION ORDENADA <------------------//
 
 			double mediaPoblacionActual = AG.mediaPoblacionInstantanea();
 			if (contractividad){
@@ -136,52 +118,8 @@ public class Controlador {
 		return resultados;
 	}
 
-	public int getNumeroFuncion() {
-		return numeroFuncion;
-	}
-
 	public boolean getElitismo() {
 		return elitismo;
 	}
-
-	public double[] getCopiaPoblacionMultiple() {
-		return copiaPoblacionMultiple;
-	}
-
-	public void setCopiaPoblacionMultiple(double[] copia) {
-		this.copiaPoblacionMultiple = copia;
-	}
-
-	public double[] getCopiaGeneracionesMultiple() {
-		return copiaGeneracionesMultiple;
-	}
-
-	public void setCopiaGeneracionesMultiple(double[] copia) {
-		this.copiaGeneracionesMultiple = copia;
-	}
-
-	public double[] getCopiaCruceMultiple() {
-		return copiaCruceMultiple;
-	}
-
-	public void setCopiaCruceMultiple(double[] copiaCruceMultiple) {
-		this.copiaCruceMultiple = copiaCruceMultiple;
-	}
-
-	public double[] getCopiaMutacionMultiple() {
-		return copiaMutacionMultiple;
-	}
-
-	public void setCopiaMutacionMultiple(double[] copiaMutacionMultiple) {
-		this.copiaMutacionMultiple = copiaMutacionMultiple;
-	}
-
-	public double[] getCopiaElitismoMultiple() {
-		return copiaElitismoMultiple;
-	}
-
-	public void setCopiaElitismoMultiple(double[] copiaElitismoMultiple) {
-		this.copiaElitismoMultiple = copiaElitismoMultiple;
-	}	
 
 }
