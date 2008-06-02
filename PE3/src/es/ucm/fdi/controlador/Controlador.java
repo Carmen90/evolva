@@ -9,10 +9,10 @@ import es.ucm.fdi.gui.*;
 public class Controlador {
 
 	//Valores para ejecucion basica
-	public static int POBLACION_DEFECTO = 300;
-	public static int GENERACIONES_DEFECTO = 200;
-	public static double CRUCE_DEFECTO = 0.8;
-	public static double MUTACION_DEFECTO = 0.12;
+	public static int POBLACION_DEFECTO = 200;
+	public static int GENERACIONES_DEFECTO = 100;
+	public static double CRUCE_DEFECTO = 0.7;
+	public static double MUTACION_DEFECTO = 0.2;
 	public static double ELITISMO_DEFECTO = 0.02;
 
 	public double[] mejores;

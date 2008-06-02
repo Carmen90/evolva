@@ -15,6 +15,7 @@ public class AGeneticoHormigas extends AGenetico {
 	 * Solo tenemos un tipo de cruce para las estrategias de cruce
 	 */
 	public static final int CRUCE_ARBOREO = 0;
+	public static final int CRUCE_ARBOREO_MEJORADO = 1;
 	
 	/*
 	 * Tipos de Selección
@@ -185,7 +186,8 @@ public class AGeneticoHormigas extends AGenetico {
 	public void setCruzador(int tipoCruce) {
 		switch(tipoCruce){
 		case CRUCE_ARBOREO: this.cruzador = new CruzadorArboreo(); break;
-		default: this.cruzador = new CruzadorArboreo();
+		case CRUCE_ARBOREO_MEJORADO: this.cruzador = new CruzadorArboreoMejorado(); break;
+		default: this.cruzador = new CruzadorArboreoMejorado();
 		}
 	}
 

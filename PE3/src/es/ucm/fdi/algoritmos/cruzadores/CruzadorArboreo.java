@@ -10,9 +10,9 @@ import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.Terminal.terminales;
 
 public class CruzadorArboreo implements Cruzador{
-	
-	private GenArboreo nodoI = null;
 
+	private GenArboreo nodoI = null;
+	
 	public Cromosoma[] cruce(Cromosoma padre1, Cromosoma padre2) {
 		//crear cromosoma, crear genes, setear genes, inicializar cromosoma
 
@@ -20,50 +20,50 @@ public class CruzadorArboreo implements Cruzador{
 		//creamos los cromosomas hijos
 		Cromosoma hijo1 = new CromosomaHormigas(numeroGenes); 
 		Cromosoma hijo2 = new CromosomaHormigas(numeroGenes);
-		
+
 		//creamos el array de genes de los hijos
 		GenArboreo[] genesHijo1 = new GenArboreo[numeroGenes];
 		GenArboreo[] genesHijo2 = new GenArboreo[numeroGenes];
-		
+
 		//para cada gen de cada cromosoma padre, calculamos un punto de cruce y los cruzamos por separado.
 		for (int i = 0; i < padre1.getNumeroGenes(); i++){
 			//obtenemos el genEntero de los padres 1 y 2
 			GenArboreo genPadre1I = (GenArboreo) padre1.getGenes()[i];
-			
+
 			GenArboreo genPadre2I = (GenArboreo) padre2.getGenes()[i];
-			
+
 			//calculamos los puntos de cruce en los padres
 			PuntoDeCruce puntoCrucePadre1 = this.calcularPuntoDeCruce(genPadre1I);
 			PuntoDeCruce puntoCrucePadre2 = this.calcularPuntoDeCruce(genPadre2I);
-			
+
 			/******************************DEPURACION*******************************/
 			/*System.out.println("punto de cruce padre 1: " + puntoCrucePadre1.toString());
 			System.out.println("punto de cruce padre 2: " + puntoCrucePadre2.toString());*/
-			
+
 			//creamos el genEntero hijo1 e hijo2
 			GenArboreo genHijo1I = (GenArboreo) genPadre1I.copiaGen();
 			GenArboreo genHijo2I = (GenArboreo) genPadre2I.copiaGen();
-						
+
 			//creamos la codificacion del gen i de cada hijo
 			/****************Cruce Arboreo****************/
 			obtenerNodo(puntoCrucePadre1.numeroNodo, genHijo1I);
 			GenArboreo ramaHijo1 = this.nodoI.Remover(puntoCrucePadre1.numeroHijo);
-			
+
 			obtenerNodo(puntoCrucePadre2.numeroNodo, genHijo2I);
 			GenArboreo ramaHijo2 = this.nodoI.Remover(puntoCrucePadre2.numeroHijo);
-			
+
 			obtenerNodo(puntoCrucePadre1.numeroNodo, genHijo1I);
 			this.nodoI.Agregar(ramaHijo2, puntoCrucePadre1.numeroHijo);
-			
+
 			obtenerNodo(puntoCrucePadre2.numeroNodo, genHijo2I);
 			this.nodoI.Agregar(ramaHijo1, puntoCrucePadre2.numeroHijo);
-			
+
 			//control de profundidad
 			genHijo1I = controlarProfundidad(genHijo1I);
 			genHijo2I = controlarProfundidad(genHijo2I);
-							
+
 			/****************FIN Cruce Arboreo****************/
-			
+
 			genesHijo1[i] = genHijo1I;
 			genesHijo2[i] = genHijo2I;
 		}
@@ -77,68 +77,41 @@ public class CruzadorArboreo implements Cruzador{
 		hijos[1] = hijo2;
 		return hijos;
 	}
-	
+
 	//calcula un punto de cruce correspondiente a una funcion.
 	//para ello, generamos un numero aleatorio entre 0 y el numero de nodos - 1
 	//y recorremos el arbol para ver si es funcion o terminal.
 	//	si es terminal repetimos el proceso.
 	//	si no es terminal 
 	//		seleccionamos uno de los hijos. (el que se va a sustituir)
-	//			---->> [COMENTADO] si el hijo no es terminal ya tenemos el punto de cruce
-	//			---->> [COMENTADO] sino repetimos
-	//	    ---->> [COMENTADO] si se agotan los hijos repetimos el proceso entero.
+	//			
 	// El punto de cruce puede ser tambien un terminal ahora.
 	private PuntoDeCruce calcularPuntoDeCruce(GenArboreo g){
-		
+
 		PuntoDeCruce punto = new PuntoDeCruce();
 		boolean esFuncionElPadre = false;
-		//boolean esFuncionElHijo = false;
 		
 		do{
-			
+
 			int posicionAleatoria = MyRandom.aleatorioEntero(0,g.calcularNumeroNodos()+1);	
 			obtenerNodo(posicionAleatoria, g);
 			//obtenerNodo(posicionAleatoria, g);
 			GenArboreo genEnPosicion = this.nodoI;
 			if (genEnPosicion.getLongitud() != 0){
-				
+
 				esFuncionElPadre = true;
-				
-				/*boolean[] hijosVisitados = new boolean[genEnPosicion.getLongitud()];
-				boolean todosLosHijosVisitados = false;
-				GenArboreo hijoI = null;
-				int posicionHijoAleatorio = -1;
-				
-				do{*/
-					//calculamos un hijo aleatorio
-					int posicionHijoAleatorio = MyRandom.aleatorioEntero(0, genEnPosicion.getLongitud());
-					//si no hemos visitado este hijo le visitamos
-				/*	if (!hijosVisitados[posicionHijoAleatorio]){
-						hijoI = ((Funcion)genEnPosicion).getArgumentos()[posicionHijoAleatorio];
-						hijosVisitados[posicionHijoAleatorio] = true;
-					}
-					//contamos cuantos hijos hemos visitado ya.
-					int numHijosVisitados = 0;
-					for (int i = 0; i<hijosVisitados.length;i++){
-						if (hijosVisitados[i]) numHijosVisitados++; 
-					}
-					//si el numero de hijos visitados es igual al numero de hijos, ya hemos visitado tordos
-					todosLosHijosVisitados = numHijosVisitados == genEnPosicion.getLongitud();
-				
-				//repetimos el calculo del hijo mientras no sea una funcion y no hayamos visitado todos
-				}while(hijoI.getLongitud() == 0 && !todosLosHijosVisitados);
-				*/
-				/*if (hijoI.getLongitud()!= 0){
-					esFuncionElHijo = true; */
-					punto.setNumeroHijo(posicionHijoAleatorio);
-					punto.setNumeroNodo(posicionAleatoria);
-				//}
+
+				//calculamos un hijo aleatorio
+				int posicionHijoAleatorio = MyRandom.aleatorioEntero(0, genEnPosicion.getLongitud());
+
+				punto.setNumeroHijo(posicionHijoAleatorio);
+				punto.setNumeroNodo(posicionAleatoria);
 			}
-			
-		}while(! (esFuncionElPadre /*&& esFuncionElHijo*/) );
+
+		}while(! (esFuncionElPadre) );
 		return punto;
 	}
-	
+
 	//funcion que setea el nodoI en el indice indicado.
 	//devuelve hasta que nodo hemos bajado en el arbol (para controlar la recursion)
 	//cuando hemos llegado al nodo, encontes devolvemos -1.
@@ -149,7 +122,7 @@ public class CruzadorArboreo implements Cruzador{
 			indice = -1;
 		}else{
 			indice--;
-			
+
 			int i = 0;
 			while (i < g.getLongitud() && indice != -1){
 				indice = obtenerNodo(indice, ((Funcion)g).getArgumentos()[i]);
@@ -157,9 +130,9 @@ public class CruzadorArboreo implements Cruzador{
 			}
 		}
 		return indice;
-		
+
 	}
-	
+
 	//Funcion para el control de profundidad de los arboles cruzados
 	//cuando llegamos al limite de profundidad, cambiamos los hijos 
 	//funcion y los sustituimos por terminales aleatorios
@@ -174,29 +147,29 @@ public class CruzadorArboreo implements Cruzador{
 					int indiceTerminal = MyRandom.aleatorioEntero(0, Terminal.NUM_TERMINALES);
 					terminales valorTerminal = terminales.values()[indiceTerminal];
 					GenArboreo terminal = new Terminal(valorTerminal,EvaluadorHormigas.MAX_PROFUNDIDAD);
-					
+
 					//removemos el hijo actual
 					GenArboreo sustituido = ((Funcion)g).Remover(i);
 					//seteamos el terminal nuevo
 					((Funcion)g).Agregar(terminal, i);
-					
+
 					/*DEPURACION*/
 					/*System.out.println("podada la rama: "+ sustituido.toString());
 					System.out.println("sustituida por: "+terminal.toString());*/
 				}
 			}
-		//si no hemos llegado al nivel de profundidad, entonces seguimos controlando 
-		//la profundidad para cada uno de los hijos
+			//si no hemos llegado al nivel de profundidad, entonces seguimos controlando 
+			//la profundidad para cada uno de los hijos
 		}else{
 			for (int i = 0; i< g.getLongitud(); i++){
 				((Funcion)g).getArgumentos()[i] = controlarProfundidad(((Funcion)g).getArgumentos()[i]);
 			}
 		}
 		return g;
-		
+
 	}
-	
-	
+
+
 	//Clase utilizada para representar los puntos de cruce en un arbol
 	class PuntoDeCruce{
 		private int numeroNodo;
@@ -216,6 +189,6 @@ public class CruzadorArboreo implements Cruzador{
 		public String toString(){
 			return "numeroNodo: "+numeroNodo+"; numeroHijo: "+numeroHijo;
 		}
-		
+
 	}
 }

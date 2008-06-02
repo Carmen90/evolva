@@ -25,7 +25,7 @@ public class PruebasCruce {
 		System.out.println(cromosoma2.toString());
 		
 		/**************************** CRUCE *********************************/
-		Cruzador cruzador = new CruzadorArboreo();		
+		Cruzador cruzador = new CruzadorArboreoMejorado();		
 		Cromosoma[] hijos = cruzador.cruce(cromosoma, cromosoma2);
 		
 		

@@ -27,6 +27,7 @@ import javax.swing.plaf.basic.BasicOptionPaneUI;
 import sun.net.www.content.image.jpeg;
 
 import es.ucm.fdi.controlador.Controlador;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.TableroComida;
 
 public class Gui extends JFrame {
@@ -40,7 +41,7 @@ public class Gui extends JFrame {
 	private JPanel panelDatos;
 	private JPanel panelParametrosAG;
 	private JPanel panelMejoras;
-	private JPanel panelParametrosHormiga;
+	//private JPanel panelParametrosHormiga;
 	private JPanel panelPoblacion;
 	private JPanel panelGeneraciones;
 	private JPanel panelProbCruce;
@@ -83,6 +84,7 @@ public class Gui extends JFrame {
 	//CHECKBOX
 	private JCheckBox checkElitismo;
 	private JCheckBox checkContractividad;
+	private JCheckBox checkEscalado;
 	
 	//COMBOS
 	private JComboBox comboMutacion;
@@ -102,6 +104,8 @@ public class Gui extends JFrame {
 	
 	//CONTROLADOR
 	private Controlador controlador;
+	
+	private Celda[][] tablero;
 		
 	public Gui(){
 		
@@ -118,17 +122,23 @@ public class Gui extends JFrame {
 		
 		//Creamos los campos de texto
 		textoNumGeneraciones = new JTextField();
+		textoNumGeneraciones.setText(String.valueOf(Controlador.GENERACIONES_DEFECTO));
 		textoTamPoblacion = new JTextField();
+		textoTamPoblacion.setText(String.valueOf(Controlador.POBLACION_DEFECTO));
 		textoProbCruce = new JTextField();
+		textoProbCruce.setText(String.valueOf(Controlador.CRUCE_DEFECTO));
 		textoProbMutacion = new JTextField();
+		textoProbMutacion.setText(String.valueOf(Controlador.MUTACION_DEFECTO));
 		textoElitismo = new JTextField();
+		textoElitismo.setText(String.valueOf(Controlador.ELITISMO_DEFECTO));
 		textoElitismo.setEnabled(false);   //Desactivamos el campo de texto de elitismo hasta que se marque en el checkbox
 		textoProfundidad = new JTextField();
 		textoMaxPasos = new JTextField();
-		textoGenotipo = new JTextArea();
+		textoGenotipo = new JTextArea(6,0);
 		textoGenotipo.setEditable(false);
 		textoGenotipo.setLineWrap(true);
 		textoNumContrincantes = new JTextField();
+		textoNumContrincantes.setText(String.valueOf(ConstantesAlgoritmos.getInstance().NUMERO_CONTRINCANTES));
 		
 		//Creamos los checkbox
 		checkElitismo = new JCheckBox("Elitismo");
@@ -136,6 +146,7 @@ public class Gui extends JFrame {
 		checkElitismo.addActionListener(oyenteElitismo);
 		
 		checkContractividad = new JCheckBox("Contractividad");
+		checkEscalado = new JCheckBox("Escalado de aptitud");
 		
 		//Creamos los combos y añadimos los elementos
 		comboMutacion = new JComboBox();
@@ -149,7 +160,9 @@ public class Gui extends JFrame {
 		
 		//Creamos los botones
 		botonEjecutar = new JButton("Ejecutar");
-		botonMostrarGrafica = new JButton("Gráfica");
+		botonMostrarGrafica = new JButton();
+		botonMostrarGrafica.setIcon(new ImageIcon("./images/graficaIcon.JPG"));
+		botonMostrarGrafica.setEnabled(false);
 		botonConstantes = new JButton("Aceptar");
 		
 
@@ -177,13 +190,15 @@ public class Gui extends JFrame {
 		
 		//Creamos la matriz de casillas con los lugares donde hay comida
 		panelMatriz = new JPanel(new GridLayout(32,32));
+		this.tablero = new Celda[TableroComida.DIMENSION_X][TableroComida.DIMENSION_Y];
 		for(int i=0; i<TableroComida.DIMENSION_Y; i++){
 			for(int j=0; j<TableroComida.DIMENSION_X; j++){
 				Celda casilla = new Celda(i,j);
 				casilla.setEnabled(false);
+				this.tablero[casilla.getFila()][casilla.getColumna()] = casilla;
 				int contenidoCelda = TableroComida.COMIDA[i][j];
 				if(contenidoCelda == 1)
-					casilla.setBackground(Color.GREEN);
+					tablero[i][j].setBackground(Color.GREEN);
 				else{
 					//ImageIcon icono = new ImageIcon(getClass().getClassLoader().getResource("es/ucm/fdi/images/hormiga.gif"));
 					//casilla.setIcon(icono);
@@ -254,12 +269,13 @@ public class Gui extends JFrame {
 		panelParametrosAG.add(panelProbMutacion);
 		
 		//Creamos el panel de mejoras y añadimos sus componentes
-		panelMejoras = new JPanel(new GridLayout(2,1));
+		panelMejoras = new JPanel(new GridLayout(3,1));
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Mejoras");
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelMejoras.setBorder(compoundBorder);
 		panelMejoras.add(panelElitismo);
 		panelMejoras.add(checkContractividad);
+		panelMejoras.add(checkEscalado);
 		
 		//Añadimos los componentes al contenedor de la ventana que cambia el valor de las constantes en los algoritmos
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Selección por Torneo");
@@ -270,18 +286,26 @@ public class Gui extends JFrame {
 		panelConstantes.add(botonConstantes, BorderLayout.SOUTH);
 		
 		//Creamos el panel de parametros de la hormiga y añadimos sus componentes
-		panelParametrosHormiga = new JPanel(new GridLayout(2,1));
+		/*panelParametrosHormiga = new JPanel(new GridLayout(2,1));
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Parámetros Hormiga");
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelParametrosHormiga.setBorder(compoundBorder);
 		panelParametrosHormiga.add(panelProfundidad);
-		panelParametrosHormiga.add(panelMaxPasos);
+		panelParametrosHormiga.add(panelMaxPasos);*/
 		
 		//Creamos el panel de los datos y añadimos sus subpaneles
-		panelDatos = new JPanel(new BorderLayout());
-		panelDatos.add(panelParametrosAG,BorderLayout.NORTH);
-		panelDatos.add(panelMejoras,BorderLayout.CENTER);
-		panelDatos.add(panelParametrosHormiga,BorderLayout.SOUTH);
+		panelDatos = new JPanel(new GridLayout(2,1));
+		
+		JPanel panelParamAGAux = new JPanel(new BorderLayout());
+		panelParamAGAux.add(panelParametrosAG,BorderLayout.NORTH);
+		
+		JPanel panelMejorasAux = new JPanel(new BorderLayout());
+		panelMejorasAux.add(panelMejoras,BorderLayout.NORTH);
+		
+		
+		panelDatos.add(panelParamAGAux);
+		panelDatos.add(panelMejorasAux);
+		
 		
 		//Creamos el panelDatosAux que contiene al PanelDatos y al boton de ejecutar
 		panelDatosAux = new JPanel(new BorderLayout());
@@ -306,12 +330,12 @@ public class Gui extends JFrame {
 		panelDatos_Matriz.add(panelDatosAux,BorderLayout.WEST);
 		panelDatos_Matriz.add(panelMatriz,BorderLayout.CENTER);
 	
-		panelPrincipal.add(panelDatos_Matriz,BorderLayout.NORTH);
-		panelPrincipal.add(panelGenotipo_Grafica,BorderLayout.CENTER);
+		panelPrincipal.add(panelDatos_Matriz,BorderLayout.CENTER);
+		panelPrincipal.add(panelGenotipo_Grafica,BorderLayout.SOUTH);
 		
 		this.setContentPane(panelPrincipal);
 		this.setJMenuBar(barraMenu);
-		this.setSize(950, 490);
+		this.setSize(765, 595);
 		this.setVisible(true);
 		this.setTitle("Hormiga automática");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

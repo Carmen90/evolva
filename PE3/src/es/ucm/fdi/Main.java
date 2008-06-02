@@ -10,20 +10,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		Controlador controlador = new Controlador();
-		//Gui gui = new Gui();
-		//gui.setControlador(controlador);
+		Gui gui = new Gui();
+		gui.setControlador(controlador);
 		
 		
 		/****************DEPURACION DEL ALGORITMO GENÉTICO CON CONSOLA******************************/
-		int numGeneraciones = Controlador.GENERACIONES_DEFECTO;
+		/*int numGeneraciones = Controlador.GENERACIONES_DEFECTO;
 		int tamPoblacion = Controlador.POBLACION_DEFECTO;
 		double probCruce = Controlador.CRUCE_DEFECTO; 
 		double probMutacion = Controlador.MUTACION_DEFECTO; 
 		boolean eli = true; 
 		double porcentajeElite = Controlador.ELITISMO_DEFECTO; 
-		int tipoMutacion = AGeneticoHormigas.MUTACION_TERMINAL; 
-		int tipoCruce = AGeneticoHormigas.CRUCE_ARBOREO; 
-		int tipoSeleccion = AGeneticoHormigas.SELECCION_RULETA; 
+		int tipoMutacion = AGeneticoHormigas.MUTACION_ARBOL; 
+		int tipoCruce = AGeneticoHormigas.CRUCE_ARBOREO_MEJORADO; 
+		int tipoSeleccion = AGeneticoHormigas.SELECCION_TORNEO; 
 		boolean contractividad = false; 
 		boolean escalado = false; 
 		
@@ -32,7 +32,7 @@ public class Main {
 		System.out.println("Mejores individuos hallados: ");
 		for (int i = 0; i < controlador.mejores.length; i++){
 			System.out.println(controlador.mejores[i]);	
-		}
+		}*/
 		
 	}
 
