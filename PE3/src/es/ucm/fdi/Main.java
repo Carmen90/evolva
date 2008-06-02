@@ -19,9 +19,9 @@ public class Main {
 		int tamPoblacion = Controlador.POBLACION_DEFECTO;
 		double probCruce = Controlador.CRUCE_DEFECTO; 
 		double probMutacion = Controlador.MUTACION_DEFECTO; 
-		boolean eli = false; 
+		boolean eli = true; 
 		double porcentajeElite = Controlador.ELITISMO_DEFECTO; 
-		int tipoMutacion = AGeneticoHormigas.MUTACION_FUNCIONAL; 
+		int tipoMutacion = AGeneticoHormigas.MUTACION_TERMINAL; 
 		int tipoCruce = AGeneticoHormigas.CRUCE_ARBOREO; 
 		int tipoSeleccion = AGeneticoHormigas.SELECCION_RULETA; 
 		boolean contractividad = false; 
