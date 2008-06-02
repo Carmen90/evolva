@@ -17,8 +17,8 @@ public class PruebasSeleccion {
 			poblacion[j].setAptitud(evaluador.evaluaAptitud(poblacion[j]));
 		}
 		
-		Seleccionador seleccionador = new SeleccionTorneo();
-		poblacion = seleccionador.generarSegmentos(poblacion, evaluador, false);
+		Seleccionador seleccionador = new SeleccionRuleta();
+		poblacion = seleccionador.generarSegmentos(poblacion, evaluador, true);
 		
 		System.out.println("poblacion generada, con segmentos de seleccion generados:");
 		for (int i = 0; i< poblacion.length; i++){
