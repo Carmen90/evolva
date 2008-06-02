@@ -1,6 +1,7 @@
 package es.ucm.fdi.evaluadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
+import es.ucm.fdi.utils.TableroComida;
 
 public class PruebasEvaluador {
 
@@ -8,9 +9,9 @@ public class PruebasEvaluador {
 		Evaluador evaluador = new EvaluadorHormigas(true);
 		
 		//PRUEBA DE GENERACION ALEATORIA DE CROMOSOMAS:
-		//Cromosoma c = evaluador.generarCromosomaAleatorio();
+		Cromosoma c = evaluador.generarCromosomaAleatorio();
 		//Cromosoma c = evaluador.generarCromosomaFijo();
-		Cromosoma c = ((EvaluadorHormigas)evaluador).generarCromosomaSolucion();
+		//Cromosoma c = ((EvaluadorHormigas)evaluador).generarCromosomaSolucion();
 		System.out.println("--->PRUEBA DE GENERACION ALEATORIA DE CROMOSOMAS");
 		System.out.println("El cromosoma aleatorio generado es el siguiente: ");
 		System.out.println(c.getFenotipo());
@@ -26,8 +27,10 @@ public class PruebasEvaluador {
 		boolean[][] pasosDados = ((EvaluadorHormigas)evaluador).getPasos();
 		for (int i = 0; i<pasosDados.length; i++){
 			for (int j = 0; j < pasosDados[i].length; j++){
-				if (pasosDados[i][j]) System.out.print ("# ");
-				else System.out.print(". ");
+				String casilla = " · ";
+				if (TableroComida.COMIDA[i][j]==1)casilla =" O ";
+				if (pasosDados[i][j]) casilla =" # ";
+				System.out.print(casilla);
 			}
 			System.out.println();
 		}
