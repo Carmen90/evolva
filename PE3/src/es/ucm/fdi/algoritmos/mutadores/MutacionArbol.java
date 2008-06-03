@@ -6,6 +6,7 @@ import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.genes.Terminal;
 import es.ucm.fdi.genes.Funcion.funciones;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.MyRandom;
 
 public class MutacionArbol implements Mutador {
@@ -22,7 +23,7 @@ public class MutacionArbol implements Mutador {
 				//Extraemos el gen del individuo
 				GenArboreo gen = (GenArboreo) individuo.getGenes()[0];
 				//Generamos una profundidad aleatoria, que puede llegar incluso al nivel maximo de profundidad para mutar las hojas
-				int profundidad = MyRandom.aleatorioEntero(0, EvaluadorHormigas.MAX_PROFUNDIDAD + 1);
+				int profundidad = MyRandom.aleatorioEntero(0, ConstantesAlgoritmos.getInstance().getMaxProfundidad() + 1);
 				//TODO cambiar el 1 por la profundidad.
 				ResultadoMutacion resultado = mutarGen(gen, profundidad);
 				//como hemos mutado el individuo, entonces recalculamos el fenotipo.

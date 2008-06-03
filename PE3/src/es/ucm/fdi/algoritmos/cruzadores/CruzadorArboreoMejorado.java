@@ -5,6 +5,7 @@ import es.ucm.fdi.cromosomas.CromosomaHormigas;
 import es.ucm.fdi.evaluadores.EvaluadorHormigas;
 import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.genes.Terminal;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.MyRandom;
 import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.Terminal.terminales;
@@ -107,7 +108,7 @@ public class CruzadorArboreoMejorado implements Cruzador{
 
 		PuntoDeCruce punto;
 
-		int profundidadMax = EvaluadorHormigas.MAX_PROFUNDIDAD;
+		int profundidadMax = ConstantesAlgoritmos.getInstance().getMaxProfundidad();
 		//generamos los segmentos de probabilidad para los diferentes nodos del arbol, segun los niveles.
 		//para el primer nivel, asignamos el 50%
 		//para el siguiente nivel, el 50% del 50%, y asi sucesivamente.
@@ -133,7 +134,7 @@ public class CruzadorArboreoMejorado implements Cruzador{
 		PuntoDeCruce punto;
 
 		//si hemos llegado al final del arbol, devolvemos el terminal
-		if (g.getProfundidad() == EvaluadorHormigas.MAX_PROFUNDIDAD){
+		if (g.getProfundidad() == ConstantesAlgoritmos.getInstance().getMaxProfundidad()){
 			punto = new PuntoDeCruce();
 			punto.setPadre(g);
 			punto.setNumeroHijo(-1);
@@ -172,14 +173,14 @@ public class CruzadorArboreoMejorado implements Cruzador{
 	public GenArboreo controlarProfundidad(GenArboreo g){
 		//si estamos a un nivel de la profundidad maxima, entonces miramos los hijos 
 		//y sustituimos las funciones por terminales
-		if (g.getProfundidad() == EvaluadorHormigas.MAX_PROFUNDIDAD - 1){
+		if (g.getProfundidad() == ConstantesAlgoritmos.getInstance().getMaxProfundidad() - 1){
 			for (int i = 0; i< g.getLongitud(); i++){
 				//si el hijo i es una funcion
 				if (((Funcion)g).getArgumentos()[i].getLongitud() != 0){
 					//calculamos un terminal aleatorio
 					int indiceTerminal = MyRandom.aleatorioEntero(0, Terminal.NUM_TERMINALES);
 					terminales valorTerminal = terminales.values()[indiceTerminal];
-					GenArboreo terminal = new Terminal(valorTerminal,EvaluadorHormigas.MAX_PROFUNDIDAD);
+					GenArboreo terminal = new Terminal(valorTerminal,ConstantesAlgoritmos.getInstance().getMaxProfundidad());
 
 					//removemos el hijo actual
 					GenArboreo sustituido = ((Funcion)g).Remover(i);

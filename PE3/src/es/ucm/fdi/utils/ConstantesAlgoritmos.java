@@ -2,9 +2,16 @@ package es.ucm.fdi.utils;
 
 public class ConstantesAlgoritmos {
 	
+	//Seleccion por Torneo
 	public static final int NUMERO_CONTRINCANTES = 3;
 	
+	//Evaluador de las Hormigas
+	public static final int MAX_PASOS = 400;
+	public static final int MAX_PROFUNDIDAD = 4;
+	
 	private int numContrincantes;
+	private int maxPasos;
+	private int maxProfundidad;
 	
 	private static ConstantesAlgoritmos INSTANCE;
 	
@@ -20,6 +27,8 @@ public class ConstantesAlgoritmos {
 	
 	private ConstantesAlgoritmos(){
 		numContrincantes = NUMERO_CONTRINCANTES;
+		maxPasos = MAX_PASOS;
+		maxProfundidad = MAX_PROFUNDIDAD;
 	}
 	
 	public int getNumContrincantes() {
@@ -27,6 +36,22 @@ public class ConstantesAlgoritmos {
 	}
 	public void setNumContrincantes(int numContrincantes) {
 		this.numContrincantes = numContrincantes;
+	}
+
+	public int getMaxPasos() {
+		return maxPasos;
+	}
+
+	public void setMaxPasos(int maxPasos) {
+		this.maxPasos = maxPasos;
+	}
+
+	public int getMaxProfundidad() {
+		return maxProfundidad;
+	}
+
+	public void setMaxProfundidad(int maxProfundidad) {
+		this.maxProfundidad = maxProfundidad;
 	}
 	
 	

@@ -23,16 +23,17 @@ public class Controlador {
 
 	public Controlador(){}
 
-	public void ejecucionSencilla(int numGeneraciones, int tamPoblacion, double probCruce, 
+	public Cromosoma[] ejecucionSencilla(int numGeneraciones, int tamPoblacion, double probCruce, 
 			double probMutacion, boolean eli, double porcentajeElite, int tipoMutacion, int tipoCruce, int tipoSeleccion,
 			 boolean contractividad, boolean escalado){
 		
 		Evaluador e = new EvaluadorHormigas();
-		
+
 		Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 				probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
 				contractividad, escalado);
 		
+		return resultados;
 
 		//tenemos varias graficas, todas deben conocer al controlador para solicitar datos del ultimo modelo 
 		//generado. No obstante, el controlador no necesita detalles de las vistas graficas, por eso lo creamos aqui

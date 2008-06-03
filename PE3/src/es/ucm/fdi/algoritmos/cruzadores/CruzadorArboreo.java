@@ -5,6 +5,7 @@ import es.ucm.fdi.cromosomas.CromosomaHormigas;
 import es.ucm.fdi.evaluadores.EvaluadorHormigas;
 import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.genes.Terminal;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.MyRandom;
 import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.Terminal.terminales;
@@ -139,14 +140,14 @@ public class CruzadorArboreo implements Cruzador{
 	public GenArboreo controlarProfundidad(GenArboreo g){
 		//si estamos a un nivel de la profundidad maxima, entonces miramos los hijos 
 		//y sustituimos las funciones por terminales
-		if (g.getProfundidad() == EvaluadorHormigas.MAX_PROFUNDIDAD - 1){
+		if (g.getProfundidad() == ConstantesAlgoritmos.getInstance().getMaxProfundidad() - 1){
 			for (int i = 0; i< g.getLongitud(); i++){
 				//si el hijo i es una funcion
 				if (((Funcion)g).getArgumentos()[i].getLongitud() != 0){
 					//calculamos un terminal aleatorio
 					int indiceTerminal = MyRandom.aleatorioEntero(0, Terminal.NUM_TERMINALES);
 					terminales valorTerminal = terminales.values()[indiceTerminal];
-					GenArboreo terminal = new Terminal(valorTerminal,EvaluadorHormigas.MAX_PROFUNDIDAD);
+					GenArboreo terminal = new Terminal(valorTerminal,ConstantesAlgoritmos.getInstance().getMaxProfundidad());
 
 					//removemos el hijo actual
 					GenArboreo sustituido = ((Funcion)g).Remover(i);

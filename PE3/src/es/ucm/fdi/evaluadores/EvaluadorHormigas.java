@@ -10,13 +10,14 @@ import es.ucm.fdi.genes.Terminal.terminales;
 import es.ucm.fdi.genes.Funcion.funciones;
 import es.ucm.fdi.genes.visitas.ResultadosVisitas;
 import es.ucm.fdi.genes.visitas.VisitanteGenArboreo;
+import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.MyRandom;
 import es.ucm.fdi.utils.TableroComida;
 
 public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
-	public static final int MAX_PASOS = 400;
-	public static final int MAX_PROFUNDIDAD = 4;
+	//public static final int MAX_PASOS = 400;
+	//public static final int MAX_PROFUNDIDAD = 4;
 
 	private int pasosConsumidos;
 	
@@ -50,7 +51,7 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 			gen.aceptarVisitanteEvaluacion(this);
 		//con esta condicion comprobamos no evaluar otro arbol, si ya hemos llegado al
 		//maximo de pasos consumidos o a la solucion.
-		}while( this.pasosConsumidos < MAX_PASOS && 
+		}while( this.pasosConsumidos < ConstantesAlgoritmos.getInstance().getMaxPasos() && 
 				ResultadoEvaluacion.getInstance().getNumBocadosComidos() < TableroComida.NUM_BOCADITOS );
 
 		return ResultadoEvaluacion.getInstance().getNumBocadosComidos();
@@ -86,7 +87,7 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		GenArboreo genArboreo = null;
 		//si todavia no hemos llegado a la profundidad máxima, generamos una funcion aleatoriamente
 		//y para cada parametro que se le tiene que aplicar, generamos un gen aleatoriamente. 
-		if (profundidad < MAX_PROFUNDIDAD){
+		if (profundidad < ConstantesAlgoritmos.getInstance().getMaxProfundidad()){
 			int indiceFuncion = MyRandom.aleatorioEntero(0, Funcion.NUM_FUNCIONES);
 			funciones valorFuncion = funciones.values()[indiceFuncion];
 			int numParametros = 0;
@@ -192,7 +193,7 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 
 		//con esta condicion controlamos que nos quedemos a mitad de la evaluacion de un arbol
 		//si hemos llegado a la solucion o al numero maximo de pasos posibles
-		if (this.pasosConsumidos < MAX_PASOS && resultado.getNumBocadosComidos() < TableroComida.NUM_BOCADITOS){
+		if (this.pasosConsumidos < ConstantesAlgoritmos.getInstance().getMaxPasos() && resultado.getNumBocadosComidos() < TableroComida.NUM_BOCADITOS){
 			
 			if (f.getValor() == funciones.SIC){
 				if (resultado.hayComidaDelante()) 

@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -22,11 +24,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 
 import sun.net.www.content.image.jpeg;
 
+import es.ucm.fdi.algoritmos.AGeneticoHormigas;
 import es.ucm.fdi.controlador.Controlador;
+import es.ucm.fdi.cromosomas.Cromosoma;
+import es.ucm.fdi.evaluadores.Evaluador;
+import es.ucm.fdi.evaluadores.EvaluadorHormigas;
+import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.TableroComida;
 
@@ -58,6 +64,8 @@ public class Gui extends JFrame {
 	private JPanel panelConstantes;
 	private JPanel panelContenedorConstantes;
 	private JPanel panelContrincantes;
+	private JPanel panelArbol;
+	private JPanel panelEjecutar_Aptitud;
 	
 	//ETIQUETAS
 	private JLabel labelNumGeneraciones;
@@ -69,6 +77,7 @@ public class Gui extends JFrame {
 	private JLabel labelMaxPasos;
 	private JLabel labelSeleccion;
 	private JLabel labelNumContrincantes;
+	private JLabel labelAptitud;
 	
 	//CAMPOS DE TEXTO
 	private JTextField textoNumGeneraciones;
@@ -119,26 +128,44 @@ public class Gui extends JFrame {
 		labelMaxPasos = new JLabel("Max. pasos");
 		labelSeleccion = new JLabel("Tipo selección");
 		labelNumContrincantes = new JLabel("Contrincantes");
+		labelAptitud = new JLabel();
 		
 		//Creamos los campos de texto
 		textoNumGeneraciones = new JTextField();
 		textoNumGeneraciones.setText(String.valueOf(Controlador.GENERACIONES_DEFECTO));
+		OyenteTeclaIntro oyenteGeneraciones = new OyenteTeclaIntro();
+		textoNumGeneraciones.addKeyListener(oyenteGeneraciones);
+		
 		textoTamPoblacion = new JTextField();
 		textoTamPoblacion.setText(String.valueOf(Controlador.POBLACION_DEFECTO));
+		OyenteTeclaIntro oyenteTamPoblacion = new OyenteTeclaIntro();
+		textoTamPoblacion.addKeyListener(oyenteTamPoblacion);
+		
 		textoProbCruce = new JTextField();
 		textoProbCruce.setText(String.valueOf(Controlador.CRUCE_DEFECTO));
+		OyenteTeclaIntro oyenteProbCruce = new OyenteTeclaIntro();
+		textoProbCruce.addKeyListener(oyenteProbCruce);
+		
 		textoProbMutacion = new JTextField();
 		textoProbMutacion.setText(String.valueOf(Controlador.MUTACION_DEFECTO));
+		OyenteTeclaIntro oyenteProbMutacion = new OyenteTeclaIntro();
+		textoProbMutacion.addKeyListener(oyenteProbMutacion);
+		
 		textoElitismo = new JTextField();
 		textoElitismo.setText(String.valueOf(Controlador.ELITISMO_DEFECTO));
 		textoElitismo.setEnabled(false);   //Desactivamos el campo de texto de elitismo hasta que se marque en el checkbox
+		OyenteTeclaIntro oyenteElitisimo = new OyenteTeclaIntro();
+		textoElitismo.addKeyListener(oyenteElitisimo);
+		
 		textoProfundidad = new JTextField();
+		textoProfundidad.setText(String.valueOf(ConstantesAlgoritmos.getInstance().getMaxProfundidad()));
 		textoMaxPasos = new JTextField();
+		textoMaxPasos.setText(String.valueOf(ConstantesAlgoritmos.getInstance().getMaxPasos()));
 		textoGenotipo = new JTextArea(6,0);
 		textoGenotipo.setEditable(false);
 		textoGenotipo.setLineWrap(true);
 		textoNumContrincantes = new JTextField();
-		textoNumContrincantes.setText(String.valueOf(ConstantesAlgoritmos.getInstance().NUMERO_CONTRINCANTES));
+		textoNumContrincantes.setText(String.valueOf(ConstantesAlgoritmos.getInstance().getNumContrincantes()));
 		
 		//Creamos los checkbox
 		checkElitismo = new JCheckBox("Elitismo");
@@ -157,13 +184,24 @@ public class Gui extends JFrame {
 		comboSeleccion = new JComboBox();
 		comboSeleccion.addItem("Ruleta");
 		comboSeleccion.addItem("Torneo");
+		OyenteComboSeleccion oyenteComboSelec = new OyenteComboSeleccion();
+		comboSeleccion.addActionListener(oyenteComboSelec);
+		
 		
 		//Creamos los botones
 		botonEjecutar = new JButton("Ejecutar");
+		OyenteBotonEjecutar ejecucion = new OyenteBotonEjecutar();
+		botonEjecutar.addActionListener(ejecucion);
+		
 		botonMostrarGrafica = new JButton();
 		botonMostrarGrafica.setIcon(new ImageIcon("./images/graficaIcon.JPG"));
 		botonMostrarGrafica.setEnabled(false);
+		OyenteBotonGrafica oyenteGrafica = new OyenteBotonGrafica();
+		botonMostrarGrafica.addActionListener(oyenteGrafica);
+		
 		botonConstantes = new JButton("Aceptar");
+		OyenteAceptarConstantes oyenteAceptar = new OyenteAceptarConstantes();
+		botonConstantes.addActionListener(oyenteAceptar);
 		
 
 		//Creamos la barra de menus y añadimos los elementos y oyentes
@@ -202,12 +240,14 @@ public class Gui extends JFrame {
 				else{
 					//ImageIcon icono = new ImageIcon(getClass().getClassLoader().getResource("es/ucm/fdi/images/hormiga.gif"));
 					//casilla.setIcon(icono);
+					Color color = new Color(238,238,238);
+					tablero[i][j].setBackground(color);
 				}
 				//Añadimos cada boton creado
 				panelMatriz.add(casilla);
 			}
 		}
-		
+
 		//Creamos los paneles de las celdas
 		panelPoblacion = new JPanel(new GridLayout(1,2));
 		panelGeneraciones = new JPanel(new GridLayout(1,2));
@@ -219,8 +259,10 @@ public class Gui extends JFrame {
 		panelProfundidad = new JPanel(new GridLayout(1,2));
 		panelMaxPasos = new JPanel(new GridLayout(1,2));
 		panelConstantes = new JPanel(new BorderLayout());
-		panelContenedorConstantes = new JPanel(new GridLayout(1,1));
+		panelContenedorConstantes = new JPanel(new BorderLayout());
 		panelContrincantes = new JPanel(new GridLayout(1,2));
+		panelArbol = new JPanel(new GridLayout(2,1));
+		panelEjecutar_Aptitud = new JPanel(new GridLayout(1,2));
 		
 		//Añadimos los componentes de las celdas de los paneles
 		panelPoblacion.add(labelTamPoblacion);
@@ -253,6 +295,9 @@ public class Gui extends JFrame {
 		panelContrincantes.add(labelNumContrincantes);
 		panelContrincantes.add(textoNumContrincantes);
 		
+		panelArbol.add(panelMaxPasos);
+		panelArbol.add(panelProfundidad);
+		
 		//Creamos el panel de parametros basicos del AG y añadimos sus componentes
 		panelParametrosAG = new JPanel(new GridLayout(6,1));
 		Border lineBorder, titleBorder, emptyBorder, compoundBorder;
@@ -281,7 +326,11 @@ public class Gui extends JFrame {
 		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Selección por Torneo");
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelContrincantes.setBorder(compoundBorder);
-		panelContenedorConstantes.add(panelContrincantes);
+		titleBorder = BorderFactory.createTitledBorder(lineBorder, "Árbol");
+		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
+		panelArbol.setBorder(compoundBorder);
+		panelContenedorConstantes.add(panelContrincantes,BorderLayout.NORTH);
+		panelContenedorConstantes.add(panelArbol,BorderLayout.CENTER);
 		panelConstantes.add(panelContenedorConstantes,BorderLayout.CENTER);
 		panelConstantes.add(botonConstantes, BorderLayout.SOUTH);
 		
@@ -310,7 +359,9 @@ public class Gui extends JFrame {
 		//Creamos el panelDatosAux que contiene al PanelDatos y al boton de ejecutar
 		panelDatosAux = new JPanel(new BorderLayout());
 		panelDatosAux.add(panelDatos,BorderLayout.CENTER);
-		panelDatosAux.add(botonEjecutar,BorderLayout.SOUTH);
+		panelEjecutar_Aptitud.add(botonEjecutar);
+		panelEjecutar_Aptitud.add(labelAptitud);
+		panelDatosAux.add(panelEjecutar_Aptitud,BorderLayout.SOUTH);
 		
 		//Creamos el panel que contiene el area de texto del genotipo con una barra de desplazamiento
 		panelScroll = new JScrollPane();
@@ -323,6 +374,7 @@ public class Gui extends JFrame {
 		compoundBorder = BorderFactory.createCompoundBorder(titleBorder,emptyBorder);
 		panelGenotipo_Grafica.setBorder(compoundBorder);
 		panelGenotipo_Grafica.add(panelScroll,BorderLayout.CENTER);
+		
 		panelGenotipo_Grafica.add(botonMostrarGrafica,BorderLayout.EAST);
 		
 		//Creamos el panel de datos-Matriz
@@ -341,6 +393,28 @@ public class Gui extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	public class OyenteBotonEjecutar implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			ejecutarAlgoritmo();
+		}
+		
+	}
+	
+	public class OyenteTeclaIntro implements KeyListener{
+
+		public void keyPressed(KeyEvent e) {
+			
+			//Solo si hemos pulsado la tecla intro
+			if(e.getKeyCode() == 10)
+				ejecutarAlgoritmo();
+		}
+		
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
+		
+	}
+	
 	public class OyenteCheckElitismo implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -354,13 +428,24 @@ public class Gui extends JFrame {
 	public class OyenteModificarConstantes implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			//TODO
+
 			frameModificacionConstantes = new JFrame();
 			frameModificacionConstantes.setContentPane(panelConstantes);
 			frameModificacionConstantes.setTitle("Modificar constantes");
-			frameModificacionConstantes.setSize(240, 210);
+			frameModificacionConstantes.setSize(240, 175);
 			frameModificacionConstantes.setVisible(true);	
 			
+		}
+		
+	}
+	
+	public class OyenteAceptarConstantes implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			ConstantesAlgoritmos.getInstance().setNumContrincantes(Integer.parseInt(textoNumContrincantes.getText()));
+			ConstantesAlgoritmos.getInstance().setMaxPasos(Integer.parseInt(textoMaxPasos.getText()));
+			ConstantesAlgoritmos.getInstance().setMaxProfundidad(Integer.parseInt(textoProfundidad.getText()));
+			frameModificacionConstantes.dispose();
 		}
 		
 	}
@@ -368,7 +453,18 @@ public class Gui extends JFrame {
 	public class OyenteValoresPorDefecto implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			//TODO
+			
+			textoTamPoblacion.setText(String.valueOf(Controlador.POBLACION_DEFECTO));
+			textoNumGeneraciones.setText(String.valueOf(Controlador.GENERACIONES_DEFECTO));
+			comboSeleccion.setSelectedIndex(0);
+			textoProbCruce.setText(String.valueOf(Controlador.CRUCE_DEFECTO));
+			comboMutacion.setSelectedIndex(0);
+			textoProbMutacion.setText(String.valueOf(Controlador.MUTACION_DEFECTO));
+			checkElitismo.setSelected(false);
+			textoElitismo.setText(String.valueOf(Controlador.ELITISMO_DEFECTO));
+			checkContractividad.setSelected(false);
+			checkEscalado.setSelected(false);			
+			
 		}
 		
 	}
@@ -386,6 +482,85 @@ public class Gui extends JFrame {
 			}
 		}
 		
+	}
+	
+	public class OyenteComboSeleccion implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			if(comboSeleccion.getSelectedIndex() == 0)
+				checkEscalado.setEnabled(true);
+			else checkEscalado.setEnabled(false);
+		}
+		
+	}
+	
+	public class OyenteBotonGrafica implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			//TODO
+		}
+		
+	}
+	
+	private void ejecutarAlgoritmo(){
+
+		//Limpio la matriz de casillas en cada nueva ejecucion
+		reiniciarMatrizCasillas();
+		
+		//Extraemos los datos para pasarselos al controlador
+		int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
+		int numGeneraciones = Integer.parseInt(textoNumGeneraciones.getText());
+		double probCruce = Double.parseDouble(textoProbCruce.getText());
+		double probMutacion = Double.parseDouble(textoProbMutacion.getText());
+		boolean elitismo = checkElitismo.isSelected();
+		double porcentajeElite = Double.parseDouble(textoElitismo.getText());
+		int tipoMutacion = comboMutacion.getSelectedIndex();
+		int tipoSeleccion = comboSeleccion.getSelectedIndex();
+		boolean contractividad = checkContractividad.isSelected();
+		boolean escalado = checkEscalado.isSelected();
+		int tipoCruce = AGeneticoHormigas.CRUCE_ARBOREO_MEJORADO;
+		
+		Cromosoma[] resultados = controlador.ejecucionSencilla(numGeneraciones, tamPoblacion, probCruce, probMutacion, elitismo, 
+										porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion, 
+										contractividad, escalado);
+		
+		//Resultados[0] contiene el mejor cromosoma GLOBAL
+		Cromosoma c = resultados[0];
+		Evaluador evaluador = new EvaluadorHormigas(true);
+		c.setAptitud(evaluador.evaluaAptitud(c));
+		labelAptitud.setText("      Mejor aptitud: " + c.getAptitud());
+		
+		/*
+		 * Mostramos el recorrido graficamente: NARANJA->hormiga
+												VERDE -> Comida
+		 */
+		boolean[][] pasosDados = ((EvaluadorHormigas)evaluador).getPasos();
+		for (int i = 0; i<pasosDados.length; i++){
+			for (int j = 0; j < pasosDados[i].length; j++){
+				if (pasosDados[i][j]) tablero[i][j].setBackground(Color.ORANGE);
+			}
+		}
+		
+		//Incrustamos en el area de texto el genotipo del cromosoma:
+		textoGenotipo.setText(((GenArboreo)c.getGenes()[0]).toString());
+		if(textoGenotipo.getText() != "") botonMostrarGrafica.setEnabled(true);
+		
+		
+		
+	}
+	
+	private void reiniciarMatrizCasillas(){
+		for(int i=0; i<TableroComida.DIMENSION_Y; i++){
+			for(int j=0; j<TableroComida.DIMENSION_X; j++){
+				int contenidoCelda = TableroComida.COMIDA[i][j];
+				if(contenidoCelda == 1)
+					tablero[i][j].setBackground(Color.GREEN);
+				else{
+					Color color = new Color(238,238,238);  //Gris por defecto
+					tablero[i][j].setBackground(color);
+				}
+			}
+		}
 	}
 
 	public Controlador getControlador() {

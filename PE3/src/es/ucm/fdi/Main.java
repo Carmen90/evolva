@@ -10,8 +10,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		Controlador controlador = new Controlador();
+
 		Gui gui = new Gui();
 		gui.setControlador(controlador);
+
 		
 		
 		/****************DEPURACION DEL ALGORITMO GENÉTICO CON CONSOLA******************************/
