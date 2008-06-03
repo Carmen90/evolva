@@ -9,9 +9,9 @@ public class Controlador {
 
 	//Valores para ejecucion basica
 	public static int POBLACION_DEFECTO = 200;
-	public static int GENERACIONES_DEFECTO = 100;
+	public static int GENERACIONES_DEFECTO = 200;
 	public static double CRUCE_DEFECTO = 0.7;
-	public static double MUTACION_DEFECTO = 0.2;
+	public static double MUTACION_DEFECTO = 0.4;
 	public static double ELITISMO_DEFECTO = 0.02;
 
 	public double[] mejores;
