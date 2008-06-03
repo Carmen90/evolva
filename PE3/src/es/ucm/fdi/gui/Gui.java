@@ -498,6 +498,7 @@ public class Gui extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			//TODO
+			controlador.dibujarGrafica();
 		}
 		
 	}

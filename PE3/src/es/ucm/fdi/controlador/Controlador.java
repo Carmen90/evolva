@@ -20,6 +20,11 @@ public class Controlador {
 	public double[] medias;
 
 	private boolean elitismo;
+	
+	//TODO NACHO
+	private int numGeneraciones;
+	private Cromosoma[] resultados;
+	private Grafica2D grafica;
 
 	public Controlador(){}
 
@@ -29,19 +34,21 @@ public class Controlador {
 		
 		Evaluador e = new EvaluadorHormigas();
 
-		Cromosoma[] resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
+		resultados = algoritmoGenetico(e, numGeneraciones, tamPoblacion, probCruce, 
 				probMutacion, eli, porcentajeElite, tipoMutacion, tipoCruce, tipoSeleccion,
 				contractividad, escalado);
-		
-		return resultados;
 
 		//tenemos varias graficas, todas deben conocer al controlador para solicitar datos del ultimo modelo 
 		//generado. No obstante, el controlador no necesita detalles de las vistas graficas, por eso lo creamos aqui
-		/*
-		Grafica2D grafica = new Grafica2D();
+		
+		grafica = new Grafica2D();
 		grafica.setControlador(this);
+		
+		return resultados;
+	}
+	
+	public void dibujarGrafica(){
 		grafica.generarGrafica(resultados[0], mejores, mejoresParciales, medias, numGeneraciones);
-		*/
 	}
 	
 	/*
@@ -55,6 +62,7 @@ public class Controlador {
 		
 		Cromosoma[] resultados = new Cromosoma[2];
 		this.elitismo = eli;
+		this.numGeneraciones = numGeneraciones;
 		
 		double mediaPoblacionAnterior = 0.0;
 
