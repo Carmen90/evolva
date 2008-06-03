@@ -1,8 +1,5 @@
 package es.ucm.fdi;
 
-import javax.swing.JProgressBar;
-
-import es.ucm.fdi.algoritmos.AGeneticoHormigas;
 import es.ucm.fdi.controlador.Controlador;
 import es.ucm.fdi.gui.Gui;
 

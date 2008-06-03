@@ -1,7 +1,5 @@
 package es.ucm.fdi.cromosomas;
 
-import java.util.ArrayList;
-
 import es.ucm.fdi.genes.Gen;
 
 public abstract class Cromosoma {

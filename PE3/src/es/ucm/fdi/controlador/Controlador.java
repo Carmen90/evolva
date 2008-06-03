@@ -1,6 +1,5 @@
 package es.ucm.fdi.controlador;
 
-import es.ucm.fdi.algoritmos.AGenetico;
 import es.ucm.fdi.algoritmos.AGeneticoHormigas;
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.*;

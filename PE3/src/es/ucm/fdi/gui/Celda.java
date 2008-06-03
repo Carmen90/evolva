@@ -3,6 +3,8 @@ package es.ucm.fdi.gui;
 import javax.swing.JButton;
 
 public class Celda extends JButton {
+	
+	private static final long serialVersionUID = -8393755237191626183L;
 	private int fila;
 	private int columna;
 	

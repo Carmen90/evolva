@@ -26,8 +26,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import sun.net.www.content.image.jpeg;
-
 import es.ucm.fdi.algoritmos.AGeneticoHormigas;
 import es.ucm.fdi.controlador.Controlador;
 import es.ucm.fdi.cromosomas.Cromosoma;
@@ -39,6 +37,8 @@ import es.ucm.fdi.utils.TableroComida;
 
 public class Gui extends JFrame {
 	
+	private static final long serialVersionUID = 2428153328973591518L;
+
 	//FRAMES
 	private JFrame frameModificacionConstantes;
 	

@@ -4,7 +4,6 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.utils.ConstantesAlgoritmos;
 import es.ucm.fdi.utils.MyRandom;
-import es.ucm.fdi.utils.Ordenacion;
 
 public class SeleccionTorneo implements Seleccionador {
 	

@@ -1,7 +1,6 @@
 package es.ucm.fdi.algoritmos.mutadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
-import es.ucm.fdi.evaluadores.EvaluadorHormigas;
 import es.ucm.fdi.genes.Funcion;
 import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.genes.Funcion.funciones;
@@ -25,6 +24,7 @@ public class MutacionFuncionalSimple implements Mutador {
 				int profundidad = MyRandom.aleatorioEntero(0, ConstantesAlgoritmos.getInstance().getMaxProfundidad());
 				//TODO cambiar el 1 por la profundidad.
 				ResultadoMutacion resultado = mutarGen(gen, profundidad);
+				gen = resultado.gen;
 				//como hemos mutado el individuo, entonces recalculamos el fenotipo.
 				//la evaluacion se hara en el ultimo paso de cada generacion.
 				individuo.fenotipo();

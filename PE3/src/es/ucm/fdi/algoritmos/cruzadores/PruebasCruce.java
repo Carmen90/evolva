@@ -4,7 +4,6 @@ import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaHormigas;
 import es.ucm.fdi.evaluadores.Evaluador;
 import es.ucm.fdi.evaluadores.EvaluadorHormigas;
-import es.ucm.fdi.genes.GenArboreo;
 
 public class PruebasCruce {
 

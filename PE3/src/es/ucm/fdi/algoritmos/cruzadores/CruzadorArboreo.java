@@ -2,7 +2,6 @@ package es.ucm.fdi.algoritmos.cruzadores;
 
 import es.ucm.fdi.cromosomas.Cromosoma;
 import es.ucm.fdi.cromosomas.CromosomaHormigas;
-import es.ucm.fdi.evaluadores.EvaluadorHormigas;
 import es.ucm.fdi.genes.GenArboreo;
 import es.ucm.fdi.genes.Terminal;
 import es.ucm.fdi.utils.ConstantesAlgoritmos;
@@ -150,7 +149,7 @@ public class CruzadorArboreo implements Cruzador{
 					GenArboreo terminal = new Terminal(valorTerminal,ConstantesAlgoritmos.getInstance().getMaxProfundidad());
 
 					//removemos el hijo actual
-					GenArboreo sustituido = ((Funcion)g).Remover(i);
+					((Funcion)g).Remover(i);
 					//seteamos el terminal nuevo
 					((Funcion)g).Agregar(terminal, i);
 
