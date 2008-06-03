@@ -117,8 +117,9 @@ public class CruzadorArboreoMejorado implements Cruzador{
 		//No podemos seleccionar probabilidad para la raiz
 		segmentosProbabilidad[0] = -1;
 		for (int i = 1; i <= profundidadMax; i++){
-			probabilidad = probabilidad / 2.75;
+			probabilidad = probabilidad / 4;
 			segmentosProbabilidad[i] = probabilidad;
+			//System.out.println("Segmento en "+i+"= "+probabilidad);
 		}
 
 		//una vez generadas las probabilidades para los niveles, calculamos una probabilidad aleatoria, y comenzamos por la raiz.

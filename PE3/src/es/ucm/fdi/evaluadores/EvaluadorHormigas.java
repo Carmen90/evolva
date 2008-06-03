@@ -82,6 +82,7 @@ public class EvaluadorHormigas implements Evaluador, VisitanteGenArboreo {
 		return gen;
 	}
 	
+	//la profundidad pasada por parametro se refiere a la profundidad inicial
 	public static GenArboreo genArboreoAleatorio(int profundidad){
 		
 		GenArboreo genArboreo = null;

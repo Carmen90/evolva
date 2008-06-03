@@ -13,7 +13,7 @@ public class PruebasCruce {
 		
 		/****************************CROMOSOMA 1*********************************/
 		//crear cromosoma
-		CromosomaHormigas cromosoma = (CromosomaHormigas) e.generarCromosomaFijo();
+		CromosomaHormigas cromosoma = (CromosomaHormigas) e.generarCromosomaAleatorio();
 				
 		/****************************CROMOSOMA 2*********************************/
 		//crear cromosoma

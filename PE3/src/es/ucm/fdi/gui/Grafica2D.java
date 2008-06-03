@@ -2,6 +2,7 @@ package es.ucm.fdi.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,7 +25,9 @@ public class Grafica2D extends JFrame{
 	
 	private Controlador controlador;
 	
-	public Grafica2D(){}
+	public Grafica2D(){
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("./images/hormiga.JPG"));
+	}
 	
 	public void generarGrafica(Cromosoma elMejor, double[] mejores, double[] mejoresParciales, double[] medias, int numeroGeneraciones){
 		panelContenido = new JPanel(new BorderLayout());

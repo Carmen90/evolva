@@ -7,7 +7,7 @@ public class ConstantesAlgoritmos {
 	
 	//Evaluador de las Hormigas
 	public static final int MAX_PASOS = 400;
-	public static final int MAX_PROFUNDIDAD = 4;
+	public static final int MAX_PROFUNDIDAD = 3;
 	
 	private int numContrincantes;
 	private int maxPasos;

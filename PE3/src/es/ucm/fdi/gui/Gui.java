@@ -3,6 +3,7 @@ package es.ucm.fdi.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -390,6 +391,7 @@ public class Gui extends JFrame {
 		this.setSize(765, 595);
 		this.setVisible(true);
 		this.setTitle("Hormiga automática");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("./images/hormiga.JPG"));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -505,8 +507,10 @@ public class Gui extends JFrame {
 	
 	private void ejecutarAlgoritmo(){
 
-		//Limpio la matriz de casillas en cada nueva ejecucion
+		//Limpio la matriz de casillas, el texto del genotipo y el boton de las graficas en cada nueva ejecucion
 		reiniciarMatrizCasillas();
+		this.textoGenotipo.setText("");
+		botonMostrarGrafica.setEnabled(false);
 		
 		//Extraemos los datos para pasarselos al controlador
 		int tamPoblacion = Integer.parseInt(textoTamPoblacion.getText());
